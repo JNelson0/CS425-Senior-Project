@@ -51,3 +51,17 @@ createdb outwork -U postgres
   - [`express-async-errors`](https://github.com/davidbanham/express-async-errors)
 - [`dotenv`](https://github.com/motdotla/dotenv)
 - [`nodemon`](https://nodemon.io/)
+
+## Database Migrations
+
+To migrate:
+
+```sh
+yarn run db-migrate
+```
+
+To reset migrations:
+
+```sh
+yarn run db-reset
+```
