@@ -20,7 +20,8 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "dev": "react-scripts start",
+    "start": "react-scripts start",
+    "dev": "yarn start",
     "build": "react-scripts build",
     "test": "react-scripts test"
   },
