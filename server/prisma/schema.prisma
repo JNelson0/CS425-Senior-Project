@@ -26,23 +26,46 @@ model User {
   passwordSalt String @unique
   passwordHash String
 
-  events UserInEvent[]
+  events EventMembership[]
+  groups GroupMembership[]
 }
 
-enum UserInEventRole {
+enum EventMembershipRole {
   OWNER
   INVITEE
 }
 
-model UserInEvent {
+model EventMembership {
   user    User  @relation(fields: [userId], references: [id])
   userId  Int
   event   Event @relation(fields: [eventId], references: [id])
   eventId Int
 
-  role UserInEventRole
+  role EventMembershipRole
 
   @@id([userId, eventId])
+}
+
+model Group {
+  id    Int               @id @default(autoincrement())
+  name  String            @unique
+  users GroupMembership[]
+}
+
+enum GroupMembershipRole {
+  OWNER
+  INVITEE
+}
+
+model GroupMembership {
+  user    User  @relation(fields: [userId], references: [id])
+  userId  Int
+  group   Group @relation(fields: [groupId], references: [id])
+  groupId Int
+
+  role GroupMembershipRole
+
+  @@id([userId, groupId])
 }
 
 enum EventType {
@@ -61,5 +84,5 @@ model Event {
   start       DateTime?
   finish      DateTime
 
-  users UserInEvent[]
+  users EventMembership[]
 }
