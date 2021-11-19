@@ -65,3 +65,11 @@ To reset migrations:
 ```sh
 yarn run db-reset
 ```
+
+## Database Testing
+
+To test:
+
+'''ssh
+Check db.mjs and comment out the way it imports, and switch for running host
+'''
