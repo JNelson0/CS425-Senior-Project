@@ -30,6 +30,20 @@ model User {
   groups GroupMembership[]
 }
 
+model Event {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  type        EventType
+  title       String
+  description String
+  start       DateTime?
+  finish      DateTime
+
+  users EventMembership[]
+}
+
 enum EventMembershipRole {
   OWNER
   INVITEE
@@ -71,18 +85,4 @@ model GroupMembership {
 enum EventType {
   STANDARD
   WORKOUT
-}
-
-model Event {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  type        EventType
-  title       String
-  description String
-  start       DateTime?
-  finish      DateTime
-
-  users EventMembership[]
 }

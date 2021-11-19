@@ -1,0 +1,9 @@
+{
+  "moduleFileExtensions": ["js", "jsx", "mjs"],
+  "transform": {
+    "^.+\\.jsx?$": "babel-jest",
+    "^.+\\.mjs$": "babel-jest"
+  },
+  "testMatch": ["**/__tests__/**/*.mjs", "**/?(*.)+(spec|test).mjs"],
+  "setupFiles": ["<rootDir>/setupTests.mjs"]
+}
