@@ -1,5 +1,5 @@
 import db from "../db"
-import {HttpError} from "../errors/index"
+import {HttpError} from "../errors"
 
 async function onlyAuthenticated(req, res, next) {
   if (req.session.userId == null) {
