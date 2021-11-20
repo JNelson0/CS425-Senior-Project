@@ -156,7 +156,7 @@ async function createEvent() {
   return event.body
 }
 
-describe("PUT /events/:eventId", () => {
+describe.only("PUT /events/:eventId", () => {
   it("should modify an event", async () => {
     await createUser()
     const event = await createEvent()

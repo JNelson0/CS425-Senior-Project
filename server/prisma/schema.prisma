@@ -75,7 +75,7 @@ model Group {
 
   tag String @unique
 
-  groupMemberships UserMembershipInGroup[]
+  userMemberships  UserMembershipInGroup[]
   eventMemberships GroupMembershipInEvent[]
 }
 

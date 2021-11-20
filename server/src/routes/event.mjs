@@ -162,24 +162,39 @@ router.post(
 
 // Modifies event if owned by user
 router.put("/events/:eventId", onlyAuthenticated, async (req, res) => {
-  const userMembershipInEvent = await db.userMembershipInEvent.update({
-    where: {
-      userId_eventId: {
-        userId: req.user.id,
-        eventId: Number(req.params.eventId),
-      },
-    },
-    data: {
-      event: {
-        update: {
-          title: req.body.title,
-          description: req.body.description,
-          start: req.body.start ? new Date(req.body.start) : undefined,
-          finish: req.body.finish ? new Date(req.body.finish) : undefined,
+  const userMembershipInEvent = await db.$transaction(async db => {
+    const userMembershipInEvent = await db.userMembershipInEvent.findUnique({
+      where: {
+        userId_eventId: {
+          userId: req.user.id,
+          eventId: Number(req.params.eventId),
         },
       },
-    },
-    include: userMembershipInEventInclude,
+    })
+
+    if (userMembershipInEvent.role !== "OWNER") {
+      throw new HttpError.Forbidden("User not event owner.")
+    }
+
+    return db.userMembershipInEvent.update({
+      where: {
+        userId_eventId: {
+          userId: req.user.id,
+          eventId: Number(req.params.eventId),
+        },
+      },
+      data: {
+        event: {
+          update: {
+            title: req.body.title,
+            description: req.body.description,
+            start: req.body.start ? new Date(req.body.start) : undefined,
+            finish: req.body.finish ? new Date(req.body.finish) : undefined,
+          },
+        },
+      },
+      include: userMembershipInEventInclude,
+    })
   })
 
   return res.json(toEventJson(userMembershipInEvent.event))
