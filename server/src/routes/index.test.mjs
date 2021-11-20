@@ -21,6 +21,21 @@ describe("POST /user", () => {
   })
 })
 
+describe.only("POST /user/login", () => {
+  it("should login to seed user", async () => {
+    const response = await agent
+      .post("/user/login")
+      .send({
+        emailOrUsername: "username",
+        password: "password",
+      })
+      .set("Content-Type", "application/json")
+      .expect(200)
+
+    console.log(response.body)
+  })
+})
+
 describe("GET /users/:userId", () => {
   it("should get a user", async () => {
     const userId = 1

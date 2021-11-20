@@ -24,6 +24,14 @@ router.post("/user", async (req, res) => {
     throw new HttpError.Forbidden("Passwords don't match.")
   }
 
+  if (!req.body.email.includes("@")) {
+    throw new HttpError.Forbidden("Emails must include @.")
+  }
+
+  if (req.body.username.includes("@")) {
+    throw new HttpError.Forbidden("Usernames cannot include @.")
+  }
+
   const passwordSalt = crypto.randomBytes(32).toString("base64")
   const passwordHash = await hashPassword(req.body.password, passwordSalt)
 
@@ -55,18 +63,14 @@ router.post("/user", async (req, res) => {
   type PostUserResponse = Omit<User, "passwordHash" | "passwordSalt">
   */
 router.post("/user/login", async (req, res) => {
-  const user = await db.user.findUnique({
-    where: {
-      OR: [
-        {
-          username: req.body.emailOrUsername,
-        },
-        {
-          email: req.body.emailOrUsername,
-        },
-      ],
-    },
+  const userByUsername = await db.user.findUnique({
+    where: {username: req.body.emailOrUsername},
   })
+  const userByEmail = await db.user.findUnique({
+    where: {email: req.body.emailOrUsername},
+  })
+
+  const user = userByUsername ?? userByEmail
 
   if (user == null) {
     throw new HttpError.Forbidden("Invalid credentials")
