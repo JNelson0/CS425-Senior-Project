@@ -1,0 +1,44 @@
+.topWrapper{
+    display: flex;
+    flex-direction: horizontal;
+    justify-content: space-between;
+    
+    #button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 100px;
+        background-color: green;
+        border: solid 2px black;
+        border-radius: 15px;
+        margin: 1px;
+        text-decoration: none;
+        color: white;
+        transition: all 0.5s ease;
+
+        &:hover{
+            cursor: pointer;
+            background-color: rgb(0, 175, 0);
+        }
+    }
+    #home{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 100px;
+        background-color: rgb(38, 38, 255);
+        border: solid 2px black;
+        border-radius: 15px;
+        margin: 1px;
+        text-decoration: none;
+        color: white;
+        transition: all 0.25s ease;
+
+        &:hover{
+            cursor: pointer;
+            background-color: rgb(81, 81, 255);
+        }
+    }
+}

@@ -1,7 +1,15 @@
-import React from "react"
+import React from 'react'
+import "./SettingsPage.scss"
+import BottomBar from "./PageOverlay/BottomBar.js"
+import TopButtons from "./PageOverlay/TopButtons.js"
 
-const SettingsPage = () => {
-  return <>SettingsPage</>
+export default function SettingsPage() {
+  return (
+    <div className="settings">
+      <TopButtons/>
+        
+      <BottomBar/>
+    </div>
+  )
 }
 
-export default SettingsPage
