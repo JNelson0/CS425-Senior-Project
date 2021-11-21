@@ -1,23 +1,18 @@
 import React from "react"
 import {StandardLayout} from "../components"
 import {useUser} from "../hooks"
+import "./DashboardPage.scss"
+import BottomBar from "./PageOverlay/BottomBar.js"
+import TopButtons from "./PageOverlay/TopButtons.js"
 
-const DashboardPage = () => {
-  const {data, error, loading} = useUser(1)
+import Test from "./Test.js"
 
-  if (loading) {
-    return <>Loading...</>
-  }
-
-  if (error) {
-    return <>{String(error)}</>
-  }
-
+export default function DashboardPage() {
   return (
-    <StandardLayout>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </StandardLayout>
+    <div className="dashboard">
+        <TopButtons/>
+
+        <BottomBar/>
+    </div>
   )
 }
-
-export default DashboardPage
