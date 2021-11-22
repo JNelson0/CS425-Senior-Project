@@ -11,8 +11,7 @@ function bodyToExerciseResponseContent(body, exercise) {
   }
 
   const {weights} = body
-  console.log("weights", weights)
-  console.log("exercise", exercise)
+
   if (
     !Array.isArray(weights) ||
     !weights.every(weight => typeof weight === "number") ||

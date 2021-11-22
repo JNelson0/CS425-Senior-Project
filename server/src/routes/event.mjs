@@ -88,8 +88,6 @@ router.post(
   "/events/:eventId/invitees",
   onlyAuthenticated,
   async (req, res) => {
-    console.log("req.body", req.body)
-
     const eventId = Number(req.params.eventId)
 
     const event = await db.$transaction(async db => {
@@ -139,10 +137,6 @@ router.post(
       for (const usernameObject of usernameObjects) {
         userIdSet.add(usernameObject.id)
       }
-
-      console.log("emails", emails)
-      console.log("usernames", usernames)
-      console.log("userIds", [...userIdSet.keys()])
 
       await db.userMembershipInEvent.createMany({
         data: [...userIdSet.keys()].map(userId => ({

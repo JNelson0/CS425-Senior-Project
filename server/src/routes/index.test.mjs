@@ -11,7 +11,7 @@ describe("POST /user", () => {
         email: randomBytes(10).toString("base64") + "@email.com",
         password: "password",
         passwordConfirmation: "password",
-        firstName: "Conor",
+        firstName: "Charles",
         lastName: "Pezeshki",
         username: "condog" + randomBytes(10).toString("base64"),
       })
