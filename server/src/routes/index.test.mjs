@@ -1,4 +1,5 @@
 import {randomBytes} from "crypto"
+import {create} from "domain"
 import {send} from "process"
 import db from "../db.mjs"
 
@@ -21,7 +22,7 @@ describe("POST /user", () => {
   })
 })
 
-describe.only("POST /user/login", () => {
+describe("POST /user/login", () => {
   it("should login to seed user", async () => {
     const response = await agent
       .post("/user/login")
@@ -156,7 +157,7 @@ async function createEvent() {
   return event.body
 }
 
-describe.only("PUT /events/:eventId", () => {
+describe("PUT /events/:eventId", () => {
   it("should modify an event", async () => {
     await createUser()
     const event = await createEvent()
@@ -233,7 +234,7 @@ describe("POST /events/:eventId/invitees", () => {
     let response = await agent
       .post(`/events/${event.id}/invitees`)
       .send({
-        invitees: [user2.id],
+        invitees: ["@" + user2.username],
       })
       .set("Content-Type", "application/json")
       .expect(200)
@@ -247,23 +248,262 @@ describe("POST /events/:eventId/invitees/remove", () => {
     const user2 = await createUser()
     const user1 = await createUser()
     const event = await createEvent()
-    console.log(event)
+    console.log("POSTING: ", event)
     let response = await agent
       .post(`/events/${event.id}/invitees`)
       .send({
-        invitees: [user2.id],
+        invitees: ["@" + user2.username],
       })
       .set("Content-Type", "application/json")
       .expect(200)
+
+    console.log("Before:")
+    console.dir(response.body, {depth: Infinity})
+
     // Testing this function
     response = await agent
       .post(`/events/${event.id}/invitees/remove`)
       .send({
-        invitees: [user2.id],
+        userIds: [user2.id],
       })
       .set("Content-Type", "application/json")
       .expect(200)
 
     console.dir(response.body, {depth: Infinity})
+  })
+})
+
+describe("POST /group", () => {
+  it("should create group", async () => {
+    await createUser()
+
+    let response = await agent
+      .post("/group")
+      .send({
+        tag: "Group 80" + randomBytes(10).toString("base64"),
+      })
+      .set("Content-Type", "application/json")
+      .expect(200)
+
+    console.log(response.body)
+  })
+})
+
+async function createGroup() {
+  const group = await agent
+    .post("/group")
+    .send({
+      tag: "Group 77" + randomBytes(10).toString("base64"),
+    })
+    .set("Content-Type", "application/json")
+    .expect(200)
+
+  return group.body
+}
+
+describe("GET /groups/:groupId", () => {
+  it("should get a group", async () => {
+    const user = await createUser()
+    const group = await createGroup()
+    console.log(user)
+    // console.log(user.id)
+    console.log(group)
+    // console.log(group.id)
+    const response = await agent.get(`/groups/${group.id}`).expect(200)
+
+    console.log(response.body)
+  })
+})
+
+describe("PUT /groups/:groupId", () => {
+  it("should modify a group", async () => {
+    const user = await createUser()
+    const group = await createGroup()
+
+    console.log(user)
+    console.log(group)
+    // Testing this function
+    let response = await agent
+      .put(`/groups/${group.id}`)
+      .send({
+        tag: "New Tag" + randomBytes(10).toString("base64"),
+      })
+      .set("Content-Type", "application/json")
+      .expect(200)
+    console.dir(response.body, {depth: Infinity})
+  })
+})
+
+describe("POST /groups/:groupId/users", () => {
+  it("should invite user to event", async () => {
+    const user2 = await createUser()
+    const user1 = await createUser()
+    const group = await createGroup()
+    console.log(group)
+    // Testing this function
+    let response = await agent
+      .post(`/groups/${group.id}/users`)
+      .send({
+        userIds: [user2.id],
+      })
+      .set("Content-Type", "application/json")
+      .expect(200)
+
+    console.dir(response.body, {depth: Infinity})
+  })
+})
+
+describe("DELETE /groups/:groupId/users/:userId", () => {
+  it("should invite user to event", async () => {
+    const user2 = await createUser()
+    const user1 = await createUser()
+    const group = await createGroup()
+    console.log("user2", user2)
+    console.log("group", group)
+    let response = await agent
+      .post(`/groups/${group.id}/users`)
+      .send({
+        userIds: [user2.id],
+      })
+      .set("Content-Type", "application/json")
+      .expect(200)
+
+    console.log("response.body", response.body)
+    // Testing this function
+
+    response = await agent
+      .delete(`/groups/${group.id}/users/${user2.id}`)
+      .set("Content-Type", "application/json")
+      .expect(200)
+
+    console.log("Response!")
+    console.dir(response.body, {depth: Infinity})
+  })
+})
+
+describe("DELETE /groups/:groupId", () => {
+  it("should delete an event", async () => {
+    const user = await createUser()
+    const group = await createGroup()
+
+    console.log("POST /group response: ")
+    console.log(group)
+
+    // Testing this function
+    let response = await agent
+      .delete(`/groups/${group.id}`)
+      .set("Content-Type", "application/json")
+      .expect(200)
+    console.log("PUT EVENT")
+    console.dir(response.body, {depth: Infinity})
+  })
+})
+
+async function createExercise(event) {
+  const response = await agent
+    .post(`/events/${event.id}/exercise`)
+    .send({
+      type: "WEIGHTS",
+      name: "Bench",
+      reps: 8,
+      sets: 5,
+    })
+    .set("Content-Type", "application/json")
+    .expect(200)
+
+  return response.body
+}
+
+async function createResponse(exercise) {
+  const response = await agent
+    .post(`/exercise/${exercise.id}/response`)
+    .send({
+      weights: [1, 2, 3, 4, 5],
+    })
+    .set("Content-Type", "application/json")
+    .expect(200)
+
+  return response.body
+}
+
+describe("GET /events/:eventId/exercises", () => {
+  it("User lists exercises", async () => {
+    const user = await createUser()
+    const event = await createEvent()
+    const exercise = await createExercise(event)
+    let response = await agent.get(`/events/${event.id}/exercises`).expect(200)
+    console.log(response.body)
+  })
+})
+
+describe("POST /events/:eventId/exercise", () => {
+  it("adds exercise to existing event", async () => {
+    const user = await createUser()
+    const event = await createEvent()
+    let response = await createExercise(event)
+    console.log(response.body)
+  })
+})
+
+describe("GET /exercise/:exerciseId", () => {
+  it("Get exercise", async () => {
+    const user = await createUser()
+    const event = await createEvent()
+    const exercise = await createExercise(event)
+    let response = await agent.get(`/exercise/${exercise.id}`).expect(200)
+    console.log(response.body)
+  })
+})
+
+describe("DELETE /exercise/:exerciseId", () => {
+  it("deletes existing exercise", async () => {
+    const user = await createUser()
+    const event = await createEvent()
+    const exercise = await createExercise(event)
+    let response = await agent.delete(`/exercise/${exercise.id}`).expect(200)
+    // await agent.get(`/exercise/${exercise.id}`).expect(404)
+  })
+})
+
+describe("POST /exercise/:exerciseId/response", () => {
+  it("User responds to exercise", async () => {
+    const user = await createUser()
+    const event = await createEvent()
+    const exercise = await createExercise(event)
+    const exerciseResponse = await createResponse(exercise)
+
+    console.log(exerciseResponse)
+  })
+})
+
+describe("PUT /responses/:responseId", () => {
+  it("User updates response to exercise", async () => {
+    const user = await createUser()
+    const event = await createEvent()
+    const exercise = await createExercise(event)
+    const exerciseResponse = await createResponse(exercise)
+
+    let response = await agent
+      .put(`/responses/${exerciseResponse.id}`)
+      .send({
+        weights: [5, 4, 3, 2, 1],
+      })
+      .set("Content-Type", "application/json")
+      .expect(200)
+
+    console.log(response.body)
+  })
+})
+
+describe("DELETE /responses/:responseId", () => {
+  it("User delete response to exercise", async () => {
+    const user = await createUser()
+    const event = await createEvent()
+    const exercise = await createExercise(event)
+    const exerciseResponse = await createResponse(exercise)
+    let response = await agent
+      .delete(`/responses/${exerciseResponse.id}`)
+      .expect(200)
+    await agent.get(`/responses/${exerciseResponse.id}`).expect(404)
   })
 })

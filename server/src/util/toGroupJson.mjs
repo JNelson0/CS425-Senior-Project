@@ -5,7 +5,7 @@ function toGroupJson(group) {
     }
     return a
   }, [])
-  group.invitees = group.userMemberships.reduce((a, v) => {
+  group.users = group.userMemberships.reduce((a, v) => {
     if (v.role === "INVITEE") {
       a.push(v.userId)
     }

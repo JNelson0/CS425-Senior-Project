@@ -3,6 +3,7 @@ import db from "../db"
 import {onlyAuthenticated} from "../middleware"
 import {groupInclude, userMembershipInGroupInclude} from "../util/includes"
 import {toGroupJson} from "../util"
+import {HttpError} from "../errors"
 
 // Create group
 router.post("/group", onlyAuthenticated, async (req, res) => {
@@ -10,9 +11,13 @@ router.post("/group", onlyAuthenticated, async (req, res) => {
     data: {
       tag: req.body.tag,
       userMemberships: {
-        create: {role: "OWNER", userId: req.user.id},
+        create: {
+          role: "OWNER",
+          userId: req.user.id,
+        },
       },
     },
+    include: groupInclude,
   })
 
   return res.json(toGroupJson(group))
@@ -20,9 +25,11 @@ router.post("/group", onlyAuthenticated, async (req, res) => {
 
 // Get group
 router.get("/groups/:groupId", onlyAuthenticated, async (req, res) => {
+  const groupId = Number(req.params.groupId)
+
   const group = await db.group.findUnique({
     where: {
-      id: Number(req.params.id),
+      id: groupId,
     },
     include: groupInclude,
   })
@@ -34,17 +41,19 @@ router.get("/groups/:groupId", onlyAuthenticated, async (req, res) => {
   return res.json(toGroupJson(group))
 })
 
-// Might not need to exist
-router.get("/groups/findBy" /* ?tag=${tagId} */)
+// // Might not need to exist
+// router.get("/groups/findBy" /* ?tag=${tagId} */)
 
 // Modifies group name
 router.put("/groups/:groupId", onlyAuthenticated, async (req, res) => {
-  const userMembershipInGroup = await db.$transaction(async db => {
-    await db.userMembershipInGroup.findUnique({
+  const groupId = Number(req.params.groupId)
+
+  const group = await db.$transaction(async db => {
+    const userMembershipInGroup = await db.userMembershipInGroup.findUnique({
       where: {
         userId_groupId: {
           userId: req.user.id,
-          groupId: Number(req.params.groupId),
+          groupId,
         },
       },
     })
@@ -53,26 +62,25 @@ router.put("/groups/:groupId", onlyAuthenticated, async (req, res) => {
       throw new HttpError.Forbidden("User not Group owner.")
     }
 
-    return db.userMembershipInGroup.update({
+    return db.group.update({
       where: {
-        userId_groupId: {
-          userId: req.user.id,
-          groupId: Number(req.params.groupId),
-        },
+        id: groupId,
       },
       data: {
         tag: req.body.tag,
       },
-      include: userMembershipInGroupInclude,
+      include: groupInclude,
     })
   })
-  return res.json(toGroupJson(userMembershipInGroup.group))
+
+  return res.json(toGroupJson(group))
 })
 
 // Adds group member
-router.post("/groups/:groupId/members", onlyAuthenticated, async (req, res) => {
+router.post("/groups/:groupId/users", onlyAuthenticated, async (req, res) => {
   const groupId = Number(req.params.groupId)
-  await db.$transaction(async db => {
+
+  const group = await db.$transaction(async db => {
     const userMembershipInGroup = await db.userMembershipInGroup.findUnique({
       where: {
         userId_groupId: {
@@ -87,18 +95,18 @@ router.post("/groups/:groupId/members", onlyAuthenticated, async (req, res) => {
     }
 
     await db.userMembershipInGroup.createMany({
-      data: req.body.invitees.map(userId => ({
+      data: req.body.userIds.map(userId => ({
         groupId,
         userId,
         role: "INVITEE",
       })),
       skipDuplicates: true,
     })
-  })
 
-  const group = await db.group.findUnique({
-    where: {id: groupId},
-    include: groupInclude,
+    return db.group.findUnique({
+      where: {id: groupId},
+      include: groupInclude,
+    })
   })
 
   return res.json(toGroupJson(group))
@@ -106,45 +114,46 @@ router.post("/groups/:groupId/members", onlyAuthenticated, async (req, res) => {
 
 // Delete group member
 router.delete(
-  "/groups/:groupId/members/:memberId",
+  "/groups/:groupId/users/:userId",
   onlyAuthenticated,
   async (req, res) => {
-    const userMembershipInGroup = await db.$transaction(async db => {
-      await db.userMembershipInGroup.findUnique({
+    const groupId = Number(req.params.groupId)
+    const userId = Number(req.params.userId)
+
+    await db.$transaction(async db => {
+      const userMembershipInGroup = await db.userMembershipInGroup.findUnique({
         where: {
           userId_groupId: {
-            userId: Number(req.params.memberId),
-            groupId: Number(req.params.groupId),
+            userId: req.user.id,
+            groupId,
           },
         },
       })
 
-      if (
-        userMembershipInGroup.role !== "OWNER" ||
-        Number(req.params.memberId) === req.user.id
-      ) {
-        throw new HttpError.Forbidden("User not Group owner.")
+      if (userMembershipInGroup.role !== "OWNER" && userId !== req.user.id) {
+        throw new HttpError.Forbidden("User not cannot delete group member.")
       }
 
       await db.userMembershipInGroup.delete({
         where: {
           userId_groupId: {
-            userId: req.user.id,
-            groupId: Number(req.params.groupId),
+            userId,
+            groupId,
           },
         },
       })
     })
+
     return res.end()
   },
 )
 
 // Delete group
 router.delete("/groups/:groupId", onlyAuthenticated, async (req, res) => {
-  const userMembershipInGroup = await db.$transaction(async db => {
-    const groupId = Number(req.params.groupId)
+  const groupId = Number(req.params.groupId)
 
-    await db.userMembershipInGroup.findUnique({
+  await db.$transaction(async db => {
+    const userMembershipInGroup = await db.userMembershipInGroup.findUnique({
       where: {
         userId_groupId: {
           userId: req.user.id,
@@ -169,14 +178,12 @@ router.delete("/groups/:groupId", onlyAuthenticated, async (req, res) => {
       },
     })
 
-    await db.userMembershipInGroup.delete({
+    await db.group.delete({
       where: {
-        userId_groupId: {
-          userId: req.user.id,
-          groupId,
-        },
+        id: groupId,
       },
     })
   })
+
   return res.end()
 })

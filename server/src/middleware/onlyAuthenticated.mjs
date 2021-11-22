@@ -1,5 +1,6 @@
 import db from "../db"
 import {HttpError} from "../errors"
+import {userInclude} from "../util/includes"
 
 async function onlyAuthenticated(req, res, next) {
   if (req.session.userId == null) {
@@ -10,6 +11,7 @@ async function onlyAuthenticated(req, res, next) {
     where: {
       id: req.session.userId,
     },
+    include: userInclude,
   })
 
   if (user == null) {

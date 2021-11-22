@@ -4,6 +4,7 @@ import {HttpError} from "../errors"
 import {hashPassword, toUserJson} from "../util"
 import {onlyAuthenticated} from "../middleware"
 import router from "./router"
+import {userInclude} from "../util/includes"
 
 /* 
   // Creates user
@@ -44,6 +45,7 @@ router.post("/user", async (req, res) => {
       lastName: req.body.lastName,
       username: req.body.username,
     },
+    include: userInclude,
   })
 
   req.session.userId = user.id
@@ -65,9 +67,11 @@ router.post("/user", async (req, res) => {
 router.post("/user/login", async (req, res) => {
   const userByUsername = await db.user.findUnique({
     where: {username: req.body.emailOrUsername},
+    include: userInclude,
   })
   const userByEmail = await db.user.findUnique({
     where: {email: req.body.emailOrUsername},
+    include: userInclude,
   })
 
   const user = userByUsername ?? userByEmail
@@ -97,13 +101,14 @@ router.get("/users/:userId", async (req, res) => {
     where: {
       id: Number(req.params.userId),
     },
+    include: userInclude,
   })
 
   if (user == null) {
     throw new HttpError.NotFound("User not found.") // NOTE: Errors need to be in normal human syntax
   }
 
-  return res.json(toUserJson(user, true))
+  return res.json(toUserJson(user))
 })
 
 // Modifies private user information
@@ -136,6 +141,7 @@ router.put("/users/me", onlyAuthenticated, async (req, res) => {
       id: req.user.id,
     },
     data: newData,
+    include: userInclude,
   })
 
   res.json(toUserJson(user))
