@@ -1,10 +1,17 @@
-function toUserJson(user, isPublic = false) {
-  if (isPublic) {
-    const {passwordHash, passwordSalt, ...rest} = user
-    return rest
-  }
-  const {passwordHash, passwordSalt, ...rest} = user
-  return rest
+function toUserJson(user) {
+  delete user.passwordHash
+  delete user.passwordSalt
+
+  user.events = user.eventMemberships.map(v => v.eventId)
+  delete user.eventMemberships
+
+  user.groups = user.groupMemberships.map(v => v.groupId)
+  delete user.groupMemberships
+
+  user.responses = user.exerciseResponses.map(v => v.id)
+  delete user.exerciseResponses
+
+  return user
 }
 
 export default toUserJson

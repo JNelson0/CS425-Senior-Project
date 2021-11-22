@@ -9,7 +9,11 @@
     "test": "jest --watch",
     "test-once": "jest --ci",
     "db-migrate": "prisma migrate dev",
-    "db-reset": "prisma migrate reset"
+    "db-reset": "prisma migrate reset",
+    "db-seed": "prisma db seed"
+  },
+  "prisma": {
+    "seed": "node --experimental-specifier-resolution=node -r dotenv/config prisma/seed.mjs"
   },
   "dependencies": {
     "@prisma/client": "^3.4.2",
