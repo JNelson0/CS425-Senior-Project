@@ -10,9 +10,15 @@ import Test from "./Test.js"
 export default function DashboardPage() {
   return (
     <div className="dashboard">
+<<<<<<< Updated upstream
         <TopButtons/>
 
         <BottomBar/>
+=======
+      <TopButtons />
+      {/*isLoggedIn && <pre>{JSON.stringify(user, null, 2)}</pre>*/}
+      <BottomBar />
+>>>>>>> Stashed changes
     </div>
   )
 }
