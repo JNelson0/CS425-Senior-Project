@@ -1,13 +1,19 @@
 import React, {useEffect, useState} from "react"
 import {StandardLayout} from "../components"
-import {useNewUser} from "../hooks"
+import {useGlobalContext} from "../store"
+import {Navigate} from "react-router"
 
 const LoginPage = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState()
   const [passwordConfirmation, setPasswordConfirmation] = useState()
 
-  const {request, data, error, loading} = useNewUser()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState()
+
+  const [redirectTo, setRedirectTo] = useState()
+
+  const {createUserQuery, isLoggedIn} = useGlobalContext()
 
   const handleEmailChange = e => {
     setEmail(e.target.value)
@@ -24,25 +30,36 @@ const LoginPage = () => {
   const handleSubmit = e => {
     e.preventDefault()
 
-    // if (password !== passwordConfirmation) {
-    //   alert("Passwords don't match.")
-    //   return
-    // }
+    if (password !== passwordConfirmation) {
+      alert("Passwords don't match.")
+      return
+    }
 
-    request({
+    setLoading(true)
+    createUserQuery({
       email,
       password,
       passwordConfirmation,
-      firstName: "Conor",
+      firstName: "Charles",
       lastName: "Pezeshki",
-      username: "condog" + Math.random(),
+      username: "laknsdflkn" + Math.random(),
     })
+      .then(() => {
+        setRedirectTo("/")
+      })
+      .catch(setError)
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
+  if (redirectTo) {
+    return <Navigate to={redirectTo} />
   }
 
   return (
     <StandardLayout>
       {error && <div>{error.message}</div>}
-      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
       <form onSubmit={handleSubmit}>
         <input
           type="text"

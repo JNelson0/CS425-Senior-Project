@@ -1,13 +1,23 @@
 import express from "express"
 import morgan from "morgan"
-import HttpError from "./errors/HttpError"
-import routes from "./routes/index"
+import {HttpError} from "./errors"
+import routes from "./routes"
+import session from "express-session"
 
 const app = express()
 
 app.use(morgan("dev"))
 
 app.use(express.json())
+
+// Sessions
+const sessionOptions = {secret: "keyboard cat", cookie: {}}
+if (app.get("env") === "production") {
+  app.set("trust proxy", 1) // trust first proxy
+  sessionOptions.cookie.secure = true // serve secure cookies
+}
+
+app.use(session(sessionOptions))
 
 app.use(routes)
 

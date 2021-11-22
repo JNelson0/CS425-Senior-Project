@@ -1,12 +1,340 @@
-import {useState} from "react"
+import {useState, useCallback} from "react"
 import constate from "constate"
+import {ApiError} from "../errors"
+
+async function request(...args) {
+  return fetch(...args).then(async res => {
+    // res.ok === 200-299 HTTP Status Code
+    if (res.ok) {
+      return res.json()
+    } else {
+      throw ApiError.fromObject(await res.json())
+    }
+  })
+}
+
+function standardJsonInit(method, body) {
+  return {
+    method,
+    headers: {"Content-Type": "application/json"},
+    credentials: "include",
+    body: JSON.stringify(body),
+  }
+}
 
 function useGlobal() {
-  const [state, setState] = useState(0)
+  const [userState, setUserState] = useState({})
+  const [eventState, setEventState] = useState({})
+  const [groupState, setGroupState] = useState({})
+  const [exerciseState, setExerciseState] = useState({})
+  const [exerciseResponseState, setExerciseResponseState] = useState({})
 
-  return {state, setState}
+  const [currentUserId, setCurrentUserId] = useState()
+
+  // Setters for Error and Data
+
+  // These should be used to reflect the state changes inside the queries.
+  // All states have the following 3 states loading, data, error
+
+  // This happens on the first query
+  // loading -> data
+  // loading -> error
+
+  // This happens when retry a failed query
+  // error -> loading
+
+  function createDataSetter(stateSetter) {
+    return (id, data) => {
+      stateSetter(prev => ({...prev, [id]: {data}}))
+    }
+  }
+
+  function createErrorSetter(stateSetter) {
+    return (id, error) => {
+      stateSetter(prev => ({...prev, [id]: {error}}))
+    }
+  }
+
+  const setUserData = createDataSetter(setUserState)
+  const setUserError = createErrorSetter(setUserState)
+
+  const setEventData = createDataSetter(setEventState)
+  const setEventError = createErrorSetter(setEventState)
+
+  const setGroupData = createDataSetter(setGroupState)
+  const setGroupError = createErrorSetter(setGroupState)
+
+  const setExerciseData = createDataSetter(setExerciseState)
+  const setExerciseError = createErrorSetter(setExerciseState)
+
+  const setExerciseResponseData = createDataSetter(setExerciseResponseState)
+  const setExerciseResponseError = createErrorSetter(setExerciseResponseState)
+
+  // Getters
+
+  // Getters are exported and should be used for all state retrieval
+  // IMPORTANT!!!: You should be able to find everything by starting at the user.
+  // You should never have to read the response of a query directly. Use the getters.
+
+  function createGetter(state) {
+    return id => {
+      const {data, error} = state[id] ?? {}
+
+      return {
+        data,
+        error,
+        loading: data == null && error == null,
+      }
+    }
+  }
+
+  const getUserById = createGetter(userState)
+  const getEventById = createGetter(eventState)
+  const getGroupById = createGetter(groupState)
+  const getExerciseById = createGetter(exerciseState)
+  const getExerciseResponseById = createGetter(exerciseResponseState)
+
+  const user = getUserById(currentUserId)
+  const isLoggedIn = Boolean(user)
+
+  //
+
+  // Queries available to the client
+
+  //
+
+  // GET /users/:userId
+  async function userQuery(id) {
+    try {
+      const data = await request(`/users/${id}`, {credentials: "include"})
+      setUserData(id, data)
+    } catch (error) {
+      setUserError(id, error)
+    }
+  }
+
+  // GET /users/me
+  async function currentUserQuery() {
+    try {
+      const data = await request("/users/me", {credentials: "include"})
+      setUserData(data.id, data)
+      setCurrentUserId(data.id)
+    } catch (error) {
+      setUserError(currentUserId, error)
+    }
+  }
+
+  // POST /user
+  // NOTE: Must be caught outside
+  async function createUserQuery(options) {
+    const data = await request("/user", standardJsonInit("POST", options))
+    setUserData(data.id, data)
+    setCurrentUserId(data.id)
+  }
+
+  // POST /user/login
+  // NOTE: Must be caught outside
+  async function loginUserQuery(options) {
+    const data = await request("/user/login", standardJsonInit("POST", options))
+    setUserData(data.id, data)
+    setCurrentUserId(data.id)
+  }
+
+  // PUT /users/me/update
+  async function modifyUserQuery(options) {
+    try {
+      const data = await request(
+        "/users/me/update",
+        standardJsonInit("PUT", options),
+      )
+      setUserData(currentUserId, data)
+    } catch (error) {
+      setUserError(currentUserId, error)
+    }
+  }
+
+  // DELETE /users/me
+  async function deleteUserQuery(options) {
+    try {
+      await request("/users/me", {method: "DELETE", credentials: "include"})
+      setUserData(currentUserId, undefined)
+    } catch (error) {
+      setUserError(currentUserId, error)
+    }
+  }
+
+  // Queries TODO...
+
+  // POST /event
+  // GET /events
+  // PUT /events/:eventId
+  // DELETE /events/:eventId
+  // DELETE /events/:eventId/invitee
+  // POST /events/:eventId/invitees
+  // POST /events/:eventId/invitees/remove
+  // POST /group
+  // GET /groups/:groupId
+  // PUT /groups/:groupId
+  // POST /groups/:groupId/users
+  // DELETE /groups/:groupId/users/:userId
+  // DELETE /groups/:groupId
+  // GET /events/:eventId/exercises
+  // POST /events/:eventId/exercise
+  // GET /exercise/:exerciseId
+  // DELETE /exercise/:exerciseId
+  // POST /exercise/:exerciseId/response
+  // PUT /responses/:responseId
+  // DELETE /responses/:responseId
+
+  return {
+    // Getters
+    getUserById,
+    getEventById,
+    getGroupById,
+    getExerciseById,
+    getExerciseResponseById,
+
+    // Extra state
+    user,
+    isLoggedIn,
+
+    // Queries
+    userQuery,
+    currentUserQuery,
+    createUserQuery,
+    loginUserQuery,
+    modifyUserQuery,
+    deleteUserQuery,
+  }
 }
 
 const [GlobalProvider, useGlobalContext] = constate(useGlobal)
 
 export {GlobalProvider, useGlobalContext}
+
+// Public references to these three identifiers should look like this on the front end.
+// This means user types groups in with #, usernames with @, and email normal.
+
+// usernames: @username
+// emails: email@email
+// groups: #group
+
+// These are the routes...
+
+// POST /user
+// {
+//  email:"email@email.com"
+//  password: "password"
+//  passwordConfirmation: "password",
+//  firstName: "John",
+//  lastName: "Doe",
+//  username: "username"
+// }
+
+// POST /user/login
+// {
+//  emailOrUsername: "username"
+//  password: "password"
+// }
+
+// GET /users/:userId
+
+// GET /users/me
+
+// PUT /users/me/update
+// {
+//  lastName: "Last-name",
+//  firstName: "First-name",
+//  username: "username",
+// }
+
+// DELETE /users/me
+
+// POST /event
+// {
+//  title: "Workout",
+//  description: "This is a Workout Event",
+//  type: "WORKOUT",
+//  start: Date.now(),
+//  finish: Date.now() + 30 * 60000
+// }
+//
+// {
+//  title: "Standard",
+//  description: "This is a Standard Event",
+//  type: "STANDARD",
+//  start: Date.now(),
+//  finish: Date.now() + 30 * 60000
+// }
+
+// GET /events
+
+// PUT /events/:eventId
+// {
+//  title: "New tilte",
+//  description: "New description",
+//  start: Date.now(),
+//  finish: Date.now() + 30 * 60000
+// }
+
+// DELETE /events/:eventId
+
+// DELETE /events/:eventId/invitee
+
+// POST /events/:eventId/invitees
+// {
+//  invitees: ["@username" , "email@email", "#group"]
+// }
+
+// POST /events/:eventId/invitees/remove
+// {
+//  userIds: [ 1 ],
+//  groupIds: [ 2 ]
+// }
+
+// POST /group
+// {
+//  tag: "team"
+// }
+
+// GET /groups/:groupId
+
+// PUT /groups/:groupId
+// {
+//  tag: "team"
+// }
+
+// POST /groups/:groupId/users
+// {
+//  userIds: [ 1 ]
+// }
+
+// DELETE /groups/:groupId/users/:userId
+
+// DELETE /groups/:groupId
+
+// GET /events/:eventId/exercises
+
+// POST /events/:eventId/exercise
+// {
+//  type: "WEIGHTS",
+//  name: "Bench",
+//  reps: 8,
+//  sets: 5,
+// }
+
+// GET /exercise/:exerciseId
+
+// DELETE /exercise/:exerciseId
+
+// POST /exercise/:exerciseId/response
+// {
+//   weights: [1, 2, 3, 4, 5]
+// }
+
+// PUT /responses/:responseId
+// {
+//  weights: [1, 2, 3, 4, 5]
+// }
+
+// DELETE /responses/:responseId

@@ -65,3 +65,27 @@ To reset migrations:
 ```sh
 yarn run db-reset
 ```
+
+To seed database:
+
+```sh
+yarn run db-seed
+```
+
+The seed inserts a user and an event associated with that user into the database.
+
+The user's credentials are:
+
+```
+email: "email@email.com"
+username: "username"
+password: "password"
+```
+
+## Database Testing
+
+To test:
+
+'''ssh
+Check db.mjs and comment out the way it imports, and switch for running host
+'''
