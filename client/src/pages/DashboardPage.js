@@ -16,8 +16,13 @@ export default function DashboardPage() {
   return (
     <div className="dashboard">
       <TopButtons />
+      {/*isLoggedIn && <pre>{JSON.stringify(user, null, 2)}</pre>*/}
+      <BottomBar />
+
+      <TopButtons />
       {isLoggedIn && <pre>{JSON.stringify(user, null, 2)}</pre>}
       <BottomBar />
+
     </div>
   )
 }
