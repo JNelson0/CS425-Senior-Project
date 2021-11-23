@@ -1,5 +1,5 @@
 import React from 'react'
-//import "./SettingsToggles.scss"
+import "./Settings.scss"
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
