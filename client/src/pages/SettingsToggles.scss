@@ -1,0 +1,12 @@
+.settingsToggles{
+    display: flex;
+    flex-direction: horizontal;
+    #setting1{
+        display: flex;
+        align-items: center;
+
+        &:hover{
+            cursor: pointer;
+        }
+    }
+}

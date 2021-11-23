@@ -2,12 +2,13 @@ import React from 'react'
 import "./SettingsPage.scss"
 import BottomBar from "./PageOverlay/BottomBar.js"
 import TopButtons from "./PageOverlay/TopButtons.js"
+import SettingsToggles from "./SettingsToggles.js"
 
 export default function SettingsPage() {
   return (
     <div className="settings">
       <TopButtons/>
-        
+      <SettingsToggles/>
       <BottomBar/>
     </div>
   )
