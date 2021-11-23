@@ -1,7 +1,7 @@
 import express from "express"
 import morgan from "morgan"
-import HttpError from "./errors/HttpError"
-import routes from "./routes/index"
+import {HttpError} from "./errors"
+import routes from "./routes"
 import session from "express-session"
 
 const app = express()

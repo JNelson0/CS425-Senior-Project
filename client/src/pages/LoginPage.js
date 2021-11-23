@@ -1,63 +1,62 @@
 import React, {useEffect, useState} from "react"
 import {StandardLayout} from "../components"
-import {useNewUser} from "../hooks"
+import {useGlobalContext} from "../store"
+import {Navigate} from "react-router"
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("")
+  const [emailOrUsername, setEmailOrUsername] = useState("")
   const [password, setPassword] = useState()
-  const [passwordConfirmation, setPasswordConfirmation] = useState()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState()
 
-  const {request, data, error, loading} = useNewUser()
+  const [redirectTo, setRedirectTo] = useState()
 
-  const handleEmailChange = e => {
-    setEmail(e.target.value)
+  const {loginUserQuery, isLoggedIn} = useGlobalContext()
+
+  const handleEmailOrUsernameChange = e => {
+    setEmailOrUsername(e.target.value)
   }
 
   const handlePasswordChange = e => {
     setPassword(e.target.value)
   }
 
-  const handlePasswordConfirmationChange = e => {
-    setPasswordConfirmation(e.target.value)
-  }
-
   const handleSubmit = e => {
     e.preventDefault()
-
-    // if (password !== passwordConfirmation) {
-    //   alert("Passwords don't match.")
-    //   return
-    // }
-
-    request({
-      email,
+    // Only need to setLoading because we are not logged in.... Will have to trial and error
+    setLoading(true)
+    loginUserQuery({
+      emailOrUsername,
       password,
-      passwordConfirmation,
-      firstName: "Conor",
-      lastName: "Pezeshki",
-      username: "condog" + Math.random(),
     })
+      .then(() => {
+        setRedirectTo("/")
+      })
+      .catch(setError)
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
+  if (redirectTo) {
+    return <Navigate to={redirectTo} />
   }
 
   return (
     <StandardLayout>
       {error && <div>{error.message}</div>}
-      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Enter email"
-          onChange={handleEmailChange}
+          value={emailOrUsername}
+          onChange={handleEmailOrUsernameChange}
         />
         <input
           type="password"
           placeholder="Enter password"
+          value={password}
           onChange={handlePasswordChange}
-        />
-        <input
-          type="password"
-          placeholder="Confirm password"
-          onChange={handlePasswordConfirmationChange}
         />
         <button type="submit" disabled={loading}>
           {loading ? "Loading..." : "Submit"}

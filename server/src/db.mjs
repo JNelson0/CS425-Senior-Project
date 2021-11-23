@@ -3,7 +3,7 @@
 //Uncomment/Comment to run test
 // import {PrismaClient} from "@prisma/client"
 
-//Uncomment/Comment to run local host
+//Uncomment/Comment to run local host and to seed db
 import pkg from "@prisma/client"
 const {PrismaClient} = pkg
 
