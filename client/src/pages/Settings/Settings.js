@@ -4,7 +4,7 @@ import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-//import FormHelperText from '@mui/material/FormHelperText';
+import FormHelperText from '@mui/material/FormHelperText';
 import Switch from '@mui/material/Switch';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/Radio';
@@ -20,6 +20,7 @@ export default function SettingsToggles() {
   const toggleHandler = (event) => {
     setState({
       ...toggle_state,
+      [event.target.name]: event.target.checked,
       //event updates setting, be it changing to dark mode or something else
       //use event.target.checked for bool
     });
@@ -28,6 +29,7 @@ export default function SettingsToggles() {
   const radioHandler = (event) => {
     setRadio({
       ...radio_state,
+      [event.target.name]: event.target.checked,
       //event updates radio for events
     });
   };
@@ -57,6 +59,8 @@ export default function SettingsToggles() {
                 
             </FormGroup>
         </FormControl>
+
+
         <FormControl>
             <FormLabel component="legend">Units</FormLabel>
             <RadioGroup 
@@ -65,7 +69,10 @@ export default function SettingsToggles() {
                 value={radio_state}
                 onChange={radioHandler}
             >
+              <Radio />
+              <Radio />
                 <FormControlLabel value="pounds" control={<Radio />} label="lbs." />
+                <FormHelperText> Wankers </FormHelperText>
                 <FormControlLabel value="kilograms" control={<Radio />} label="kgs." />
             </RadioGroup>
         </FormControl>
