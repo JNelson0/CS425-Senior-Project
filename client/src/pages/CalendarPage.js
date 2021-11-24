@@ -7,7 +7,7 @@ const CalendarPage = () => {
   return (
     <div className="calendar">
       <TopButtons/>
-
+      <div className="middle"> </div>
       <BottomBar/>
     </div>    
   )

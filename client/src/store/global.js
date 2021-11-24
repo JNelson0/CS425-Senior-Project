@@ -1,6 +1,7 @@
 import {useState, useCallback} from "react"
 import constate from "constate"
 import {ApiError} from "../errors"
+import { typographyVariant } from "@mui/system"
 
 async function request(...args) {
   return fetch(...args).then(async res => {
@@ -95,6 +96,7 @@ function useGlobal() {
   const getExerciseResponseById = createGetter(exerciseResponseState)
 
   const user = getUserById(currentUserId)
+  const event = getEventById(eventState)
   const isLoggedIn = Boolean(user)
 
   //
@@ -163,28 +165,94 @@ function useGlobal() {
     }
   }
 
+  // GET /events/:eventId/exercises
+  async function getEventExercisesQuery(id) {
+    try {
+      const data = await request("/events/:eventId/exercises", {
+        method: "DELETE",
+        credentials: "include",
+      })
+
+      for (const exercise of data) {
+        setExerciseData(exercise.id, exercise)
+      }
+      setUserData(currentUserId, {...user.data, events: data.map(v => v.id)})
+    } catch (error) {
+      setUserError(currentUserId, error)
+    }
+  }
+
   // Queries TODO...
 
-  // POST /event
-  // GET /events
-  // PUT /events/:eventId
-  // DELETE /events/:eventId
-  // DELETE /events/:eventId/invitee
-  // POST /events/:eventId/invitees
-  // POST /events/:eventId/invitees/remove
-  // POST /group
-  // GET /groups/:groupId
-  // PUT /groups/:groupId
-  // POST /groups/:groupId/users
-  // DELETE /groups/:groupId/users/:userId
-  // DELETE /groups/:groupId
-  // GET /events/:eventId/exercises
-  // POST /events/:eventId/exercise
-  // GET /exercise/:exerciseId
-  // DELETE /exercise/:exerciseId
-  // POST /exercise/:exerciseId/response
-  // PUT /responses/:responseId
-  // DELETE /responses/:responseId
+  // WIll have to reference schema to figure out relations
+
+  // POST /event EASY
+  async function createEventQuery(options) {
+      const data = await request("/events", standardJsonInit("POST", options))
+      for (const event of data){
+        setEventData(event, event)
+      }
+      setUserData(currentUserId, {...user.data, events: data.map(v => v)})
+  }
+
+  // GET /events MEDIUM User & Event must be updated
+  async function currentUserEventQuery() {
+    try{
+      const data = await request("/events", {credentials: "include"})
+      for (const event of data){
+        setEventData(event, event)
+      }
+      setUserData(currentUserId, {...user.data, events: data.map(v => v)})
+      
+    }catch(error){
+      setEventError(eventState, error)
+    }
+  }
+
+  // PUT /events/:eventId EASY
+  async function modifyEventQuery(id, options){
+    try{
+      const data = await request(`/events/${id}`, standardJsonInit("PUT", options))
+      setEventData(event[id], data)
+      setUserData(currentUserId, {...user.data, events: data.map(v => v)})
+    }catch(error){
+      setEventError(eventState, error)
+    }
+  }
+
+  // DELETE /events/:eventId EASY
+  async function deleteEventQuery(id) {
+    try {
+      await request(`/events/${id}`, {method: "DELETE", credentials: "include"})
+      setEventData(id, undefined)
+    } catch (error) {
+      setEventData(currentUserId, error)
+    }
+  }
+
+  // DELETE /events/:eventId/invitee EASY
+
+  // Need to figure out how to update the rest of the state
+
+  // POST /events/:eventId/invitees MEDIUM User & Event must be updated
+  // POST /events/:eventId/invitees/remove MEDIUM User & Event must be updated
+
+  // POST /group EASY
+  // GET /groups/:groupId EASY
+  // PUT /groups/:groupId EASY
+  // POST /groups/:groupId/users MEDIUM User & Group must be updated
+  // DELETE /groups/:groupId/users/:userId MEDIUM User & Group must be updated
+  // DELETE /groups/:groupId MEDIUM User & Group must be updated
+
+  // GET /events/:eventId/exercises MEDIUM Exercises & Event must be updated
+  // POST /events/:eventId/exercise MEDIUM Exercises & Event must be updated
+
+  // GET /exercise/:exerciseId EASY
+  // DELETE /exercise/:exerciseId MEDIUM Exercises & Event must be updated
+  // POST /exercise/:exerciseId/response MEDIUM
+
+  // PUT /responses/:responseId EASY
+  // DELETE /responses/:responseId EASY
 
   return {
     // Getters
@@ -197,14 +265,24 @@ function useGlobal() {
     // Extra state
     user,
     isLoggedIn,
+    event,
 
-    // Queries
+    // User Queries
     userQuery,
     currentUserQuery,
     createUserQuery,
     loginUserQuery,
     modifyUserQuery,
     deleteUserQuery,
+
+    //Event Queries
+    createEventQuery,
+    currentUserEventQuery,
+    modifyEventQuery,
+    deleteEventQuery,
+
+    //Event Exercises
+    getEventExercisesQuery,
   }
 }
 

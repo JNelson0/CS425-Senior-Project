@@ -4,45 +4,30 @@ import {useGlobalContext} from "../store"
 import {Navigate} from "react-router"
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("")
+  const [emailOrUsername, setEmailOrUsername] = useState("")
   const [password, setPassword] = useState()
-  const [passwordConfirmation, setPasswordConfirmation] = useState()
-
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState()
 
   const [redirectTo, setRedirectTo] = useState()
 
-  const {createUserQuery, isLoggedIn} = useGlobalContext()
+  const {loginUserQuery, isLoggedIn} = useGlobalContext()
 
-  const handleEmailChange = e => {
-    setEmail(e.target.value)
+  const handleEmailOrUsernameChange = e => {
+    setEmailOrUsername(e.target.value)
   }
 
   const handlePasswordChange = e => {
     setPassword(e.target.value)
   }
 
-  const handlePasswordConfirmationChange = e => {
-    setPasswordConfirmation(e.target.value)
-  }
-
   const handleSubmit = e => {
     e.preventDefault()
-
-    if (password !== passwordConfirmation) {
-      alert("Passwords don't match.")
-      return
-    }
-
+    // Only need to setLoading because we are not logged in.... Will have to trial and error
     setLoading(true)
-    createUserQuery({
-      email,
+    loginUserQuery({
+      emailOrUsername,
       password,
-      passwordConfirmation,
-      firstName: "Charles",
-      lastName: "Pezeshki",
-      username: "laknsdflkn" + Math.random(),
     })
       .then(() => {
         setRedirectTo("/")
@@ -64,17 +49,14 @@ const LoginPage = () => {
         <input
           type="text"
           placeholder="Enter email"
-          onChange={handleEmailChange}
+          value={emailOrUsername}
+          onChange={handleEmailOrUsernameChange}
         />
         <input
           type="password"
           placeholder="Enter password"
+          value={password}
           onChange={handlePasswordChange}
-        />
-        <input
-          type="password"
-          placeholder="Confirm password"
-          onChange={handlePasswordConfirmationChange}
         />
         <button type="submit" disabled={loading}>
           {loading ? "Loading..." : "Submit"}

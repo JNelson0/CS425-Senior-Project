@@ -7,7 +7,7 @@ const EventPage = () => {
   return (
     <div className="event">
       <TopButtons/>
-        
+      <div className="middle"> </div>
       <BottomBar/>      
     </div>    
   )

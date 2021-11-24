@@ -7,7 +7,7 @@ async function main() {
       email: "email@email.com",
     },
   })
-
+  
   if (existingUser) {
     return
   }
@@ -37,6 +37,7 @@ async function main() {
       },
     },
   })
+
 }
 
 main()
