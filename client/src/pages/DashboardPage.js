@@ -27,7 +27,7 @@ export default function DashboardPage() {
           <img src={BackgroundImg} alt="Wolf" />
         </div>
         <div className="middleSpacer">
-        <Clock className="clock" format={'h:mm:ss a'} ticking={true} timezone={'US/Pacific'} />
+          <Clock className="clock" format={'h:mm:ss a'} ticking={true} timezone={'US/Pacific'} />
           <ul>
             {data.map(el =>(
               <EventContainer whereTo="/event" active={selected === el.data.title} setSelected={setSelected} id={el.data.id} name={el.data.title} dateTime={el.data.start} />
