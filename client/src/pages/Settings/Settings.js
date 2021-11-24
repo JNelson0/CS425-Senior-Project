@@ -69,8 +69,7 @@ export default function SettingsToggles() {
                 value={radio_state}
                 onChange={radioHandler}
             >
-              <Radio />
-              <Radio />
+              
                 <FormControlLabel value="pounds" control={<Radio />} label="lbs." />
                 <FormHelperText> Wankers </FormHelperText>
                 <FormControlLabel value="kilograms" control={<Radio />} label="kgs." />

@@ -8,8 +8,9 @@ export default function SettingsPage() {
   return (
     <div className="settings">
       <TopButtons/>
-      <Settings/>
-      <div className="middle"> </div>
+      <div className="middle"> 
+        <Settings/>
+      </div>
       <BottomBar/>
     </div>
   )
