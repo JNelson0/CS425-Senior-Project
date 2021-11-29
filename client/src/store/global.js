@@ -26,9 +26,12 @@ function standardJsonInit(method, body) {
 function useGlobal() {
   const [userState, setUserState] = useState({})
   const [eventState, setEventState] = useState({})
+  const [eventInviteeState, setEventInviteeState] = useState ({})
   const [groupState, setGroupState] = useState({})
   const [exerciseState, setExerciseState] = useState({})
   const [exerciseResponseState, setExerciseResponseState] = useState({})
+
+  
 
   const [currentUserId, setCurrentUserId] = useState()
 
@@ -64,6 +67,9 @@ function useGlobal() {
 
   const setGroupData = createDataSetter(setGroupState)
   const setGroupError = createErrorSetter(setGroupState)
+
+  const setEventInviteeData = createDataSetter(setEventInviteeState)
+  const setEventInviteeError = createErrorSetter(setEventInviteeState)
 
   const setExerciseData = createDataSetter(setExerciseState)
   const setExerciseError = createErrorSetter(setExerciseState)
@@ -231,10 +237,29 @@ function useGlobal() {
   }
 
   // DELETE /events/:eventId/invitee EASY
+  async function deleteEventInviteeQuery(eventId) {
+    try {
+      await request(`/events/${eventId}/invitee`, {method: "DELETE", credentials: "include"})
+      setEventData(eventId, undefined)
+    } catch (error) {
+      setEventError(eventId, undefined)
+    }
+  }
 
   // Need to figure out how to update the rest of the state
 
   // POST /events/:eventId/invitees MEDIUM User & Event must be updated
+  async function createEventInviteeQuery(eventId, options) {
+    try {
+      const data = await request(`/events/${eventId}/invitees`, standardJsonInit("POST", options))
+      setEventInviteeData(eventId, data)
+    } catch (error) {
+      setEventInviteeError(eventId, error)
+    }
+  }
+
+
+
   // POST /events/:eventId/invitees/remove MEDIUM User & Event must be updated
 
   // POST /group EASY
