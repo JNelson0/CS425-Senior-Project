@@ -22,7 +22,6 @@ export default function SettingsToggles() {
       ...toggle_state,
       [event.target.name]: event.target.checked,
       //event updates setting, be it changing to dark mode or something else
-      //use event.target.checked for bool
     });
   };
 
@@ -41,21 +40,21 @@ export default function SettingsToggles() {
             <FormLabel component="legend">Visual</FormLabel>
             <FormGroup>
                 <FormControlLabel
-                
                 control={
                     <Switch checked={toggle_state.darkmode} onChange={toggleHandler} name="darkmode"/>
                 }
                 label="Dark mode - not implemented"
                 />
-                
+
                 {
                 //written as group so more settings can be added as needed
+                }
                 <FormControlLabel
                 control={
                     <Switch checked={toggle_state.setting2} onChange={toggleHandler} name="setting2" />
                 }
                 label="setting2"
-                />}
+                />
                 
             </FormGroup>
         </FormControl>
