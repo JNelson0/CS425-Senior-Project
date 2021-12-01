@@ -10,7 +10,8 @@ export default function SettingsPage() {
       <TopButtons/>
       <div className="middle"> 
         <Settings/>
-      </div>
+
+      </div> 
       <BottomBar/>
     </div>
   )

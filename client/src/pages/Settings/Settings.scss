@@ -2,14 +2,14 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     //margin-bottom: 104px;
     .settingsWrapper{
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: 722px;
+        //height: 722px;
         border: solid 2px greenyellow;
         &:hover{
             cursor: pointer;
