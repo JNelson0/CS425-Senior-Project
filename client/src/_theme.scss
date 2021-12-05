@@ -1,0 +1,35 @@
+$light-background: #f2ece4;
+$light-text: #212121;
+$dark-background: #424242;
+$dark-text: #fafafa;
+
+$themes: (
+  darkMode: (
+    'text-color': $dark-text,
+    'bg-color': $dark-background
+  ),
+  lightMode: (
+    'text-color': $light-text,
+    'bg-color': $light-background
+  )
+);
+
+
+@mixin theme() {
+  @each $theme, $map in $themes {
+    $theme-map: $map !global;
+    .#{$theme} & {
+      @content;
+    }
+  }
+  $theme-map: null !global;
+}
+
+@function getTheme($key) {
+  @return map-get($theme-map, $key)
+}
+
+@function something($booleo){
+  $currMode: $booleo !global;
+}
+  
