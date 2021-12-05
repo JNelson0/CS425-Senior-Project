@@ -4,6 +4,7 @@ import {ApiError} from "../errors"
 import { typographyVariant } from "@mui/system"
 
 async function request(...args) {
+
   return fetch(...args).then(async res => {
     // res.ok === 200-299 HTTP Status Code
     if (res.ok) {
@@ -188,11 +189,17 @@ function useGlobal() {
 
   // POST /event EASY
   async function createEventQuery(options) {
-      const data = await request("/events", standardJsonInit("POST", options))
+    try{
+      console.log(JSON.stringify(options))
+      const data = await request("/event", standardJsonInit("POST", options))
       for (const event of data){
-        setEventData(event, event)
+        setEventData(event.id, event)
       }
-      setUserData(currentUserId, {...user.data, events: data.map(v => v)})
+      setUserData(currentUserId, {...user.data, events: data.map(v => v.id)})
+    }
+    catch(error){
+      setEventError(eventState, error)
+    }
   }
 
   // GET /events MEDIUM User & Event must be updated

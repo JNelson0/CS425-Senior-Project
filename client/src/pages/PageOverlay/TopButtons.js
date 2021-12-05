@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import HomeIcon from '@mui/icons-material/Home';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
-export default function TopButtons() {
+export default function TopButtons({addOpen, setAddOpen}) {
     return (
         <div className="topWrapper">
             <div className="settingsHomeWrapper">
@@ -18,7 +18,7 @@ export default function TopButtons() {
                 <button id="notificationButton" onClick={() => console.log("Notifications button clicked!")}>
                     <NotificationsIcon fontSize="large"/>
                 </button>
-                <button id="addButton" onClick={() => console.log("Add button clicked!")}>
+                <button id="addButton" onClick={() => setAddOpen(!addOpen)}>
                     <AddIcon fontSize="large"/>
                 </button>
             </div>
