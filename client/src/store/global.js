@@ -103,6 +103,9 @@ function useGlobal() {
 
   const user = getUserById(currentUserId)
   const event = getEventById(eventState)
+  const group = getGroupById(groupState)
+  const exercise = getExerciseById(exerciseState)
+  const response = getExerciseResponseById(exerciseResponseState)
   const isLoggedIn = Boolean(user)
 
   //
@@ -263,8 +266,39 @@ function useGlobal() {
   // POST /events/:eventId/invitees/remove MEDIUM User & Event must be updated
 
   // POST /group EASY
+  async function createGroupQuery(options) {
+    const data = await request(`/group`, standardJsonInit("POST", options))
+    for(const group of data) {
+      setGroupData(group, group)
+    }
+    setUserData(currentUserId, {...user.data, groups: data.map(v => v)})
+  }
+
   // GET /groups/:groupId EASY
+  async function getGroupIDQuery(id) {
+    try {
+      const data = await request(`/groups/${id}`, {credentials: "include"})
+      for(const group of data) {
+        setGroupData(group, group)
+     }
+      setUserData(currentUserId, {...user.data, groups: data.map(v => v)})
+    } catch(error) {
+      setUserError(currentUserId, error)
+    }
+
+  }
+
   // PUT /groups/:groupId EASY
+  async function modifyGroupQuery(id, options){
+    try {
+      const data = await request(`/groups/${id}`, standardJsonInit("PUT", options))
+      setGroupData(group[id], data)
+      setUserData(currentUserId, {...user.data, groups: data.map(v => v)})
+    } catch(error) {
+      setUserError(currentUserId, error)
+    }
+  }
+
   // POST /groups/:groupId/users MEDIUM User & Group must be updated
   // DELETE /groups/:groupId/users/:userId MEDIUM User & Group must be updated
   // DELETE /groups/:groupId MEDIUM User & Group must be updated
@@ -273,12 +307,50 @@ function useGlobal() {
   // POST /events/:eventId/exercise MEDIUM Exercises & Event must be updated
 
   // GET /exercise/:exerciseId EASY
+  async function getExerciseIDQuery(id) {
+    try {
+      const data = await request(`/exercise/${id}`, {credentials: "include"})
+      for(const exercise of data) {
+        setExerciseData(exercise, exercise)
+      }
+      setUserData(currentUserId, {...user.data, exercises: data.map(v => v)})
+    } catch(error) {
+      setUserError(currentUserId, error)
+    }
+  }
   // DELETE /exercise/:exerciseId MEDIUM Exercises & Event must be updated
   // POST /exercise/:exerciseId/response MEDIUM
 
   // PUT /responses/:responseId EASY
-  // DELETE /responses/:responseId EASY
+  async function modifyResponseQuery(id, options) {
+    try{
+      const data = await request(`/responses/${id}`, standardJsonInit("PUT", options))
+      setExerciseResponseData(response[id], data)
+      setUserData(currentUserId, {...user.data, responses: data.map(v => v)})
+    } catch(error) {
+      setUserError(currentUserId, error)
+    }
+  }
 
+  // DELETE /responses/:responseId EASY
+  async function deleteResponseQuery(id) {
+    try {
+      await request(`/responses/${id}`, {method: "DELETE", credentials: "include"})
+      setExerciseResponseData(id, undefined)
+    } catch(error) {
+      setExerciseResponseData(currentUserId, error)
+    }
+  }
+
+
+  async function deleteEventQuery(id) {
+    try {
+      await request(`/events/${id}`, {method: "DELETE", credentials: "include"})
+      setEventData(id, undefined)
+    } catch (error) {
+      setEventData(currentUserId, error)
+    }
+  }
   return {
     // Getters
     getUserById,
