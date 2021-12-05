@@ -1,12 +1,12 @@
-@import "../_theme.scss";
+@import '../_theme.scss';
 
-#settingspage{
+.settingspage{
     //background-color: var(--color_background);
     //color: var(--color_text);
-    @include theme(){
-        background-color: getTheme('bg-color');
-        color: getTheme('text-color')
-    }
+    // @include theme(){
+    //     background-color: getTheme('bg-color');
+    //     color: getTheme('text-color')
+    // }
     height: 100vh;
     width: 100%;
     overflow: hidden;

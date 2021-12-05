@@ -4,32 +4,81 @@ $dark-background: #424242;
 $dark-text: #fafafa;
 
 $themes: (
-  darkMode: (
-    'text-color': $dark-text,
-    'bg-color': $dark-background
+  "light": (
+    "colors": (
+      "primary": #662e9b,
+      "secondary": #43bccd
+    ),
+    "shades": (
+      "shade-0": #ffffff,
+      "shade-1": $light_background,
+      "shade-3": $light_text
+    )
   ),
-  lightMode: (
-    'text-color': $light-text,
-    'bg-color': $light-background
+  "dark": (
+    "colors": (
+      "primary": #88d498,
+      "secondary": #db5375
+    ),
+    "shades": (
+      "shade-0": #404447,
+      "shade-1": $dark_background,
+      "shade-3": $dark_text
+    )
   )
 );
 
+@each $theme-name, $theme-vars in $themes {
+  $shades: map-get($theme-vars, "shades");
+  $colors: map-get($theme-vars, "colors");
 
-@mixin theme() {
-  @each $theme, $map in $themes {
-    $theme-map: $map !global;
-    .#{$theme} & {
-      @content;
+  $theme: (
+    "bg-color": map-get($shades, "shade-1"),
+    "text-color": map-get($shades, "shade-2")
+  );
+
+  .theme.#{$theme-name} {
+    // define a css variable for each shade
+    @each $name, $color in $shades {
+      --#{$name}: #{$color};
+    }
+
+    // define a css variable for each color
+    @each $name, $color in $colors {
+      --#{$name}: #{$color};
+      --#{$name}-dark: #{darken($color, 10%)};
+      --#{$name}-darker: #{darken($color, 20%)};
+    }
+
+    // define a css variable for each theme color
+    @each $name, $color in $theme {
+      --#{$name}: #{$color};
     }
   }
-  $theme-map: null !global;
 }
 
-@function getTheme($key) {
-  @return map-get($theme-map, $key)
+.theme {
+  background: var(--bg-color);
+  color: var(--text-color);
 }
 
-@function something($booleo){
-  $currMode: $booleo !global;
+.primary {
+  color: var(--primary);
+}
+
+.primary-dark {
+  color: var(--primary-dark);
+}
+
+.primary-darker {
+  color: var(--primary-darker);
+}
+
+.current-theme {
+  color: var(--subtle);
+
+  .theme-name {
+    color: var(--secondary);
+  }
 }
   

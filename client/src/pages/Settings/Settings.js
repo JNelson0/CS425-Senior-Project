@@ -9,10 +9,15 @@ import Switch from '@mui/material/Switch';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/Radio';
 
-var state = false;
+var state = true;
 
 export function getMode(){
   return state;
+}
+
+function flipMode(){
+  window['state'] = false;
+  {console.log("state in function: " + state)}
 }
 
 export default function SettingsToggles() {
@@ -26,15 +31,16 @@ export default function SettingsToggles() {
 
   
 
-  {console.log(toggle_state.darkmode)}
+  //{console.log(toggle_state.darkmode)}
+  //{console.log("state: " + state)}
 
   const [radio_state, setRadio] = React.useState('pounds');
 
   const toggleHandler = (event) => {
     setState({
+      flipMode,
       ...toggle_state,
       [event.target.name]: event.target.checked,
-      state: toggle_state.darkmode
       //event updates setting, be it changing to dark mode or something else
     });
   };
