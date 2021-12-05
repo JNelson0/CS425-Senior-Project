@@ -3,6 +3,7 @@ import "./CalendarPage.scss"
 import BottomBar from "./PageOverlay/BottomBar.js"
 import Calendar from 'react-calendar';
 import TopButtons from "./PageOverlay/TopButtons.js"
+import 'react-calendar/dist/Calendar.css';
 
 
 
