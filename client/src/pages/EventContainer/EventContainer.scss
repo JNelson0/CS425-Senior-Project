@@ -2,7 +2,22 @@
     display: flex;
     width: 100%;
     margin-right: 42px;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.25s ease;
 
+    .trash{
+        height: 70px;
+        font-size: 45px;
+        color: crimson;
+        border-radius: 25px;
+        transition: inherit;
+        cursor: pointer;
+        &:hover{
+            color: black;
+            background-color: crimson;
+        }
+    }
     .eventbutton{
         display: flex;
         align-items: center;
@@ -10,7 +25,7 @@
         height: 80px;
         border-radius: 45px;
         text-decoration: none;
-        transition: all 0.25s ease;
+        transition: inherit;
         color: black;
 
         span{

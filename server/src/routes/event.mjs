@@ -327,7 +327,7 @@ router.delete("/events/:eventId", onlyAuthenticated, async (req, res) => {
 
 // Removes you from event
 router.delete(
-  "/events/:eventId/invite",
+  "/events/:eventId/invitee",
   onlyAuthenticated,
   async (req, res) => {
     const eventId = Number(req.params.eventId)
