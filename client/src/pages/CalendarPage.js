@@ -9,7 +9,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import EventContainer from "./EventContainer/EventContainer.js"
 import {useGlobalContext} from "../store"
-import data from "./DataTest.json"
+//import data from "./DataTest.json"
 import RevoCalendar from 'revo-calendar'
 
 const CalendarPage = ({darkmode}) => {
