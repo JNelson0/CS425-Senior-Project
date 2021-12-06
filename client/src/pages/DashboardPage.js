@@ -41,8 +41,8 @@ export default function DashboardPage({setId, darkmode}) {
             <img src={BackgroundImg} alt="Wolf" />
           </div>
         </div>
-      </div>
       <BottomBar />
+      </div>
     </div>
   )
 }
