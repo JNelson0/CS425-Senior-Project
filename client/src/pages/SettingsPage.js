@@ -11,8 +11,8 @@ var darkmode = getMode();
 export default function SettingsPage({darkmode, setS}) {
 
   return (
-    <div class ="settingspage">
-      <div class={"theme " + (darkmode ? "light" : "dark")}>
+    <div class={"theme " + (darkmode ? "light" : "dark")}>
+      <div class ="settingspage">
         <TopButtons/>
         <div className="middle">
           <SettingsToggles toggle={darkmode} setS={setS}/>

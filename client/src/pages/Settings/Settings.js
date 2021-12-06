@@ -55,8 +55,7 @@ export default function SettingsToggles({toggle, setS}) {
 
   return (
     <div className="settings">
-      <div className="settingsWrapper">
-
+      <div className="buttonWrapper">
         <FormControl>
             <label>Visual</label>
             <FormGroup>

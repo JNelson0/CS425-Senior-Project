@@ -4,18 +4,18 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100vh;
+    //height: 100%;
     //margin-bottom: 104px;
-    .settingsWrapper{
+    .buttonWrapper{
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        //height: vh;
+        //justify-content: left;
+        height: 77vh;
         //margin-top: 100px;
         //border: solid 2px greenyellow;
-        &:hover{
-            cursor: pointer;
-        }
+        // &:hover{
+        //     cursor: pointer;
+        // }
     }
 }
