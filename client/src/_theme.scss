@@ -14,8 +14,8 @@ $themes: (
     "shades": (
       "shade-0": #ffffff,
       "shade-1": $light_background,
-      "shade-2": $light_text
-
+      "shade-2": $light_text,
+      "shade-3": #131313
     )
   ),
   "dark": (
@@ -26,7 +26,8 @@ $themes: (
     "shades": (
       "shade-0": #404447,
       "shade-1": $dark_background,
-      "shade-2": $dark_text
+      "shade-2": $dark_text,
+      "shade-3": #686868
     )
   )
 );
@@ -37,7 +38,8 @@ $themes: (
 
   $theme: (
     "bg-color": map-get($shades, "shade-1"),
-    "text-color": map-get($shades, "shade-2")
+    "text-color": map-get($shades, "shade-2"),
+    "border-color": map-get($shades, "shade-3")
   );
 
   .theme.#{$theme-name} {
@@ -63,6 +65,7 @@ $themes: (
 .theme {
   background: var(--bg-color);
   color: var(--text-color);
+  border: var(--border-color);
 }
 
 .primary {
