@@ -10,10 +10,9 @@ import Clock from 'react-live-clock';
 import AddEvent from "./AddEvent/AddEvent.js"
 
 
-export default function DashboardPage({id, setId}) {
+export default function DashboardPage({setId, darkmode}) {
   const {user, isLoggedIn, currentUserEventQuery} = useGlobalContext()
 
-  export default function DashboardPage({darkmode}) {
   const[selected, setSelected] = useState("events");
 
   const [addOpen, setAddOpen] = useState(false);
@@ -34,7 +33,7 @@ export default function DashboardPage({id, setId}) {
             <Clock className="clock" format={'h:mm:ss a'} ticking={true} timezone={'US/Pacific'} />
             <ul>
               {user.data.events.map(el =>(
-                <EventContainer whereTo="/event" active={selected === el.id} setSelected={setSelected} id={el.id} name={el.title} dateTime={el.start} darkmode={darkmode}/> 
+                <EventContainer setId={setId} id={el.id} name={el.title} dateTime={el.start} darkmode={darkmode}/> 
               ))}
             </ul>
           </div>
@@ -55,9 +54,6 @@ export default function DashboardPage({id, setId}) {
         </div>
       </div>
       <BottomBar />
-
-
-      </div>
     </div>
   )
 }
