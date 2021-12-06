@@ -3,7 +3,7 @@ import "./CalendarPage.scss"
 import BottomBar from "./PageOverlay/BottomBar.js"
 import Calendar from 'react-calendar';
 import TopButtons from "./PageOverlay/TopButtons.js"
-import 'react-calendar/dist/Calendar.css';
+//import 'react-calendar/dist/Calendar.css';
 //import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
