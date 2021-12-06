@@ -11,8 +11,7 @@ const CalendarPage = ({darkmode}) => {
         <div className="middle"> </div>
         <BottomBar/>
       </div> 
-    </div>
-       
+    </div> 
   )
 }
 

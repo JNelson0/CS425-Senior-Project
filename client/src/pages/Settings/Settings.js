@@ -20,12 +20,12 @@ function flipMode(){
   {console.log("state in function: " + state)}
 }
 
-export default function SettingsToggles() {
+export default function SettingsToggles({toggle, setS}) {
   
   
   const [toggle_state, setState] = React.useState({
     //default states
-    darkmode: true,
+    darkmode: false,
     //setting2: false,
   });
 
@@ -38,11 +38,11 @@ export default function SettingsToggles() {
 
   const toggleHandler = (event) => {
     setState({
-      flipMode,
       ...toggle_state,
       [event.target.name]: event.target.checked,
       //event updates setting, be it changing to dark mode or something else
     });
+    setS(!toggle);
   };
 
   const radioHandler = (event) => {

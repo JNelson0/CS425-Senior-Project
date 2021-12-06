@@ -15,10 +15,7 @@ export default function SettingsPage({darkmode, setS}) {
       <div class={"theme " + (darkmode ? "light" : "dark")}>
         <TopButtons/>
         <div className="middle">
-          <ul> 
-            <lc> <button type="button" onClick={() => setS(!darkmode)}> Theme </button> </lc>
-            <lc> <SettingsToggles/> </lc>
-          </ul>
+          <SettingsToggles toggle={darkmode} setS={setS}/>
         </div> 
         <BottomBar/>
       </div>
