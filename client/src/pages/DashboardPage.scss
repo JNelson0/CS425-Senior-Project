@@ -1,9 +1,10 @@
 $wolfIMG: "../img/wolf.png";
+@import '../_theme.scss';
 
 .dashboard{
-    background-color: white;
+    //background-color: white;
     height: 100vh;
-    width: 100%;
+    width: 100vw;
     overflow: hidden;
     .listWrapper{
         display: flex;
@@ -20,6 +21,7 @@ $wolfIMG: "../img/wolf.png";
             img{
                 object-fit: cover;
             }
+            ;
         }
         .middleSpacer{
             display: flex;

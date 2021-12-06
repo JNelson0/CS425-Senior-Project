@@ -3,13 +3,18 @@ import "./EventPage.scss"
 import BottomBar from "./PageOverlay/BottomBar.js"
 import TopButtons from "./PageOverlay/TopButtons.js"
 
-const EventPage = () => {
+const EventPage = ({darkmode}) => {
   return (
-    <div className="event">
-      <TopButtons/>
-      <div className="middle"> </div>
-      <BottomBar/>      
-    </div>    
+    <div class={"theme " + (darkmode ? "light" : "dark")}>
+      <div className="event">
+        <TopButtons/>
+        <div className="middle"> 
+          <h1>Event page</h1>
+        </div>
+        <BottomBar/>      
+      </div>  
+    </div>
+      
   )
 }
 

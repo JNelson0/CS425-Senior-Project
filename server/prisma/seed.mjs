@@ -28,6 +28,7 @@ async function main() {
       title: "Event",
       description: "Event description",
       type: "STANDARD",
+      start: new Date(Date.now() + 30 * 60000),
       finish: new Date(Date.now() + 30 * 60000),
       userMemberships: {
         create: {

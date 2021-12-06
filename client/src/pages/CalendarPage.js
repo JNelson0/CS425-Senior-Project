@@ -12,18 +12,17 @@ import {useGlobalContext} from "../store"
 import data from "./DataTest.json"
 import RevoCalendar from 'revo-calendar'
 
-const CalendarPage = () => {
+const CalendarPage = ({darkmode}) => {
   const [value, setValue] = React.useState(new Date());
   function onChange(nextValue) {
     setValue(nextValue);
   }
-
-    return (
-      
+  return (
+    <div class={"theme " + (darkmode ? "light" : "dark")}>
       <div className="calendar">
         <TopButtons/>
-        <div className="middle"> 
-        <RevoCalendar
+        <div className="middle">
+          <RevoCalendar
             style={{
               borderRadius: "5px",
               border: "5px solid #4F6995"
@@ -32,15 +31,12 @@ const CalendarPage = () => {
               detailDateFormat =  "MM/DD/YYYY"
               //addEvent = {addEvent}
               />
-      
-      <BottomBar/>
-          </div>
-        </div>
-    );
-  
-  
-  } 
-
+      </div>
+        <BottomBar/>
+      </div> 
+    </div> 
+  )
+}
   
 export default CalendarPage
 
