@@ -18,8 +18,9 @@ const App = () => {
     <BrowserRouter>
       <GlobalProvider>
         <Routes>
-          <Route index path="/" element={<DashboardPage darkmode={toggle}/>} />
+          <Route index path="/" element={<LoginPage />} />
           <Route path="login" element={<LoginPage />} />
+          <Route path="dashboard" element={<DashboardPage darkmode={toggle}/>} />
           <Route path="calendar" element={<CalendarPage darkmode={toggle}/>} />
           <Route path="event" element={<EventPage darkmode={toggle}/>} />
           <Route path="settings" element={<SettingsPage darkmode={toggle} setS={setState}/>} />
