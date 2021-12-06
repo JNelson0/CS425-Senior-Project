@@ -2,6 +2,8 @@ $light-background: #f2ece4;
 $light-text: #212121;
 $dark-background: #424242;
 $dark-text: #fafafa;
+$dark-highlight-1: #88d498;
+$dark-highlight-2: #db5375;
 
 $themes: (
   "light": (
@@ -13,12 +15,13 @@ $themes: (
       "shade-0": #ffffff,
       "shade-1": $light_background,
       "shade-2": $light_text
+
     )
   ),
   "dark": (
     "colors": (
-      "primary": #88d498,
-      "secondary": #db5375
+      "primary": $dark_highlight_1,
+      "secondary": $dark_highlight_2
     ),
     "shades": (
       "shade-0": #404447,
@@ -74,11 +77,12 @@ $themes: (
   color: var(--primary-darker);
 }
 
-.current-theme {
-  color: var(--subtle);
-
-  .theme-name {
-    color: var(--secondary);
-  }
+.secondary-dark {
+  color: var(--secondary-dark);
 }
+
+.secondary-darker {
+  color: var(--secondary-darker);
+}
+
   

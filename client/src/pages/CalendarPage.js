@@ -5,13 +5,15 @@ import TopButtons from "./PageOverlay/TopButtons.js"
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
-const CalendarPage = () => {
+const CalendarPage = ({darkmode}) => {
   return (
-    <div className="calendar">
-      <TopButtons/>
-      <div className="middle"> </div>
-      <BottomBar/>
-    </div>    
+    <div class={"theme " + (darkmode ? "light" : "dark")}>
+      <div className="calendar">
+        <TopButtons/>
+        <div className="middle"> </div>
+        <BottomBar/>
+      </div> 
+    </div> 
   )
 }
 

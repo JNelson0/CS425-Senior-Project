@@ -5,42 +5,17 @@ import TopButtons from "./PageOverlay/TopButtons.js"
 import Settings from "./Settings/Settings.js"
 import { getMode } from "./Settings/Settings.js"
 import SettingsToggles from './Settings/Settings.js'
-import FormControl from '@mui/material/FormControl';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText';
-import Switch from '@mui/material/Switch';
 
 var darkmode = getMode();
-var orange = true;
 
-export default function SettingsPage() {
-  {console.log("darkmode: " + darkmode)}
-
-
-  document.addEventListener("DOMContentLoaded", function() {
-    const button = document.querySelector(".press");
-    const sass = document.querySelector(".theme");
-    let currentTheme = sass.classList.contains("light") ? "light" : "dark";
-
-    button.addEventListener("click", function() {
-      currentTheme = currentTheme === "light" ? "dark" : "light";
-      {console.log(currentTheme)}
-    });
-  });
-  
-  const [mode, setMode] = React.useState(false);
+export default function SettingsPage({darkmode, setS}) {
 
   return (
     <div class ="settingspage">
-      <div class="theme light">
+      <div class={"theme " + (darkmode ? "light" : "dark")}>
         <TopButtons/>
-        <div className="middle"> 
-        <button type="button" class="button press"> Theme </button>
-          {/* <FormGroup>
-            <Switch onClick(console.log(darkmode)) />
-          </FormGroup> */}
-          <SettingsToggles/>
+        <div className="middle">
+          <SettingsToggles toggle={darkmode} setS={setS}/>
         </div> 
         <BottomBar/>
       </div>
