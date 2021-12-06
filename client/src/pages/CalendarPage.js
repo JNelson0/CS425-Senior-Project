@@ -27,7 +27,11 @@ const CalendarPage = () => {
             style={{
               borderRadius: "5px",
               border: "5px solid #4F6995"
-              }}/>
+              }}
+              allowAddEvent={true}
+              detailDateFormat =  "MM/DD/YYYY"
+              //addEvent = {addEvent}
+              />
       
       <BottomBar/>
           </div>
