@@ -32,7 +32,6 @@ function useGlobal() {
   const [exerciseResponseState, setExerciseResponseState] = useState({})
 
   const [currentUserId, setCurrentUserId] = useState()
-
   // Setters for Error and Data
 
   // These should be used to reflect the state changes inside the queries.
@@ -138,7 +137,9 @@ function useGlobal() {
   // POST /user/login
   // NOTE: Must be caught outside
   async function loginUserQuery(options) {
+    console.log(options)
     const data = await request("/user/login", standardJsonInit("POST", options))
+    console.log(data)
     setUserData(data.id, data)
     setCurrentUserId(data.id)
   }
@@ -192,10 +193,11 @@ function useGlobal() {
     try{
       console.log(JSON.stringify(options))
       const data = await request("/event", standardJsonInit("POST", options))
+      console.log(data)
       for (const event of data){
-        setEventData(event.id, event)
+        setEventData(event, event)
       }
-      setUserData(currentUserId, {...user.data, events: data.map(v => v.id)})
+      setUserData(currentUserId, {...user.data, events: data.map(v => v)})
     }
     catch(error){
       setEventError(eventState, error)
@@ -211,6 +213,17 @@ function useGlobal() {
       }
       setUserData(currentUserId, {...user.data, events: data.map(v => v)})
       
+    }catch(error){
+      setEventError(eventState, error)
+    }
+  }
+
+  //GET /events/:eventId Specific User Event
+  async function eventFromIdQuery(id) {
+    try{
+      const data = await request(`/events/${id}`, {credentials: "include"})
+      console.log(data)
+      setEventData(event, data)     
     }catch(error){
       setEventError(eventState, error)
     }
@@ -233,7 +246,7 @@ function useGlobal() {
       await request(`/events/${id}`, {method: "DELETE", credentials: "include"})
       setEventData(id, undefined)
     } catch (error) {
-      setEventData(currentUserId, error)
+      setEventError(currentUserId, error)
     }
   }
 
@@ -284,6 +297,7 @@ function useGlobal() {
 
     //Event Queries
     createEventQuery,
+    eventFromIdQuery,
     currentUserEventQuery,
     modifyEventQuery,
     deleteEventQuery,

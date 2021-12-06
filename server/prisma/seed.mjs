@@ -7,7 +7,7 @@ async function main() {
       email: "email@email.com",
     },
   })
-  
+
   if (existingUser) {
     return
   }
@@ -25,7 +25,7 @@ async function main() {
 
   await db.event.create({
     data: {
-      title: "Event",
+      title: "Run",
       description: "Event description",
       type: "STANDARD",
       start: new Date(Date.now() + 30 * 60000),
@@ -38,7 +38,141 @@ async function main() {
       },
     },
   })
-
+  await db.event.create({
+    data: {
+      title: "Weights",
+      description: "Event description",
+      type: "STANDARD",
+      start: new Date(Date.now() + 30 * 60000),
+      finish: new Date(Date.now() + 30 * 60000),
+      userMemberships: {
+        create: {
+          role: "OWNER",
+          userId: user.id,
+        },
+      },
+    },
+  })
+  await db.event.create({
+    data: {
+      title: "Run",
+      description: "Event description",
+      type: "STANDARD",
+      start: new Date(Date.now() + 30 * 60000),
+      finish: new Date(Date.now() + 30 * 60000),
+      userMemberships: {
+        create: {
+          role: "OWNER",
+          userId: user.id,
+        },
+      },
+    },
+  })
+  await db.event.create({
+    data: {
+      title: "Weights",
+      description: "Event description",
+      type: "STANDARD",
+      start: new Date(Date.now() + 30 * 60000),
+      finish: new Date(Date.now() + 30 * 60000),
+      userMemberships: {
+        create: {
+          role: "OWNER",
+          userId: user.id,
+        },
+      },
+    },
+  })
+  await db.event.create({
+    data: {
+      title: "Run",
+      description: "Event description",
+      type: "STANDARD",
+      start: new Date(Date.now() + 30 * 60000),
+      finish: new Date(Date.now() + 30 * 60000),
+      userMemberships: {
+        create: {
+          role: "OWNER",
+          userId: user.id,
+        },
+      },
+    },
+  })
+  await db.event.create({
+    data: {
+      title: "Weights",
+      description: "Event description",
+      type: "STANDARD",
+      start: new Date(Date.now() + 30 * 60000),
+      finish: new Date(Date.now() + 30 * 60000),
+      userMemberships: {
+        create: {
+          role: "OWNER",
+          userId: user.id,
+        },
+      },
+    },
+  })
+  await db.event.create({
+    data: {
+      title: "Run",
+      description: "Event description",
+      type: "STANDARD",
+      start: new Date(Date.now() + 30 * 60000),
+      finish: new Date(Date.now() + 30 * 60000),
+      userMemberships: {
+        create: {
+          role: "OWNER",
+          userId: user.id,
+        },
+      },
+    },
+  })
+  await db.event.create({
+    data: {
+      title: "Weights",
+      description: "Event description",
+      type: "STANDARD",
+      start: new Date(Date.now() + 30 * 60000),
+      finish: new Date(Date.now() + 30 * 60000),
+      userMemberships: {
+        create: {
+          role: "OWNER",
+          userId: user.id,
+        },
+      },
+    },
+  })
+  await db.event.create({
+    data: {
+      title: "Run",
+      description: "Event description",
+      type: "STANDARD",
+      start: new Date(Date.now() + 30 * 60000),
+      finish: new Date(Date.now() + 30 * 60000),
+      userMemberships: {
+        create: {
+          role: "OWNER",
+          userId: user.id,
+        },
+      },
+    },
+  })
+  await db.event.create({
+    data: {
+      title: "Weights",
+      description: "Event description",
+      type: "STANDARD",
+      start: new Date(Date.now() + 30 * 60000),
+      finish: new Date(Date.now() + 30 * 60000),
+      userMemberships: {
+        create: {
+          role: "OWNER",
+          userId: user.id,
+        },
+      },
+    },
+  })
 }
 
 main()

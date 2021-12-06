@@ -1,6 +1,13 @@
-.event{
-    background-color: rgb(211, 0, 211);
-    height: 100vh;
-    width: 100%;
-    overflow: hidden;
+.event {
+  background-color: rgb(211, 0, 211);
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  .middle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 75%;
+    flex-direction: column;
+  }
 }
