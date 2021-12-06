@@ -1,7 +1,8 @@
 $wolfIMG: "../img/wolf.png";
+@import '../_theme.scss';
 
 .dashboard{
-    background-color: white;
+    //background-color: white;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
@@ -20,6 +21,7 @@ $wolfIMG: "../img/wolf.png";
             img{
                 object-fit: cover;
             }
+            ;
         }
         .middleSpacer{
             display: flex;

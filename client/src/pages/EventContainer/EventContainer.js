@@ -4,7 +4,8 @@ import "./EventContainer.scss"
 import {useGlobalContext} from "../../store"
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-export default function EventContainer({setId, id, name, dateTime}) {
+export default function EventContainer({id, setId, name, dateTime, darkmode}) {
+
     const {deleteEventQuery, currentUserEventQuery} = useGlobalContext()
     const[loading, setLoading] = useState(false)
 
@@ -16,14 +17,19 @@ export default function EventContainer({setId, id, name, dateTime}) {
     }
 
     return (
-        <li  className="eventbuttonWrapper">
+        <div class={"theme " + (darkmode ? "light" : "dark")}>
+            <li  className="eventbuttonWrapper">
             <Link to={"/event"+id} className="eventbutton" onClick={() => setId(id)}>
                 {console.log("/event")}
+
                 <span>{id}</span>
                 <span>{name}</span>
                 <span>{dateTime}</span>
             </Link>
             <DeleteForeverIcon className="trash" onClick={handleEventDelete} />
-        </li>
+         
+            </li>
+        </div>
+        
     )
 }

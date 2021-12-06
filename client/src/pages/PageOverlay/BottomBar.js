@@ -9,7 +9,7 @@ export default function BottomBar() {
     return (
         <div className="bottombar">
             <div className="bottombarWrapper">
-                <Link to="/" id="left"><DashboardIcon fontSize="large"/></Link>
+                <Link to="/dashboard" id="left"><DashboardIcon fontSize="large"/></Link>
                 <Link to="/calendar"id="center"><CalendarTodayIcon fontSize="large"/></Link>
                 <Link to="/event"id="right"><FitnessCenterIcon fontSize="large"/></Link>
             </div>
