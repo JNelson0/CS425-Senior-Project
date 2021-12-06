@@ -81,7 +81,7 @@ export default function SettingsToggles() {
         </FormControl>
 
 
-        <FormControl>
+        {/* <FormControl>
             <label>Units</label>
             <RadioGroup 
                 aria-label="units"
@@ -93,7 +93,7 @@ export default function SettingsToggles() {
                 <FormControlLabel value="pounds" control={<Radio />} label="lbs." />
                 <FormControlLabel value="kilograms" control={<Radio />} label="kgs." />
             </RadioGroup>
-        </FormControl>
+        </FormControl> */}
         </div>
     </div>
   );
