@@ -9,7 +9,7 @@ const EventPage = ({darkmode}) => {
       <div className="event">
         <TopButtons/>
         <div className="middle"> 
-          <h1>Event page</h1>
+          <h1 class = "text">Event page - not yet added</h1>
         </div>
         <BottomBar/>      
       </div>  
