@@ -19,9 +19,10 @@ const CalendarPage = ({darkmode}) => {
   }
   return (
     <div class={"theme " + (darkmode ? "light" : "dark")}>
-      <div className="calendar">
+      <div className="calendarPage">
         <TopButtons/>
         <div className="middle">
+          <div className="calendar">
           <RevoCalendar
             style={{
               borderRadius: "5px",
@@ -30,7 +31,7 @@ const CalendarPage = ({darkmode}) => {
               allowAddEvent={true}
               detailDateFormat =  "MM/DD/YYYY"
               //addEvent = {addEvent}
-              />
+              /></div>
       </div>
         <BottomBar/>
       </div> 
