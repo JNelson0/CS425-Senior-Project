@@ -61,7 +61,7 @@ export default function SettingsToggles({toggle, setS}) {
             <FormGroup>
                 <FormControlLabel
                 control={
-                    <Switch checked={toggle_state.darkmode} onChange={toggleHandler} name="darkmode"/>
+                    <Switch checked={!toggle} onChange={toggleHandler} name="darkmode"/>
                 }
                 label="Dark mode"
                 />

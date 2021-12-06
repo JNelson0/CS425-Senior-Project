@@ -30,7 +30,7 @@ const LoginPage = () => {
       password,
     })
       .then(() => {
-        setRedirectTo("/")
+        setRedirectTo("dashboard")
       })
       .catch(setError)
       .finally(() => {

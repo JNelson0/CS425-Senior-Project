@@ -10,15 +10,18 @@
 
     .middle{
         display: flex;
-        height: 70%;
+        height: 75%;
         flex-direction: column;
         align-items: center;
-        padding: 20px;
+        //padding: 20px;
+    }
 
-        .calendar{
-            height: 100%;
-            width: 100%;
-        }
+    .calendar{
+        padding-top: 20px;
+        height: 100%;
+        width: 95%;
+        //border: green;
+        //border-radius: 2px;
     }
 
 }

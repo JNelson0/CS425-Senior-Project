@@ -25,3 +25,4 @@ package.json
 yarn.lock
 package.json
 yarn.lock
+server/jsconfig.json
