@@ -1,25 +1,33 @@
-import React from 'react'
+import {React, useState} from 'react'
 import {Link} from 'react-router-dom'
 import "./EventContainer.scss"
 import {useGlobalContext} from "../../store"
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-export default function EventContainer({whereTo, active, setSelected, id, name, dateTime, darkmode}) {
+export default function EventContainer({id, setId, name, dateTime, darkmode}) {
+
     const {deleteEventQuery, currentUserEventQuery} = useGlobalContext()
+    const[loading, setLoading] = useState(false)
+
     const handleEventDelete = () => {
+        setLoading(true)
         deleteEventQuery(id)
+        setLoading(false)
         currentUserEventQuery()
     }
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <li  className="eventbuttonWrapper">
-            <Link to={whereTo} className={active? "eventbutton active": "eventbutton"} onClick={() => setSelected(id)}>
+            <Link to={"/event"+id} className="eventbutton" onClick={() => setId(id)}>
+                {console.log("/event")}
+
                 <span>{id}</span>
                 <span>{name}</span>
                 <span>{dateTime}</span>
             </Link>
             <DeleteForeverIcon className="trash" onClick={handleEventDelete} />
+         
             </li>
         </div>
         

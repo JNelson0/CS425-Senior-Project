@@ -5,47 +5,40 @@ import {React, useState, useEffect} from 'react'
 export default function AddEvent({addOpen, setAddOpen}) {
     const {createEventQuery, currentUserEventQuery} = useGlobalContext()
 
-    const [state, setState] = useState({
-        title: "",
-        description: "",
-        type: "",
-        start: "",
-        finish: "",
-    })
+    const[title, setTitle] = useState("")
+    const[description, setDescription] = useState("")
+    const[type, setType] = useState("")
+    const[start, setStart] = useState("")
+    const[finish, setFinish] = useState("")
 
-    const handleChange = e => {
-        setState({
-            ...state,
-            [e.target.name]: e.target.value,
-        })
+    const handleTitle = e => {
+        setTitle(e.target.value)
+    }
+    const handleDescription = e => {
+        setDescription(e.target.value)
+    }
+    const handleType = e => {
+        setType(e.target.value)
+    }
+    const handleStart = e => {
+        setStart(e.target.value)
+    }
+    const handleFinish = e => {
+        setFinish(e.target.value)
     }
     
     const resetInput = () => {
-        setState({
-            title: "",
-            description: "",
-            type: "",
-            start: "",
-            finish: "",
-        })
+        setTitle("")
+        setDescription("")
+        setType("")
+        setStart("")
+        setFinish("")
     }
 
     const handleSubmit = () => {
-        const title = state.title
-        const description = state.description
-        const type = state.type
-        const start = state.start
-        const finish = state.finish
         setAddOpen(!addOpen)
-        createEventQuery({title, description, type, start, finish,})
-        setState({
-            title: "",
-            description: "",
-            type: "",
-            start: "",
-            finish: "",
-        })
-        currentUserEventQuery()
+        createEventQuery({title, description, type, start, finish})
+        resetInput()
     }
 
     return (
@@ -56,50 +49,42 @@ export default function AddEvent({addOpen, setAddOpen}) {
                     <span className="line2"></span>
                 </div>
             </div>
-            <div className="listWrapper">
+            <form onSubmit={handleSubmit}>
+                <div className="listWrapper">
 
-                <ul>
-                    <li>
-                        <form>
+                    <ul>
+                        <li>
                             <label>
-                                Event Title: <input type="text" name="title" value={state.title} onChange={handleChange} />
+                                Event Title: <input type="text" name="title" value={title} onChange={handleTitle} />
                             </label>
-                        </form>
-                    </li>
-                    <li>
-                        <form>
+                        </li>
+                        <li>
                             <label>
-                                Event Description: <input type="text" name="description" value={state.description} onChange={handleChange} />
+                                Event Description: <input type="text" name="description" value={description} onChange={handleDescription} />
                             </label>
-                        </form>
-                    </li>
-                    <li>
-                        <form>
+                        </li>
+                        <li>
                             <label>
-                                Event Type: <input type="text" name="type" value={state.type} onChange={handleChange} />
+                                Event Type: <input type="text" name="type" value={type} onChange={handleType} />
                             </label>
-                        </form>
-                    </li>
-                    <li>
-                        <form>
+                        </li>
+                        <li>
                             <label>
-                                Event Start Time: <input type="text" name="start" value={state.start} onChange={handleChange} />
+                                Event Start Time: <input type="text" name="start" value={start} onChange={handleStart} />
                             </label>
-                        </form>
-                    </li>
-                    <li>
-                        <form>
+                        </li>
+                        <li>
                             <label>
-                                Event Finish Time: <input type="text" name="finish" value={state.finish} onChange={handleChange}/>
+                                Event Finish Time: <input type="text" name="finish" value={finish} onChange={handleFinish}/>
                             </label>
-                        </form>
-                    </li> 
-                </ul>
-            </div>
-            <div className="buttonWrapper">
-                <button onClick={resetInput}>Clear</button>
-                <button onClick={handleSubmit}>Submit</button>
-            </div>
+                        </li> 
+                    </ul>
+                </div>
+                <div className="buttonWrapper">
+                    <button onClick={resetInput}>Clear</button>
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
         </div>
     )
 }

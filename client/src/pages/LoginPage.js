@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import {StandardLayout} from "../components"
-import {useGlobalContext} from "../store"
 import {Navigate} from "react-router"
+import {useGlobalContext} from "../store"
 
 const LoginPage = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("")

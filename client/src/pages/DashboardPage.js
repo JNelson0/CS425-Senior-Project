@@ -9,9 +9,13 @@ import BackgroundImg from "../img/wolf.png"
 import Clock from 'react-live-clock';
 import AddEvent from "./AddEvent/AddEvent.js"
 
-export default function DashboardPage({darkmode}) {
-  const {user, isLoggedIn, currentUserEventQuery, currentUserQuery} = useGlobalContext()
+
+export default function DashboardPage({id, setId}) {
+  const {user, isLoggedIn, currentUserEventQuery} = useGlobalContext()
+
+  export default function DashboardPage({darkmode}) {
   const[selected, setSelected] = useState("events");
+
   const [addOpen, setAddOpen] = useState(false);
    useEffect(() => {
     currentUserEventQuery()
@@ -38,8 +42,20 @@ export default function DashboardPage({darkmode}) {
             <img src={BackgroundImg} alt="Wolf" />
           </div>
         </div>
-        {/* {isLoggedIn && <pre>{JSON.stringify(event, null, 2)}</pre>} */}
-        <BottomBar />
+        <div className="middleSpacer">
+        <Clock className="clock" format={'h:mm:ss a'} ticking={true} timezone={'US/Pacific'} />
+          <ul>
+            {user.data.events.map(el =>(
+              <EventContainer  setId={setId} id={el.id} name={el.title} dateTime={el.start} /> 
+              ))}
+          </ul>
+        </div>
+        <div className="spacer" >
+          <img src={BackgroundImg} alt="Wolf" />
+        </div>
+      </div>
+      <BottomBar />
+
 
       </div>
     </div>
