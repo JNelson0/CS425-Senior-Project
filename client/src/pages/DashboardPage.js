@@ -41,17 +41,6 @@ export default function DashboardPage({setId, darkmode}) {
             <img src={BackgroundImg} alt="Wolf" />
           </div>
         </div>
-        <div className="middleSpacer">
-        <Clock className="clock" format={'h:mm:ss a'} ticking={true} timezone={'US/Pacific'} />
-          <ul>
-            {user.data.events.map(el =>(
-              <EventContainer  setId={setId} id={el.id} name={el.title} dateTime={el.start} /> 
-              ))}
-          </ul>
-        </div>
-        <div className="spacer" >
-          <img src={BackgroundImg} alt="Wolf" />
-        </div>
       </div>
       <BottomBar />
     </div>
