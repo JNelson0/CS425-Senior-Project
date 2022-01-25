@@ -202,11 +202,7 @@ function useGlobal() {
     try{
       console.log(JSON.stringify(options))
       const data = await request("/event", standardJsonInit("POST", options))
-      console.log(data)
-      for (const event of data){
-        setEventData(event, event)
-      }
-      setUserData(currentUserId, {...user.data, events: data.map(v => v)})
+      //setUserData(currentUserId, {...user.data, events: data.map(v => v.id)})
     }
     catch(error){
       setEventError(eventState, error)

@@ -19,7 +19,7 @@ export default function DashboardPage({setId, darkmode}) {
    useEffect(() => {
     currentUserEventQuery()
   }, [])
-    
+  
   return (
     <div class = {"theme " + (darkmode ? "light" : "dark")}>
       <div className="dashboard">
@@ -33,6 +33,7 @@ export default function DashboardPage({setId, darkmode}) {
             <Clock className="clock" format={'h:mm:ss a'} ticking={true} timezone={'US/Pacific'} />
             <ul>
               {user.data.events.map(el =>(
+                
                 <EventContainer setId={setId} id={el.id} name={el.title} dateTime={el.start} darkmode={darkmode}/> 
               ))}
             </ul>

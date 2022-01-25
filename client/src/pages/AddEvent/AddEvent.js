@@ -7,9 +7,12 @@ export default function AddEvent({addOpen, setAddOpen}) {
 
     const[title, setTitle] = useState("")
     const[description, setDescription] = useState("")
-    const[type, setType] = useState("")
+    const[type, setType] = useState("STANDARD")
+    //ALL DATES AND TIMES NEED TO BE OF TYPE "05 October 2011 14:48 UTC"
     const[start, setStart] = useState("")
     const[finish, setFinish] = useState("")
+
+    const[loading, setLoading] = useState(false)
 
     const handleTitle = e => {
         setTitle(e.target.value)
@@ -35,10 +38,14 @@ export default function AddEvent({addOpen, setAddOpen}) {
         setFinish("")
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = e => {
+        e.preventDefault();
         setAddOpen(!addOpen)
         createEventQuery({title, description, type, start, finish})
         resetInput()
+        setLoading(true)
+        currentUserEventQuery()
+        setLoading(false)
     }
 
     return (
@@ -65,7 +72,11 @@ export default function AddEvent({addOpen, setAddOpen}) {
                         </li>
                         <li>
                             <label>
-                                Event Type: <input type="text" name="type" value={type} onChange={handleType} />
+                                Event Type: <select value={type} onChange={handleType}>
+                                                <option value="STANDARD">Running</option>
+                                                <option value="WORKOUT">Weights</option>
+                                                <option value="SCHOOLEVENT">School Event</option>
+                                            </select>
                             </label>
                         </li>
                         <li>

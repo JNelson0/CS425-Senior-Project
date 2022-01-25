@@ -12,8 +12,8 @@ export default function EventContainer({id, setId, name, dateTime, darkmode}) {
     const handleEventDelete = () => {
         setLoading(true)
         deleteEventQuery(id)
-        setLoading(false)
         currentUserEventQuery()
+        setLoading(false)
     }
 
     return (
