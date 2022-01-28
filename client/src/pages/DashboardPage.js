@@ -23,7 +23,7 @@ export default function DashboardPage({setId, darkmode}) {
   return (
     <div class = {"theme " + (darkmode ? "light" : "dark")}>
       <div className="dashboard">
-        <TopButtons className="TB" addOpen={addOpen} setAddOpen={setAddOpen}/>
+        <TopButtons className="tb" addOpen={addOpen} setAddOpen={setAddOpen}/>
         <AddEvent addOpen={addOpen} setAddOpen={setAddOpen}/>
         <div className="listWrapper">
           <div className="spacer" >
@@ -33,6 +33,7 @@ export default function DashboardPage({setId, darkmode}) {
             <Clock className="clock" format={'h:mm:ss a'} ticking={true} timezone={'US/Pacific'} />
             <ul>
               {user.data.events.map(el =>(
+                
                 <EventContainer setId={setId} id={el.id} name={el.title} dateTime={el.start} darkmode={darkmode}/> 
               ))}
             </ul>
@@ -41,7 +42,7 @@ export default function DashboardPage({setId, darkmode}) {
             <img src={BackgroundImg} alt="Wolf" />
           </div>
         </div>
-      <BottomBar />
+      <BottomBar className="bb" />
       </div>
     </div>
   )
