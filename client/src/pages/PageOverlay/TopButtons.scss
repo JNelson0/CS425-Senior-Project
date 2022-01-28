@@ -1,92 +1,93 @@
-@import '../../theme.scss';
+@import "../../theme.scss";
 
-.topWrapper{
+.topWrapper {
+  display: flex;
+  flex-direction: horizontal;
+  justify-content: space-between;
+  height: 12vh;
+  .settingsHomeWrapper {
     display: flex;
-    flex-direction: horizontal;
-    justify-content: space-between;
-    .settingsHomeWrapper{
-        display: flex;
-        flex: 0.5;
-        #button{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100px;
-            height: 100px;
-            background-color: darkblue;
-            border: solid 2px black;
-            border-radius: 15px;
-            margin: 1px;
-            text-decoration: none;
-            color: white;
-            transition: all 0.5s ease;
-    
-            &:hover{
-                cursor: pointer;
-                background-color: rgb(0, 0, 209);
-            }
-        }
-        #home{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100px;
-            height: 100px;
-            background-color: rgb(38, 38, 255);
-            border: solid 2px black;
-            border-radius: 15px;
-            margin: 1px;
-            text-decoration: none;
-            color: white;
-            transition: all 0.25s ease;
-    
-            &:hover{
-                cursor: pointer;
-                background-color: rgb(81, 81, 255);
-            }
-        }
+    flex: 0.5;
+    #button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      background-color: darkblue;
+      border: solid 2px black;
+      border-radius: 15px;
+      margin: 1px;
+      text-decoration: none;
+      color: white;
+      transition: all 0.5s ease;
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgb(0, 0, 209);
+      }
     }
-    .notificationsAddWrapper{
-        display: flex;
-        flex: 0.5;
-        justify-content: flex-end;
-        #addButton{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100px;
-            height: 100px;
-            background-color: darkblue;
-            border: solid 2px black;
-            border-radius: 15px;
-            margin: 1px;
-            text-decoration: none;
-            color: white;
-            transition: all 0.5s ease;
-    
-            &:hover{
-                cursor: pointer;
-                background-color: rgb(0, 0, 209);
-            }
-        }   
-        #notificationButton{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100px;
-            height: 100px;
-            background-color: rgb(170, 15, 46);
-            border: solid 2px black;
-            border-radius: 15px;
-            margin: 1px;
-            text-decoration: none;
-            color: white;
-            transition: all 0.5s ease;
-    
-            &:hover{
-                cursor: pointer;
-                background-color: crimson;
-            }
-        }   
+    #home {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      background-color: rgb(38, 38, 255);
+      border: solid 2px black;
+      border-radius: 15px;
+      margin: 1px;
+      text-decoration: none;
+      color: white;
+      transition: all 0.25s ease;
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgb(81, 81, 255);
+      }
     }
+  }
+  .notificationsAddWrapper {
+    display: flex;
+    flex: 0.5;
+    justify-content: flex-end;
+    #addButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      background-color: darkblue;
+      border: solid 2px black;
+      border-radius: 15px;
+      margin: 1px;
+      text-decoration: none;
+      color: white;
+      transition: all 0.5s ease;
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgb(0, 0, 209);
+      }
+    }
+    #notificationButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      background-color: rgb(170, 15, 46);
+      border: solid 2px black;
+      border-radius: 15px;
+      margin: 1px;
+      text-decoration: none;
+      color: white;
+      transition: all 0.5s ease;
+
+      &:hover {
+        cursor: pointer;
+        background-color: crimson;
+      }
+    }
+  }
 }

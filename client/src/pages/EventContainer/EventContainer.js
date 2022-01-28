@@ -19,15 +19,16 @@ export default function EventContainer({id, setId, name, dateTime, darkmode}) {
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <li  className="eventbuttonWrapper">
-                <Link to={"/event"+id} className="eventbutton" onClick={() => setId(id)}>
-                    {console.log("/event")}
+            <Link to={"/event"+id} className="eventbutton" onClick={() => setId(id)}>
+                {console.log("/event")}
 
-                    <span>{id}</span>
-                    <span>{name}</span>
-                    <span>{dateTime}</span>
-                </Link>
-            </li>
+                <span>{id}</span>
+                <span>{name}</span>
+                <span>{dateTime}</span>
+            </Link>
             <DeleteForeverIcon className="trash" onClick={handleEventDelete} />
+         
+            </li>
         </div>
         
     )
