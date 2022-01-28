@@ -1,44 +1,50 @@
-@import '../../_theme.scss';
+@import "../../_theme.scss";
 
-.eventbuttonWrapper{
+.theme {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s ease;
+  .eventbuttonWrapper {
     display: flex;
-    width: 100%;
-    margin-right: 42px;
+    width: 80%;
     justify-content: center;
     align-items: center;
-    transition: all 0.25s ease;
+    transition: inherit;
+    .eventbutton {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      height: 80px;
+      border-radius: 45px;
+      text-decoration: none;
+      transition: inherit;
+      color: var(--text-color);
 
-    .trash{
-        height: 70px;
-        font-size: 45px;
-        color: crimson;
-        border-radius: 25px;
-        transition: inherit;
+      span {
         cursor: pointer;
-        &:hover{
-            color: black;
-            background-color: crimson;
-        }
+        padding: 10px;
+        font-weight: 600;
+        font-size: 35px;
+      }
+      &:hover {
+        background-color: rgb(0, 0, 201);
+        color: white;
+      }
     }
-    .eventbutton{
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        height: 80px;
-        border-radius: 45px;
-        text-decoration: none;
-        transition: inherit;
-        color: var(--text-color);
+  }
+  .trash {
+    height: 70px;
+    font-size: 45px;
+    color: crimson;
+    border-radius: 25px;
+    transition: inherit;
+    cursor: pointer;
 
-        span{
-            cursor: pointer;
-            padding: 10px;
-            font-weight: 600;
-            font-size: 35px;
-        }
-        &:hover{
-            background-color: rgb(0, 0, 201);
-            color: white;
-        }
+    &:hover {
+      color: black;
+      background-color: crimson;
     }
+  }
 }

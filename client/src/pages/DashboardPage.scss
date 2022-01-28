@@ -16,7 +16,7 @@ $wolfIMG: "../img/wolf.png";
     .spacer {
       display: flex;
       align-items: center;
-      flex: 0.3;
+      flex: 0.25;
       height: 100%;
       img {
         object-fit: cover;
@@ -24,7 +24,7 @@ $wolfIMG: "../img/wolf.png";
     }
     .middleSpacer {
       display: flex;
-      flex: 0.4;
+      flex: 0.5;
       flex-direction: column;
       align-items: center;
       height: 100%;
@@ -43,6 +43,7 @@ $wolfIMG: "../img/wolf.png";
         display: flex;
         flex-direction: column;
         height: 60%;
+        width: 100%;
         overflow-y: scroll;
       }
       ul::-webkit-scrollbar {

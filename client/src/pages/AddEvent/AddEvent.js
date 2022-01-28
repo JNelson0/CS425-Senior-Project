@@ -1,6 +1,8 @@
 import "./AddEvent.scss"
 import {useGlobalContext} from "../../store"
 import {React, useState, useEffect} from 'react'
+import TextField from '@mui/material/TextField';
+
 
 export default function AddEvent({addOpen, setAddOpen}) {
     const {createEventQuery, currentUserEventQuery} = useGlobalContext()
@@ -57,42 +59,55 @@ export default function AddEvent({addOpen, setAddOpen}) {
                 </div>
             </div>
             <form onSubmit={handleSubmit}>
-                <div className="listWrapper">
-
-                    <ul>
-                        <li>
+                    <div className="list">
+                        <div>
                             <label>
-                                Event Title: <input type="text" name="title" value={title} onChange={handleTitle} />
+                                Title: 
                             </label>
-                        </li>
-                        <li>
+                            <input type="text" name="title" value={title} onChange={handleTitle} placeholder="Enter Event Title"/>
+                        </div>
+                        <div className="description">
                             <label>
-                                Event Description: <input type="text" name="description" value={description} onChange={handleDescription} />
+                                Description:
                             </label>
-                        </li>
-                        <li>
+                            <textarea type="text" name="description" value={description} onChange={handleDescription} placeholder="Enter Event Description" />
+                        </div>
+                        <div className="type">
                             <label>
-                                Event Type: <select value={type} onChange={handleType}>
-                                                <option value="STANDARD">Running</option>
-                                                <option value="WORKOUT">Weights</option>
-                                                <option value="SCHOOLEVENT">School Event</option>
-                                            </select>
+                                Type: 
                             </label>
-                        </li>
-                        <li>
-                            <label>
-                                Event Start Time: <input type="text" name="start" value={start} onChange={handleStart} />
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                Event Finish Time: <input type="text" name="finish" value={finish} onChange={handleFinish}/>
-                            </label>
-                        </li> 
-                    </ul>
-                </div>
+                            <select value={type} onChange={handleType} placeholder="Choose an Option">
+                                <option value="STANDARD">Event</option>
+                                <option value="WORKOUT">Workout</option>
+                            </select>
+                        </div>
+                        <div className="date">
+                            <TextField
+                                id="datetime-local"
+                                label="Start Time"
+                                type="datetime-local"
+                                defaultValue="2017-05-24T10:30"
+                                sx={{ width: 250}}
+                                onChange={handleStart}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            <TextField
+                                id="datetime-local"
+                                label="End Time"
+                                type="datetime-local"
+                                defaultValue="2017-05-24T10:30"
+                                sx={{ width: 250 }}
+                                onChange={handleFinish}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                        </div>
+                    </div>
                 <div className="buttonWrapper">
-                    <button onClick={resetInput}>Clear</button>
+                    <button type="reset" onClick={resetInput} >Clear</button>
                     <button type="submit">Submit</button>
                 </div>
             </form>
