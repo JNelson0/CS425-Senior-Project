@@ -24,10 +24,9 @@ $backgIMG: "../img/university-background.jpg";
         transform: translate(-50%, -50%);
         height: 200px;
         width: 200px;
-        fill: white;
-        border: 10px;
+        background-color: white;
+        border: 10px solid red;
         border-radius: 3px;
-        border-color: red;
         
     }
 }
