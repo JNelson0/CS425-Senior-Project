@@ -1,0 +1,13 @@
+.workout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  div {
+    border: rgb(179, 179, 179) 2px solid;
+    border-radius: 15px;
+    text-align: center;
+    width: 80%;
+    margin: 5px;
+    font-size: 20px;
+  }
+}
