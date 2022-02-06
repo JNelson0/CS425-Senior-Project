@@ -13,7 +13,7 @@ $backgIMG: "../img/university-background.jpg";
             object-fit: cover;
             height: auto;
             width: auto;
-            max-width: 100vw;
+            //max-width: 100vw; //hidden so it can be tested in half-screen
         }
     }
     .inputbox{
@@ -22,25 +22,38 @@ $backgIMG: "../img/university-background.jpg";
         z-index: 1;
         //scales to actual center
         top: 49%;
-        left: 49%;
+        left: 50%;
         transform: translate(-50%, -50%);
         height: 200px;
         width: 200px;
-        background-color: $dark-text;
-        padding: 10px;
-        border: 10px solid red;
-        border-radius: 3px;
+        background-color: rgb(252, 252, 252);
+        padding: 20px;
+        border: 1px solid rgb(212, 212, 212);
+        border-radius: 6px;
+        box-shadow: 0 3px 8px rgb(51, 51, 51);
         .textinput{
+            #emailenter label{
+                font-weight: 500;
+            }
+            #passenter{
+                padding-top: 7px;
+            }
+            #passenter label{
+                font-weight: 500;
+            }
             // display: flex;
             // flex-direction: column;
             // align-items: center;
-            button{
-                margin-top: 10px;
+
+            #loginbutton{
+                padding-top: 15px;
+            }
+            #loginbutton button{
                 cursor: pointer;
             }
-            button:hover,
-            button:focus{
-                box-shadow: 0 0 1px 1px rgb(212, 212, 212);
+            #loginbutton button:hover,
+            #loginbutton button:focus{
+                box-shadow: 0 2px 5px rgb(212, 212, 212);
 
             }
         }
