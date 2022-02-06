@@ -150,6 +150,43 @@ router.put("/users/me", onlyAuthenticated, async (req, res) => {
 // Deletes private user information
 // Requires Authentication
 router.delete("/users/me", onlyAuthenticated, async (req, res) => {
+  // await db.userMembershipInEvent.deleteMany({
+  //   where: {
+  //     userId: req.user.id,
+  //     role: "OWNER",
+  //   },
+  // })
+  // await db.userMembershipInGroup.deleteMany({
+  //   where: {
+  //     userId: req.user.id,
+  //     role: "OWNER",
+  //   },
+  // })
+  // await db.ExerciseResponse.deleteMany({
+  //   where: {
+  //     userId: req.user.id,
+  //   },
+  // })
+
+  await db.user.update({
+    where: {id: Number(req.user.id)},
+    data: {
+      eventMemberships: {
+        deleteMany: {
+          role: "OWNER",
+        },
+      },
+      groupMemberships: {
+        deleteMany: {
+          role: "OWNER",
+        },
+      },
+      exerciseResponses: {
+        deleteMany: {},
+      },
+    },
+  })
+
   await db.user.delete({
     where: {
       id: Number(req.user.id),

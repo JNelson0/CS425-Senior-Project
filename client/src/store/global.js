@@ -1,4 +1,4 @@
-import {useState, useCallback} from "react"
+import {useState, useCallback, useRef, useEffect} from "react"
 import constate from "constate"
 import {ApiError} from "../errors"
 import {typographyVariant} from "@mui/system"
@@ -30,7 +30,6 @@ function useGlobal() {
   const [exerciseState, setExerciseState] = useState({})
   const [exerciseResponseState, setExerciseResponseState] = useState({})
 
-  const [currentUserId, setCurrentUserId] = useState()
   // Setters for Error and Data
 
   // These should be used to reflect the state changes inside the queries.
@@ -44,8 +43,11 @@ function useGlobal() {
   // error -> loading
 
   function createDataSetter(stateSetter) {
-    return (id, data) => {
-      stateSetter(prev => ({...prev, [id]: data}))
+    return (id, value) => {
+      stateSetter(prev => ({
+        ...prev,
+        [id]: typeof value === "function" ? value(prev[id] ?? {}) : value,
+      }))
     }
   }
 
@@ -54,6 +56,34 @@ function useGlobal() {
   const setGroupData = createDataSetter(setGroupState)
   const setExerciseData = createDataSetter(setExerciseState)
   const setExerciseResponseData = createDataSetter(setExerciseResponseState)
+
+  const setCurrentUserId = id => {
+    setUserData("currentUserId", id)
+  }
+
+  const setCurrentUserData = value => {
+    setUserState(prev => {
+      console.log("prev.currentUserId", prev.currentUserId)
+
+      if (prev.currentUserId == null) {
+        console.log("you probably messed up")
+        return prev
+      }
+
+      if (typeof value !== "function") {
+        return {
+          ...prev,
+          currentUserId: value.id,
+          [value.id]: value,
+        }
+      }
+
+      return {
+        ...prev,
+        [prev.currentUserId]: value(prev.currentUserId ?? {}),
+      }
+    })
+  }
 
   // Getters
 
@@ -69,66 +99,66 @@ function useGlobal() {
   const getExerciseById = createGetter(exerciseState)
   const getExerciseResponseById = createGetter(exerciseResponseState)
 
-  const user = getUserById(currentUserId)
+  const getCurrentUserId = () => {
+    getUserById("currentUserId")
+  }
 
-  const isLoggedIn = Boolean(user)
-
-  //
+  const getCurrentUser = () => getUserById(getCurrentUserId())
+  const getIsLoggedIn = () => Boolean(getCurrentUser())
 
   // Queries available to the client
 
   //
 
   // GET /users/:userId
+  // Tested
   async function userQuery(id) {
     const data = await request(`/users/${id}`, {credentials: "same-origin"})
-    setUserData(id, data)
+    setUserData(id, () => data)
   }
 
   // GET /users/me
   // You need to be logged in in order to call this query, because you need to have current session
+  // Tested
   async function currentUserQuery() {
     const data = await request("/users/me", {credentials: "same-origin"})
-    setUserData(data.id, data)
-    setCurrentUserId(data.id)
+    setCurrentUserData(data)
   }
 
   // POST /user
-  // NOTE: Must be caught outside
+  // Tested
   async function createUserQuery(options) {
     const data = await request("/user", standardJsonInit("POST", options))
-    setUserData(data.id, data)
-    setCurrentUserId(data.id)
+    setCurrentUserData(data)
   }
 
   // POST /user/login
-  // NOTE: Must be caught outside
+  // Tested
   async function loginUserQuery(options) {
     const data = await request("/user/login", standardJsonInit("POST", options))
-    setUserData(data.id, data)
-    setCurrentUserId(data.id)
+    setCurrentUserData(data)
   }
 
-  // PUT /users/me/update
+  // PUT /users/me
+  // Tested
   async function modifyUserQuery(options) {
-    const data = await request(
-      "/users/me/update",
-      standardJsonInit("PUT", options),
-    )
-    setUserData(currentUserId, data)
+    const data = await request("/users/me", standardJsonInit("PUT", options))
+    setCurrentUserData(data)
   }
 
   // DELETE /users/me
   // Note: Needs to be caught on the outside
+  // Tested
   async function deleteUserQuery() {
     await request("/users/me", {method: "DELETE", credentials: "same-origin"})
-    setUserData(currentUserId, undefined)
+    setUserData(getCurrentUserId(), undefined)
     setCurrentUserId(undefined)
   }
 
   // GET /events/:eventId/exercises
   // NOTE: Must be called after /events/:eventId
   // NOTE: Must be caught
+  // X
   async function getEventExercisesQuery(id) {
     const data = await request(`/events/${id}/exercises`, {
       credentials: "same-origin",
@@ -149,27 +179,32 @@ function useGlobal() {
   // WIll have to reference schema to figure out relations
 
   // POST /event
-  // Note: Must be caught
+  // Tested
   async function createEventQuery(options) {
     const data = await request("/event", standardJsonInit("POST", options))
     setEventData(data.id, data)
-    setUserData(currentUserId, {
-      ...user,
-      events: user.events.concat(data.id),
-    })
+    setCurrentUserData(prev => ({
+      ...prev,
+      events: prev.events.concat(data.id),
+    }))
   }
 
-  // GET /events MEDIUM User & Event must be updated
-  // Note: Must be  caught
+  // GET /events
+  // Tested
   async function currentUserEventQuery() {
     const data = await request("/events", {credentials: "same-origin"})
     for (const event of data) {
-      setEventData(event.id, event)
+      setEventData(event.id, () => event)
     }
-    setUserData(currentUserId, {...user, events: data.map(v => v.id)})
+
+    setCurrentUserData(prev => ({
+      ...prev,
+      events: data.map(v => v.id),
+    }))
   }
 
-  //GET /events/:eventId Specific User Event
+  // GET /events/:eventId Specific User Event
+  // Tested
   async function eventFromIdQuery(id) {
     const data = await request(`/events/${id}`, {credentials: "same-origin"})
     setEventData(data.id, data)
@@ -177,7 +212,7 @@ function useGlobal() {
 
   // PUT /events/:eventId EASY
   // Note: Must be caught
-
+  // Tested
   async function modifyEventQuery(id, options) {
     const data = await request(
       `/events/${id}`,
@@ -187,6 +222,7 @@ function useGlobal() {
   }
 
   // DELETE /events/:eventId EASY
+  // Tested
   async function deleteEventQuery(id) {
     await request(`/events/${id}`, {
       method: "DELETE",
@@ -197,6 +233,7 @@ function useGlobal() {
 
   // DELETE /events/:eventId/invitee EASY
   // Removes current user from event
+  // Will test later when groups need to get involved
   async function deleteCurrentUserFromInviteeQuery(eventId) {
     await request(`/events/${eventId}/invitee`, {
       method: "DELETE",
@@ -206,13 +243,16 @@ function useGlobal() {
     const event = getEventById(eventId)
     setEventData(eventId, {
       ...event,
-      invitees: event.invitees.filter(invitee => invitee !== currentUserId),
+      invitees: event.invitees.filter(
+        invitee => invitee !== getCurrentUserId(),
+      ),
     })
   }
 
   // Need to figure out how to update the rest of the state
 
   // POST /events/:eventId/invitees MEDIUM User & Event must be updated
+  // Will test later when groups need to get involved
   async function createEventInviteeQuery(eventId, options) {
     const data = await request(
       `/events/${eventId}/invitees`,
@@ -232,6 +272,7 @@ function useGlobal() {
   }
 
   // POST /events/:eventId/invitees/remove MEDIUM User & Event must be updated
+  // Will test later when groups need to get involved
   async function deleteEventInviteeQuery(eventId, options) {
     const data = await request(
       `/events/${eventId}/invitees/remove`,
@@ -256,7 +297,7 @@ function useGlobal() {
   //   for (const group of data) {
   //     setGroupData(group, group)
   //   }
-  //   setUserData(currentUserId, {...user.data, groups: data.map(v => v)})
+  //   setUserData(currentUserIdMutationRef.current, {...user.data, groups: data.map(v => v)})
   // }
 
   // // GET /groups/:groupId EASY
@@ -265,7 +306,7 @@ function useGlobal() {
   //   for (const group of data) {
   //     setGroupData(group, group)
   //   }
-  //   setUserData(currentUserId, {...user.data, groups: data.map(v => v)})
+  //   setUserData(currentUserIdMutationRef.current, {...user.data, groups: data.map(v => v)})
   // }
 
   // // PUT /groups/:groupId EASY
@@ -275,7 +316,7 @@ function useGlobal() {
   //     standardJsonInit("PUT", options),
   //   )
   //   setGroupData(group[id], data)
-  //   setUserData(currentUserId, {...user.data, groups: data.map(v => v)})
+  //   setUserData(currentUserIdMutationRef.current, {...user.data, groups: data.map(v => v)})
   // }
 
   // POST /groups/:groupId/users MEDIUM User & Group must be updated
@@ -288,11 +329,12 @@ function useGlobal() {
     const data = await request(`/events/${id}/exercises`, {
       credentials: "same-origin",
     })
-    console.log(data)
+    // console.log(data)
     for (const exercise of data) {
-      setExerciseData(exercise.id, exercise)
+      setExerciseData(exercise.id, () => exercise)
     }
-    setEventData(id, {...getEventById(id), exercises: data.map(v => v.id)})
+
+    setEventData(id, prev => ({...prev, exercises: data.map(v => v.id)}))
   }
 
   // POST /events/:eventId/exercise MEDIUM Exercises & Event must be updated
@@ -376,8 +418,8 @@ function useGlobal() {
     getExerciseResponseById,
 
     // Extra state
-    user,
-    isLoggedIn,
+    getCurrentUser,
+    getIsLoggedIn,
 
     // User Queries
     userQuery,
