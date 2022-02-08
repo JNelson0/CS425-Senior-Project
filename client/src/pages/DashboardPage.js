@@ -11,13 +11,15 @@ import AddEvent from "./AddEvent/AddEvent.js"
 
 
 export default function DashboardPage({setId, darkmode}) {
-  const {user, isLoggedIn, currentUserEventQuery} = useGlobalContext()
-
-  const[selected, setSelected] = useState("events");
+  const {event, isLoggedIn, currentUserEventQuery} = useGlobalContext()
 
   const [addOpen, setAddOpen] = useState(false);
-   useEffect(() => {
-    currentUserEventQuery()
+  
+  
+  useEffect(() => {
+    if (isLoggedIn){
+      currentUserEventQuery()
+    }
   }, [])
   
   return (
@@ -32,9 +34,8 @@ export default function DashboardPage({setId, darkmode}) {
           <div className="middleSpacer">
             <Clock className="clock" format={'h:mm:ss a'} ticking={true} timezone={'US/Pacific'} />
             <ul>
-              {user.data.events.map(el =>(
-                
-                <EventContainer setId={setId} id={el.id} name={el.title} dateTime={el.start} darkmode={darkmode}/> 
+              {event.loading? console.log("LOADING") : event.data.map(el =>(
+                <EventContainer key={event.data.findIndex(e => e === el)} setId={setId} id={el.id} name={el.title} dateTime={el.start} darkmode={darkmode}/> 
               ))}
             </ul>
           </div>

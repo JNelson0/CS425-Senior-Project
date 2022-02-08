@@ -15,9 +15,13 @@ export default function AddEventDetails({setAddOpen, addOpen, workoutDetails, se
     const[description, setDescription] = useState("")
     const[type, setType] = useState("STANDARD")
     //ALL DATES AND TIMES NEED TO BE OF TYPE "05 October 2011 14:48 UTC"
-    const[start, setStart] = useState("")
-    const[finish, setFinish] = useState("")
 
+    const today = new Date(Date.now())
+    var date = (today.getFullYear()) + "-" + ((today.getMonth()+1) < 10 ? "0" + (today.getMonth()+1) : today.getMonth()+1) + "-" + ((today.getDate()) < 10 ? "0" + (today.getDate()) : today.getDate()) + "T" + ((today.getHours()) < 10 ? "0" + (today.getHours()) : today.getHours()) + ":" + ((today.getMinutes()) < 10 ? "0" + (today.getMinutes()) : today.getMinutes())
+
+    const[start, setStart] = useState(date)
+    const[finish, setFinish] = useState(date)
+    
 
     const handleTitle = e => {
         setTitle(e.target.value)
@@ -38,9 +42,9 @@ export default function AddEventDetails({setAddOpen, addOpen, workoutDetails, se
     const resetInput = () => {
         setTitle("")
         setDescription("")
-        setType("")
-        setStart("")
-        setFinish("")
+        setType("STANDARD")
+        setStart(date)
+        setFinish(date)
     }
 
     const handleSubmit = e => {
@@ -52,6 +56,8 @@ export default function AddEventDetails({setAddOpen, addOpen, workoutDetails, se
         currentUserEventQuery()
         setLoading(false)
     }
+
+
   return (
     
     <div className={workoutDetails === false ? "eventDetails" : "eventDetails notActive"}>
@@ -83,7 +89,7 @@ export default function AddEventDetails({setAddOpen, addOpen, workoutDetails, se
                                 id="datetime-local"
                                 label="Start Time"
                                 type="datetime-local"
-                                defaultValue="2017-05-24T10:30"
+                                defaultValue={date}
                                 sx={{ width: 250}}
                                 onChange={handleStart}
                                 InputLabelProps={{
@@ -94,7 +100,7 @@ export default function AddEventDetails({setAddOpen, addOpen, workoutDetails, se
                                 id="datetime-local"
                                 label="End Time"
                                 type="datetime-local"
-                                defaultValue="2017-05-24T10:30"
+                                defaultValue={date}
                                 sx={{ width: 250 }}
                                 onChange={handleFinish}
                                 InputLabelProps={{
