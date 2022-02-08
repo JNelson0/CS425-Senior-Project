@@ -11,6 +11,40 @@ import AddEvent from "./AddEvent/AddEvent.js"
 
 
 export default function DashboardPage({setId, darkmode}) {
+
+//   const {user, userState, isLoggedIn, currentUserQuery, currentUserEventQuery} =
+//     useGlobalContext()
+//   const navigate = useNavigate()
+
+//   useEffect(() => {
+//     ;(async () => {
+//       console.log("Current User Query")
+//       console.log(await currentUserQuery())
+//     })().catch(console.error)
+//   }, [])
+
+//   useEffect(() => {
+//     console.log("userState:", userState)
+//     if (user) {
+//       console.log("user:", user)
+//     } else {
+//       console.log("no user!")
+//     }
+//   }, [user])
+
+//   useEffect(() => {
+//     if (!isLoggedIn) {
+//       console.log("isn't logged in")
+//       navigate("/login")
+//     }
+//   }, [isLoggedIn])
+
+//   const [selected, setSelected] = useState("events")
+
+//   const [addOpen, setAddOpen] = useState(false)
+//   useEffect(() => {
+//     currentUserEventQuery()
+
   const {user, isLoggedIn, currentUserEventQuery} = useGlobalContext()
 
   const [addOpen, setAddOpen] = useState(false);
