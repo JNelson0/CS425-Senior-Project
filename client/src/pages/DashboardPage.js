@@ -11,38 +11,50 @@ import AddEvent from "./AddEvent/AddEvent.js"
 import {useNavigate} from "react-router"
 
 export default function DashboardPage({setId, darkmode}) {
-  const {user, userState, isLoggedIn, currentUserQuery, currentUserEventQuery} =
-    useGlobalContext()
-  const navigate = useNavigate()
 
-  useEffect(() => {
-    ;(async () => {
-      console.log("Current User Query")
-      console.log(await currentUserQuery())
-    })().catch(console.error)
-  }, [])
+//   const {user, userState, isLoggedIn, currentUserQuery, currentUserEventQuery} =
+//     useGlobalContext()
+//   const navigate = useNavigate()
 
+//   useEffect(() => {
+//     ;(async () => {
+//       console.log("Current User Query")
+//       console.log(await currentUserQuery())
+//     })().catch(console.error)
+//   }, [])
+
+//   useEffect(() => {
+//     console.log("userState:", userState)
+//     if (user) {
+//       console.log("user:", user)
+//     } else {
+//       console.log("no user!")
+//     }
+//   }, [user])
+
+//   useEffect(() => {
+//     if (!isLoggedIn) {
+//       console.log("isn't logged in")
+//       navigate("/login")
+//     }
+//   }, [isLoggedIn])
+
+//   const [selected, setSelected] = useState("events")
+
+//   const [addOpen, setAddOpen] = useState(false)
+//   useEffect(() => {
+//     currentUserEventQuery()
+
+  const {event, isLoggedIn, currentUserEventQuery} = useGlobalContext()
+
+  const [addOpen, setAddOpen] = useState(false);
+  
+  
   useEffect(() => {
-    console.log("userState:", userState)
-    if (user) {
-      console.log("user:", user)
-    } else {
-      console.log("no user!")
+    if (isLoggedIn){
+      currentUserEventQuery()
     }
-  }, [user])
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      console.log("isn't logged in")
-      navigate("/login")
-    }
-  }, [isLoggedIn])
-
-  const [selected, setSelected] = useState("events")
-
-  const [addOpen, setAddOpen] = useState(false)
-  useEffect(() => {
-    currentUserEventQuery()
   }, [])
 
   if (!isLoggedIn) {
@@ -66,14 +78,8 @@ export default function DashboardPage({setId, darkmode}) {
               timezone={"US/Pacific"}
             />
             <ul>
-              {user.events.map(el => (
-                <EventContainer
-                  setId={setId}
-                  id={el.id}
-                  name={el.title}
-                  dateTime={el.start}
-                  darkmode={darkmode}
-                />
+              {event.loading? console.log("LOADING") : event.data.map(el =>(
+                <EventContainer key={event.data.findIndex(e => e === el)} setId={setId} id={el.id} name={el.title} dateTime={el.start} darkmode={darkmode}/> 
               ))}
             </ul>
           </div>

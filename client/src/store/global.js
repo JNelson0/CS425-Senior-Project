@@ -25,41 +25,30 @@ function standardJsonInit(method, body) {
 }
 
 function useGlobal() {
-  const [userState, setUserState] = useState(
-    JSON.parse(window.localStorage.getItem("userState") ?? null) ?? {},
-  )
-  const [eventState, setEventState] = useState(
-    JSON.parse(window.localStorage.getItem("eventState") ?? null) ?? {},
-  )
-  const [groupState, setGroupState] = useState(
-    JSON.parse(window.localStorage.getItem("groupState") ?? null) ?? {},
-  )
-  const [exerciseState, setExerciseState] = useState(
-    JSON.parse(window.localStorage.getItem("exerciseState") ?? null) ?? {},
-  )
-  const [exerciseResponseState, setExerciseResponseState] = useState(
-    JSON.parse(window.localStorage.getItem("exerciseResponseState") ?? null) ??
-      {},
-  )
-
-  useEffect(() => {
-    window.localStorage.setItem("userState", JSON.stringify(userState))
-  }, [userState])
-  useEffect(() => {
-    window.localStorage.setItem("eventState", JSON.stringify(eventState))
-  }, [eventState])
-  useEffect(() => {
-    window.localStorage.setItem("groupState", JSON.stringify(groupState))
-  }, [groupState])
-  useEffect(() => {
-    window.localStorage.setItem("exerciseState", JSON.stringify(exerciseState))
-  }, [exerciseState])
-  useEffect(() => {
-    window.localStorage.setItem(
-      "exerciseResponseState",
-      JSON.stringify(exerciseResponseState),
-    )
-  }, [exerciseResponseState])
+  const [userState, setUserState] = useState({})
+  const [eventState, setEventState] = useState({})
+  const [groupState, setGroupState] = useState({})
+  const [exerciseState, setExerciseState] = useState({})
+  const [exerciseResponseState, setExerciseResponseState] = useState({})
+  
+//   useEffect(() => {
+//     window.localStorage.setItem("userState", JSON.stringify(userState))
+//   }, [userState])
+//   useEffect(() => {
+//     window.localStorage.setItem("eventState", JSON.stringify(eventState))
+//   }, [eventState])
+//   useEffect(() => {
+//     window.localStorage.setItem("groupState", JSON.stringify(groupState))
+//   }, [groupState])
+//   useEffect(() => {
+//     window.localStorage.setItem("exerciseState", JSON.stringify(exerciseState))
+//   }, [exerciseState])
+//   useEffect(() => {
+//     window.localStorage.setItem(
+//       "exerciseResponseState",
+//       JSON.stringify(exerciseResponseState),
+//     )
+//   }, [exerciseResponseState])
 
   // Setters for Error and Data
 
@@ -192,6 +181,7 @@ function useGlobal() {
   async function loginUserQuery(options) {
     const data = await request("/user/login", standardJsonInit("POST", options))
     setCurrentUserData(data)
+
   }
 
   // PUT /users/me
@@ -236,20 +226,24 @@ function useGlobal() {
   // POST /event
   // Tested
   async function createEventQuery(options) {
+
     const data = await request("/event", standardJsonInit("POST", options))
     setEventData(data.id, data)
     setCurrentUserData(prev => ({
       ...prev,
       events: prev.events.concat(data.id),
     }))
+
   }
 
   // GET /events
   // Tested
   async function currentUserEventQuery() {
+
     const data = await request("/events", {credentials: "same-origin"})
     for (const event of data) {
       setEventData(event.id, event)
+
     }
 
     setCurrentUserData(prev => ({

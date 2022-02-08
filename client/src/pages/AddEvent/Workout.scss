@@ -1,13 +1,23 @@
 .workout {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  align-items: center;
+  height: 50px;
+  justify-content: space-evenly;
+  border: rgb(179, 179, 179) 2px solid;
+  border-radius: 15px;
+  width: 95%;
+  margin: 10px;
+
   div {
-    border: rgb(179, 179, 179) 2px solid;
-    border-radius: 15px;
-    text-align: center;
-    width: 80%;
-    margin: 5px;
-    font-size: 20px;
+    border: solid black 2px;
+
+    display: flex;
+    justify-content: center;
+    width: 30%;
+    font-size: 25px;
+  }
+  .trash {
+    width: 40px;
   }
 }

@@ -1,5 +1,5 @@
 import {React, useState} from "react"
-import {GlobalProvider} from "./store"
+import {GlobalProvider, useGlobalContext} from "./store"
 import {
   DashboardPage,
   LoginPage,
@@ -12,9 +12,10 @@ import {BrowserRouter} from "react-router-dom"
 import {Routes, Route} from "react-router"
 
 const App = () => {
-  const [id, setId] = useState("")
 
+  const [id, setId] = useState("")
   const [toggle, setState] = useState(true)
+
 
   return (
     <BrowserRouter>
