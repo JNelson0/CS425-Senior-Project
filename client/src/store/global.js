@@ -2,6 +2,7 @@ import {useState, useCallback, useRef, useEffect} from "react"
 import constate from "constate"
 import {ApiError} from "../errors"
 import {typographyVariant} from "@mui/system"
+import {useNavigate} from "react-router"
 
 async function request(...args) {
   return fetch(...args).then(async res => {
@@ -24,11 +25,41 @@ function standardJsonInit(method, body) {
 }
 
 function useGlobal() {
-  const [userState, setUserState] = useState({})
-  const [eventState, setEventState] = useState({})
-  const [groupState, setGroupState] = useState({})
-  const [exerciseState, setExerciseState] = useState({})
-  const [exerciseResponseState, setExerciseResponseState] = useState({})
+  const [userState, setUserState] = useState(
+    JSON.parse(window.localStorage.getItem("userState") ?? null) ?? {},
+  )
+  const [eventState, setEventState] = useState(
+    JSON.parse(window.localStorage.getItem("eventState") ?? null) ?? {},
+  )
+  const [groupState, setGroupState] = useState(
+    JSON.parse(window.localStorage.getItem("groupState") ?? null) ?? {},
+  )
+  const [exerciseState, setExerciseState] = useState(
+    JSON.parse(window.localStorage.getItem("exerciseState") ?? null) ?? {},
+  )
+  const [exerciseResponseState, setExerciseResponseState] = useState(
+    JSON.parse(window.localStorage.getItem("exerciseResponseState") ?? null) ??
+      {},
+  )
+
+  useEffect(() => {
+    window.localStorage.setItem("userState", JSON.stringify(userState))
+  }, [userState])
+  useEffect(() => {
+    window.localStorage.setItem("eventState", JSON.stringify(eventState))
+  }, [eventState])
+  useEffect(() => {
+    window.localStorage.setItem("groupState", JSON.stringify(groupState))
+  }, [groupState])
+  useEffect(() => {
+    window.localStorage.setItem("exerciseState", JSON.stringify(exerciseState))
+  }, [exerciseState])
+  useEffect(() => {
+    window.localStorage.setItem(
+      "exerciseResponseState",
+      JSON.stringify(exerciseResponseState),
+    )
+  }, [exerciseResponseState])
 
   // Setters for Error and Data
 
@@ -63,14 +94,14 @@ function useGlobal() {
 
   const setCurrentUserData = value => {
     setUserState(prev => {
-      console.log("prev.currentUserId", prev.currentUserId)
-
-      if (prev.currentUserId == null) {
-        console.log("you probably messed up")
-        return prev
-      }
-
       if (typeof value !== "function") {
+        // console.log("Inside")
+        // console.log({
+        //   ...prev,
+        //   currentUserId: value.id,
+        //   [value.id]: value,
+        // })
+
         return {
           ...prev,
           currentUserId: value.id,
@@ -78,9 +109,14 @@ function useGlobal() {
         }
       }
 
+      if (prev.currentUserId == null) {
+        console.log("you probably messed up")
+        return prev
+      }
+
       return {
         ...prev,
-        [prev.currentUserId]: value(prev.currentUserId ?? {}),
+        [prev.currentUserId]: value(prev[prev.currentUserId] ?? {}),
       }
     })
   }
@@ -114,7 +150,7 @@ function useGlobal() {
   // Tested
   async function userQuery(id) {
     const data = await request(`/users/${id}`, {credentials: "same-origin"})
-    setUserData(id, () => data)
+    setUserData(id, data)
   }
 
   // GET /users/me
@@ -123,6 +159,25 @@ function useGlobal() {
   async function currentUserQuery() {
     const data = await request("/users/me", {credentials: "same-origin"})
     setCurrentUserData(data)
+  }
+
+  function useIsLoggedIn() {
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(true)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+    useEffect(() => {
+      currentUserQuery()
+        .then(() => {
+          setIsLoggedIn(true)
+          setLoading(false)
+        })
+        .catch(() => {
+          navigate("/login")
+        })
+    }, [])
+
+    return [loading, isLoggedIn]
   }
 
   // POST /user
@@ -168,10 +223,10 @@ function useGlobal() {
       setExerciseData(exercise.id, exercise)
     }
 
-    setEventData(id, {
-      ...getEventById(id),
+    setEventData(id, prev => ({
+      ...prev,
       exercises: data.map(v => v.id),
-    })
+    }))
   }
 
   // Queries TODO...
@@ -194,7 +249,7 @@ function useGlobal() {
   async function currentUserEventQuery() {
     const data = await request("/events", {credentials: "same-origin"})
     for (const event of data) {
-      setEventData(event.id, () => event)
+      setEventData(event.id, event)
     }
 
     setCurrentUserData(prev => ({
@@ -241,12 +296,10 @@ function useGlobal() {
     })
 
     const event = getEventById(eventId)
-    setEventData(eventId, {
-      ...event,
-      invitees: event.invitees.filter(
-        invitee => invitee !== getCurrentUserId(),
-      ),
-    })
+    setEventData(eventId, prev => ({
+      ...prev,
+      invitees: prev.invitees.filter(invitee => invitee !== getCurrentUserId()),
+    }))
   }
 
   // Need to figure out how to update the rest of the state
@@ -264,10 +317,10 @@ function useGlobal() {
       if (!user) {
         continue
       }
-      setUserData(userId, {
-        ...user,
-        events: user.events.concat(data.id),
-      })
+      setUserData(userId, prev => ({
+        ...prev,
+        events: prev.events.concat(data.id),
+      }))
     }
   }
 
@@ -284,10 +337,10 @@ function useGlobal() {
       if (!user) {
         continue
       }
-      setUserData(userId, {
-        ...user,
-        events: user.events.filter(data.id),
-      })
+      setUserData(userId, prev => ({
+        ...prev,
+        events: prev.events.filter(v => v !== data.id),
+      }))
     }
   }
   //////////////////////////////////////////////////////////////////////////////
@@ -331,10 +384,13 @@ function useGlobal() {
     })
     // console.log(data)
     for (const exercise of data) {
-      setExerciseData(exercise.id, () => exercise)
+      setExerciseData(exercise.id, exercise)
     }
 
-    setEventData(id, prev => ({...prev, exercises: data.map(v => v.id)}))
+    setEventData(id, prev => ({
+      ...prev,
+      exercises: data.map(v => v.id),
+    }))
   }
 
   // POST /events/:eventId/exercise MEDIUM Exercises & Event must be updated
@@ -345,12 +401,10 @@ function useGlobal() {
     })
 
     setExerciseData(data.id, data)
-
-    const event = getEventById(id)
-    setEventData(id, {
-      ...event,
-      exercises: event.exercises.concat(data.id),
-    })
+    setEventData(id, prev => ({
+      ...prev,
+      exercises: prev.exercises.concat(data.id),
+    }))
   }
 
   // GET /exercise/:exerciseId EASY
@@ -378,11 +432,10 @@ function useGlobal() {
     )
     setExerciseResponseData(data.id, data)
 
-    const exercise = getExerciseById(exerciseId)
-    setExerciseData(exerciseId, {
-      ...exercise,
-      exerciseResponses: exercise.exerciseResponses.concat(data.id),
-    })
+    setExerciseData(exerciseId, prev => ({
+      ...prev,
+      exerciseResponses: prev.exerciseResponses.concat(data.id),
+    }))
   }
 
   // PUT /responses/:responseId EASY
@@ -403,6 +456,10 @@ function useGlobal() {
     setExerciseResponseData(id, undefined)
   }
 
+  const currentUser = userState.currentUserId
+    ? getUserById(userState.currentUserId)
+    : undefined
+
   return {
     userState,
     eventState,
@@ -418,8 +475,9 @@ function useGlobal() {
     getExerciseResponseById,
 
     // Extra state
-    getCurrentUser,
-    getIsLoggedIn,
+    user: currentUser,
+    isLoggedIn: Boolean(currentUser),
+    useIsLoggedIn,
 
     // User Queries
     userQuery,
