@@ -11,7 +11,7 @@ import AddEvent from "./AddEvent/AddEvent.js"
 
 
 export default function DashboardPage({setId, darkmode}) {
-  const {event, isLoggedIn, currentUserEventQuery} = useGlobalContext()
+  const {user, isLoggedIn, currentUserEventQuery} = useGlobalContext()
 
   const [addOpen, setAddOpen] = useState(false);
   
@@ -34,8 +34,8 @@ export default function DashboardPage({setId, darkmode}) {
           <div className="middleSpacer">
             <Clock className="clock" format={'h:mm:ss a'} ticking={true} timezone={'US/Pacific'} />
             <ul>
-              {event.loading? console.log("LOADING") : event.data.map(el =>(
-                <EventContainer key={event.data.findIndex(e => e === el)} setId={setId} id={el.id} name={el.title} dateTime={el.start} darkmode={darkmode}/> 
+              {user.loading? console.log("LOADING") : user.data.events.map(el =>(
+                <EventContainer key={user.data.events.findIndex(e => e === el)} setId={setId} id={el.id} name={el.title} dateTime={el.start} darkmode={darkmode}/> 
               ))}
             </ul>
           </div>
