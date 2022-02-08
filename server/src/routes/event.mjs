@@ -59,7 +59,8 @@ router.get("/events", onlyAuthenticated, async (req, res) => {
     },
     include: userMembershipInEventInclude,
   })
-
+  console.log("userMembershipsInEvent")
+  console.log(userMembershipsInEvent)
   if (userMembershipsInEvent.length === 0) {
     return res.json([])
   }
@@ -276,7 +277,8 @@ router.put("/events/:eventId", onlyAuthenticated, async (req, res) => {
 // Removes event if owned by user
 router.delete("/events/:eventId", onlyAuthenticated, async (req, res) => {
   const eventId = Number(req.params.eventId)
-
+  console.log("REQUEST")
+  console.log(req)
   await db.$transaction(async db => {
     const userMembershipInEvent = await db.userMembershipInEvent.findUnique({
       where: {
@@ -320,8 +322,10 @@ router.delete("/events/:eventId", onlyAuthenticated, async (req, res) => {
         id: eventId,
       },
     })
+    console.log("userMembershipInEvent")
+    console.log(userMembershipInEvent)
   })
-
+  console.log(db.event)
   return res.end()
 })
 
@@ -341,7 +345,7 @@ router.delete(
         role: "INVITEE",
       },
     })
-
+    console.log(userMembershipInEvent)
     return res.end()
   },
 )

@@ -4,12 +4,23 @@ import {ApiError} from "../errors"
 import {typographyVariant} from "@mui/system"
 import {useNavigate} from "react-router"
 
-async function request(...args) {
-  return fetch(...args).then(async res => {
+async function request(input, init) {
+  const request = new Request(input, init)
+  return fetch(request).then(async res => {
     // res.ok === 200-299 HTTP Status Code
+    console.log("INSIDE REQUEST")
+
     if (res.ok) {
+      console.log("res.ok console log")
+
+      if (request.method.toLowerCase() === "delete") {
+        return
+      }
+
       return res.json()
     } else {
+      console.log("else console log")
+      console.log(res.json)
       throw ApiError.fromObject(await res.json())
     }
   })
@@ -30,25 +41,25 @@ function useGlobal() {
   const [groupState, setGroupState] = useState({})
   const [exerciseState, setExerciseState] = useState({})
   const [exerciseResponseState, setExerciseResponseState] = useState({})
-  
-//   useEffect(() => {
-//     window.localStorage.setItem("userState", JSON.stringify(userState))
-//   }, [userState])
-//   useEffect(() => {
-//     window.localStorage.setItem("eventState", JSON.stringify(eventState))
-//   }, [eventState])
-//   useEffect(() => {
-//     window.localStorage.setItem("groupState", JSON.stringify(groupState))
-//   }, [groupState])
-//   useEffect(() => {
-//     window.localStorage.setItem("exerciseState", JSON.stringify(exerciseState))
-//   }, [exerciseState])
-//   useEffect(() => {
-//     window.localStorage.setItem(
-//       "exerciseResponseState",
-//       JSON.stringify(exerciseResponseState),
-//     )
-//   }, [exerciseResponseState])
+
+  //   useEffect(() => {
+  //     window.localStorage.setItem("userState", JSON.stringify(userState))
+  //   }, [userState])
+  //   useEffect(() => {
+  //     window.localStorage.setItem("eventState", JSON.stringify(eventState))
+  //   }, [eventState])
+  //   useEffect(() => {
+  //     window.localStorage.setItem("groupState", JSON.stringify(groupState))
+  //   }, [groupState])
+  //   useEffect(() => {
+  //     window.localStorage.setItem("exerciseState", JSON.stringify(exerciseState))
+  //   }, [exerciseState])
+  //   useEffect(() => {
+  //     window.localStorage.setItem(
+  //       "exerciseResponseState",
+  //       JSON.stringify(exerciseResponseState),
+  //     )
+  //   }, [exerciseResponseState])
 
   // Setters for Error and Data
 
@@ -181,7 +192,6 @@ function useGlobal() {
   async function loginUserQuery(options) {
     const data = await request("/user/login", standardJsonInit("POST", options))
     setCurrentUserData(data)
-
   }
 
   // PUT /users/me
@@ -226,24 +236,20 @@ function useGlobal() {
   // POST /event
   // Tested
   async function createEventQuery(options) {
-
     const data = await request("/event", standardJsonInit("POST", options))
     setEventData(data.id, data)
     setCurrentUserData(prev => ({
       ...prev,
       events: prev.events.concat(data.id),
     }))
-
   }
 
   // GET /events
   // Tested
   async function currentUserEventQuery() {
-
     const data = await request("/events", {credentials: "same-origin"})
     for (const event of data) {
       setEventData(event.id, event)
-
     }
 
     setCurrentUserData(prev => ({
@@ -277,6 +283,7 @@ function useGlobal() {
       method: "DELETE",
       credentials: "same-origin",
     })
+    console.log("DELETED")
     setEventData(id, undefined)
   }
 

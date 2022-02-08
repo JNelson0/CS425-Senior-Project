@@ -37,9 +37,10 @@ const TestPage = ({bla}) => {
       await currentUserEventQuery()
       console.log("currentUserQuery done")
 
-      console.log("getExerciseFromEventQuery start")
-      await getExercisesFromEventIdQuery(11)
-      console.log("getExerciseFromEventQuery done")
+      console.log("deleteEventQuery start")
+      await deleteEventQuery([1])
+
+      console.log("deleteEventQuery done")
 
       // await currentUserQuery()
       // console.log("createEventQuery start")
