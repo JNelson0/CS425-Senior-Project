@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react"
 import {StandardLayout} from "../components"
 import {Navigate} from "react-router"
-import {useNavigate} from "react-router"
 import {useGlobalContext} from "../store"
 import "./LoginPage.scss"
 import { Divider, dividerClasses } from "@mui/material"
@@ -9,12 +8,13 @@ import BackgroundIGM from "../img/university-background.png"
 
 const LoginPage = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const [password, setPassword] = useState()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState()
+
   const [redirectTo, setRedirectTo] = useState()
+
   const {loginUserQuery, isLoggedIn} = useGlobalContext()
-  const navigate = useNavigate()
 
   const handleEmailOrUsernameChange = e => {
     setEmailOrUsername(e.target.value)
@@ -35,9 +35,9 @@ const LoginPage = () => {
       .then(() => {
         setRedirectTo("/dashboard")
       })
-      .catch(error => {
+      .catch(setError)
+      .finally(() => {
         setLoading(false)
-        setError(error)
       })
   }
 
@@ -46,11 +46,10 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="loginpage">
-      <div className="underlay">
-        <img id="img" src={BackgroundIGM} alt="backg" />
+    <div class = "loginpage">
+      <div class = "underlay">
+        <img id= "img" src={BackgroundIGM} alt="backg" />
       </div>
-
       <div class = "inputbox">
         <div class = "textinput">
           <form onSubmit={handleSubmit}>
@@ -89,6 +88,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
+    
   )
 }
 

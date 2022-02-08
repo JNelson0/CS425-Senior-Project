@@ -173,37 +173,6 @@ async function main() {
       },
     },
   })
-
-  console.log(user.id)
-  await db.event.create({
-    data: {
-      title: "Workout Test Event",
-      description: "Workout Test Event description",
-      type: "WORKOUT",
-      start: new Date(Date.now() + 30 * 60000),
-      finish: new Date(Date.now() + 30 * 60000),
-      userMemberships: {
-        create: {
-          role: "OWNER",
-          userId: user.id,
-        },
-      },
-      exercises: {
-        create: [
-          {
-            type: "WEIGHTS",
-            name: "SQUAT TEST",
-            content: JSON.stringify({reps: 5, sets: 5}),
-          },
-          {
-            type: "WEIGHTS",
-            name: "BENCH TEST",
-            content: JSON.stringify({reps: 3, sets: 10}),
-          },
-        ],
-      },
-    },
-  })
 }
 
 main()
