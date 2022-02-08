@@ -146,11 +146,10 @@ function useGlobal() {
   // POST /user/login
   // NOTE: Must be caught outside
   async function loginUserQuery(options) {
-    console.log(options)
     const data = await request("/user/login", standardJsonInit("POST", options))
-    console.log(data)
-    setUserData(data.id, data)
     setCurrentUserId(data.id)
+    currentUserEventQuery()
+    setUserData(data.id, data)
   }
 
   // PUT /users/me/update
@@ -200,9 +199,8 @@ function useGlobal() {
   // POST /event EASY
   async function createEventQuery(options) {
     try{
-      console.log(JSON.stringify(options))
       const data = await request("/event", standardJsonInit("POST", options))
-      //setUserData(currentUserId, {...user.data, events: data.map(v => v.id)})
+      currentUserEventQuery()
     }
     catch(error){
       setEventError(eventState, error)
@@ -213,9 +211,8 @@ function useGlobal() {
   async function currentUserEventQuery() {
     try{
       const data = await request("/events", {credentials: "include"})
-      for (const event of data){
-        setEventData(event, event)
-      }
+      setEventData(event, data)
+      
       setUserData(currentUserId, {...user.data, events: data.map(v => v)})
       
     }catch(error){
@@ -227,7 +224,6 @@ function useGlobal() {
   async function eventFromIdQuery(id) {
     try{
       const data = await request(`/events/${id}`, {credentials: "include"})
-      console.log(data)
       setEventData(event, data)     
     }catch(error){
       setEventError(eventState, error)
@@ -248,7 +244,7 @@ function useGlobal() {
   // DELETE /events/:eventId EASY
   async function deleteEventQuery(id) {
     try {
-      await request(`/events/${id}`, {method: "DELETE", credentials: "include"})
+      const data = await request(`/events/${id}`, {method: "DELETE", credentials: "include"})
       setEventData(id, undefined)
     } catch (error) {
       setEventError(currentUserId, error)
