@@ -6,7 +6,7 @@ import TopButtons from "./PageOverlay/TopButtons.js"
 import {useGlobalContext} from "../store"
 import EventContainer from "./EventContainer/EventContainer.js"
 import BackgroundImg from "../img/wolf.png"
-import Clock from 'react-live-clock';
+import Clock from 'react-live-clock'
 import AddEvent from "./AddEvent/AddEvent.js"
 
 
@@ -23,7 +23,7 @@ export default function DashboardPage({setId, darkmode}) {
   }, [])
   
   return (
-    <div class = {"theme " + (darkmode ? "light" : "dark")}>
+    <div class={"theme " + (darkmode ? "light" : "dark")}>
       <div className="dashboard">
         <TopButtons className="tb" addOpen={addOpen} setAddOpen={setAddOpen}/>
         <AddEvent addOpen={addOpen} setAddOpen={setAddOpen}/>
