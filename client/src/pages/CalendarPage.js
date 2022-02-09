@@ -5,7 +5,7 @@ import TopButtons from "./PageOverlay/TopButtons.js"
 import EventContainer from "./EventContainer/EventContainer.js"
 import {useGlobalContext} from "../store"
 //import data from "./DataTest.json"
-import RevoCalendar from 'revo-calendar'
+//import RevoCalendar from 'revo-calendar' outdated
 import * as ReactDOM from "react-dom";
 import { ScheduleComponent, Day, Week, WorkWeek, Month, Agenda, Inject } from '@syncfusion/ej2-react-schedule';
 import { render } from 'sass';
