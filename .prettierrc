@@ -2,5 +2,6 @@
   "arrowParens": "avoid",
   "trailingComma": "all",
   "bracketSpacing": false,
-  "semi": false
+  "semi": false,
+  "tabWidth": 4
 }

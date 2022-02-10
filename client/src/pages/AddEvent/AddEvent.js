@@ -11,6 +11,8 @@ export default function AddEvent({addOpen, setAddOpen}) {
     const[detailButtonActive, setDetailButtonActive] = useState(true)
     const[workoutButtonActive, setWorkoutButtonActive] = useState(false)
 
+    const[type, setType] = useState("STANDARD")
+
     const handleClose = () => {
         setAddOpen(!addOpen)
         setWorkoutList([])
@@ -35,14 +37,21 @@ export default function AddEvent({addOpen, setAddOpen}) {
     return (
         <div className={"add-event " + (addOpen && "active")}>
             <div className="topWrapper">
-                <button className="eventButton" onClick={handleButton1}>Details</button>
-                <button className="workoutButton" onClick={handleButton2}>Workout</button>
-                <div className="closeMenu" onClick={handleClose}>
-                    <span className="line1"></span>
-                    <span className="line2"></span>
+                <div className="topSplit1">
+
+                </div>
+                <div className={type!=="STANDARD"? "topSplit2": "topSplit2 No"}>
+                    <button className={workoutButtonActive? "button active" : "button"} onClick={handleButton1}>Details</button>
+                    <button className={workoutButtonActive? "button active" : "button"} onClick={handleButton2}>Workout</button>
+                </div>
+                <div className="topSplit3">
+                    <div className="closeMenu" onClick={handleClose}>
+                        <span className="line1"></span>
+                        <span className="line2"></span>
+                    </div>
                 </div>
             </div>
-            <AddEventDetails workoutDetails={workoutDetails} setWorkoutDetails={setWorkoutDetails} setAddOpen={setAddOpen} addOpen={addOpen}/>
+            <AddEventDetails workoutDetails={workoutDetails} setWorkoutDetails={setWorkoutDetails} setAddOpen={setAddOpen} addOpen={addOpen} type={type} setType={setType} />
             <AddWorkoutDetails workoutList={workoutList} setWorkoutList={setWorkoutList} workoutDetails={workoutDetails} setWorkoutDetails={setWorkoutDetails} setAddOpen={setAddOpen} addOpen={addOpen}/>
             
         </div>
