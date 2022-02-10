@@ -395,12 +395,11 @@ function useGlobal() {
   }
 
   // POST /events/:eventId/exercise MEDIUM Exercises & Event must be updated
-  async function createExerciseWithEventIdQuery(id) {
-    const data = await request(`/events/${id}/exercise`, {
-      method: "POST",
-      credentials: "same-origin",
-    })
-
+  async function createExerciseWithEventIdQuery(id, options) {
+    const data = await request(
+      `/events/${id}/exercise`,
+      standardJsonInit("POST", options),
+    )
     setExerciseData(data.id, data)
     setEventData(id, prev => ({
       ...prev,

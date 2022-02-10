@@ -72,7 +72,7 @@ interface CardioExercise {
     distance: number
 }  
 
-type ExercisePostBody = WieghtsExercise | Cardio
+type ExercisePostBody = Wieghts Exercise | Cardio
  */
 
 // This one is used when adding exercises to existing event
