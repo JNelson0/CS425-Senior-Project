@@ -30,6 +30,17 @@ import {eventInclude, userMembershipInEventInclude} from "../util/includes"
   }
   */
 // Not not sure how type,start should be implemented, and errors
+function bodyToExerciseContent(body) {
+    if (body.type !== "WEIGHTS") {
+        throw new Error()
+    }
+
+    const {reps, sets} = body
+    // TODO: Validation
+
+    return JSON.stringify({reps, sets})
+}
+
 router.post("/event", onlyAuthenticated, async (req, res) => {
     const event = await db.event.create({
         data: {
@@ -38,7 +49,6 @@ router.post("/event", onlyAuthenticated, async (req, res) => {
             type: req.body.type,
             start: new Date(req.body.start),
             finish: new Date(req.body.finish),
-            exercises: req.body.exercises,
             userMemberships: {
                 create: {
                     role: "OWNER",

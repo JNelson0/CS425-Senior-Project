@@ -28,3 +28,5 @@ yarn.lock
 server/jsconfig.json
 yarn.lock
 *.lock
+
+*.json

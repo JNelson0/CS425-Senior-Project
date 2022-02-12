@@ -148,7 +148,6 @@ function useGlobal() {
             standardJsonInit("POST", options),
         )
         setCurrentUserId(data.id)
-        currentUserEventQuery()
         setUserData(data.id, data)
     }
 
@@ -205,14 +204,10 @@ function useGlobal() {
     // POST /event EASY
     async function createEventQuery(options) {
         try {
-            console.log("OPTIONS: ")
-            console.log(options)
             const data = await request(
                 "/event",
                 standardJsonInit("POST", options),
             )
-            console.log("DATA: ")
-            console.log(data)
         } catch (error) {
             setEventError(eventState, error)
         }
@@ -222,7 +217,7 @@ function useGlobal() {
     async function currentUserEventQuery() {
         try {
             const data = await request("/events", {credentials: "include"})
-            setEventData(event.id, event)
+            setEventData(data, data)
             setUserData(currentUserId, {
                 ...user.data,
                 events: data.map(v => v),
@@ -267,7 +262,6 @@ function useGlobal() {
                 credentials: "include",
             })
             setEventData(id, undefined)
-            currentUserEventQuery()
         } catch (error) {
             setEventError(currentUserId, error)
         }

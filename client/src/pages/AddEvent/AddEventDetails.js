@@ -11,10 +11,10 @@ export default function AddEventDetails({
     setWorkoutDetails,
     type,
     setType,
+    loadUser,
+    setLoading,
 }) {
     const {createEventQuery, currentUserEventQuery} = useGlobalContext()
-
-    const [loading, setLoading] = useState(false)
 
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
@@ -43,7 +43,8 @@ export default function AddEventDetails({
         {
             type: "WEIGHTS",
             name: "name",
-            content: {sets: 4, reps: 4},
+            sets: 4,
+            reps: 4,
         },
     ]
 
@@ -74,9 +75,15 @@ export default function AddEventDetails({
     const handleSubmit = e => {
         e.preventDefault()
         setAddOpen(!addOpen)
-        createEventQuery({title, description, type, start, finish, exercises})
+        createEventQuery({
+            title,
+            description,
+            type,
+            start,
+            finish,
+            exercises,
+        }).then(() => currentUserEventQuery())
         resetInput()
-        currentUserEventQuery()
     }
 
     return (

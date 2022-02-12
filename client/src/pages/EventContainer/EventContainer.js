@@ -3,9 +3,10 @@ import {Link} from "react-router-dom"
 import "./EventContainer.scss"
 import {useGlobalContext} from "../../store"
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
+import AssignID from "./AssignID.js"
 
-export default function EventContainer({id, setId, name, dateTime, darkmode}) {
-    const {user, event, deleteEventQuery, currentUserEventQuery} =
+export default function EventContainer({id, setId, name, date, darkmode}) {
+    const {user, isLoggedIn, deleteEventQuery, currentUserEventQuery} =
         useGlobalContext()
 
     const handleEventDelete = () => {
@@ -13,54 +14,38 @@ export default function EventContainer({id, setId, name, dateTime, darkmode}) {
             currentUserEventQuery()
         })
     }
-    const [date, setDate] = useState(new Date())
-    const [loading, setLoading] = useState(true)
-    const [finishLoading, setFinishLoading] = useState(false)
-    const [eventID, setEventID] = useState()
 
-    useEffect(() => {
-        if (id !== undefined) {
-            for (var i = 0; i < user.data.events.length; i += 1) {
-                if (id === user.data.events[i].id) {
-                    setEventID(i)
-                }
-            }
-            setDate(new Date(dateTime))
-            // setEventID(user.data.events[id].id)
-            setLoading(false)
-        }
-    }, [])
+    const [eventID, setEventID] = useState()
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
+            <AssignID id={id} setEventID={setEventID} />
             <li className="eventbuttonWrapper">
                 <Link
-                    to={loading ? "/" : "/event" + eventID}
+                    to={"/event" + eventID}
                     className="eventbutton"
                     onClick={() => setId(eventID)}
                 >
                     <span>{id}</span>
                     <span>{name}</span>
                     <span>
-                        {loading
-                            ? "LOADING EVENTS: " + eventID
-                            : (date.getMonth() < 10
-                                  ? "0" + date.getMonth()
-                                  : date.getMonth()) +
-                              "-" +
-                              (date.getDate() < 10
-                                  ? "0" + date.getDate()
-                                  : date.getDate()) +
-                              "-" +
-                              date.getFullYear() +
-                              " " +
-                              (date.getHours() < 10
-                                  ? "0" + date.getHours()
-                                  : date.getHours()) +
-                              ":" +
-                              (date.getMinutes() < 10
-                                  ? "0" + date.getMinutes()
-                                  : date.getMinutes())}
+                        {(date.getMonth() < 10
+                            ? "0" + date.getMonth()
+                            : date.getMonth()) +
+                            "-" +
+                            (date.getDate() < 10
+                                ? "0" + date.getDate()
+                                : date.getDate()) +
+                            "-" +
+                            date.getFullYear() +
+                            " " +
+                            (date.getHours() < 10
+                                ? "0" + date.getHours()
+                                : date.getHours()) +
+                            ":" +
+                            (date.getMinutes() < 10
+                                ? "0" + date.getMinutes()
+                                : date.getMinutes())}
                     </span>
                 </Link>
                 <DeleteForeverIcon
