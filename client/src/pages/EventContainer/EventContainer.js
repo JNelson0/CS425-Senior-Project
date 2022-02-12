@@ -30,8 +30,8 @@ export default function EventContainer({id, setId, name, date, darkmode}) {
                     <span>{name}</span>
                     <span>
                         {(date.getMonth() < 10
-                            ? "0" + date.getMonth()
-                            : date.getMonth()) +
+                            ? "0" + (date.getMonth() + 1)
+                            : date.getMonth() + 1) +
                             "-" +
                             (date.getDate() < 10
                                 ? "0" + date.getDate()
