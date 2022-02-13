@@ -11,6 +11,8 @@ $wolfIMG: "../img/wolf.png";
         align-items: center;
         justify-content: center;
         height: 75vh;
+        position: relative;
+        top: 6.25vh;
         .spacer {
             display: flex;
             align-items: center;
