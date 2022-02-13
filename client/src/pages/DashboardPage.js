@@ -7,7 +7,6 @@ import EventContainer from "./EventContainer/EventContainer.js"
 import BackgroundImg from "../img/wolf.png"
 import Clock from "react-live-clock"
 import AddEvent from "./AddEvent/AddEvent.js"
-import {Helmet} from "react-helmet"
 
 export default function DashboardPage({setId, darkmode}) {
     const {user, isLoggedIn, currentUserEventQuery} = useGlobalContext()
