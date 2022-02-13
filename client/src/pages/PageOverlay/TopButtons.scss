@@ -26,6 +26,7 @@
       &:hover {
         cursor: pointer;
         background-color: rgb(25,68,128);
+        animation: spin 2.5s infinite linear;
       }
     }
     #home {
@@ -72,29 +73,7 @@
       }
     }
 
-    @keyframes ring {
-      0% {transform: rotate(0deg);}
-      5% {transform: rotate(8deg);}
-      10% {transform: rotate(16deg);}
-      15% {transform: rotate(16deg);}
-      20% {transform: rotate(8deg);}
-      25% {transform: rotate(0deg);}
-      30% {transform: rotate(-7deg);}
-      35% {transform: rotate(-14deg);}
-      40% {transform: rotate(-14deg);}
-      45% {transform: rotate(-7deg);}
-      50% {transform: rotate(0deg);}
-      55% {transform: rotate(4deg);}
-      60% {transform: rotate(8deg);}
-      65% {transform: rotate(8deg);}
-      70% {transform: rotate(4deg);}
-      75% {transform: rotate(0deg);}
-      80% {transform: rotate(2deg);}
-      85% {transform: rotate(-4deg);}
-      90% {transform: rotate(-4deg);}
-      95% {transform: rotate(0deg);}
-      100% {transform: rotate(0deg);}
-    }
+
     #notificationButton {
       display: flex;
       align-items: center;
@@ -116,5 +95,38 @@
         animation-iteration-count: 1;
       }
     }
+  }
+}
+
+@keyframes ring {
+  0% {transform: rotate(0deg);}
+  5% {transform: rotate(8deg);}
+  10% {transform: rotate(16deg);}
+  15% {transform: rotate(16deg);}
+  20% {transform: rotate(8deg);}
+  25% {transform: rotate(0deg);}
+  30% {transform: rotate(-7deg);}
+  35% {transform: rotate(-14deg);}
+  40% {transform: rotate(-14deg);}
+  45% {transform: rotate(-7deg);}
+  50% {transform: rotate(0deg);}
+  55% {transform: rotate(4deg);}
+  60% {transform: rotate(8deg);}
+  65% {transform: rotate(8deg);}
+  70% {transform: rotate(4deg);}
+  75% {transform: rotate(0deg);}
+  80% {transform: rotate(2deg);}
+  85% {transform: rotate(-4deg);}
+  90% {transform: rotate(-4deg);}
+  95% {transform: rotate(0deg);}
+  100% {transform: rotate(0deg);}
+}
+
+@keyframes spin{
+  from{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(359deg);
   }
 }
