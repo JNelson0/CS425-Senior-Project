@@ -6,30 +6,27 @@ import {useGlobalContext} from "../store"
 import AddEvent from "./AddEvent/AddEvent.js"
 
 const EventPage = ({id, darkmode}) => {
-  const {event, eventFromIdQuery} = useGlobalContext()
+    const {user} = useGlobalContext()
 
-  useEffect(() => {
-    eventFromIdQuery(id)
-  }, [])
+    const [addOpen, setAddOpen] = useState(false)
 
-  const [addOpen, setAddOpen] = useState(false);
-  
-  return (
-    <div class={"theme " + (darkmode ? "light" : "dark")}>
-      <div className="event">
-        <TopButtons addOpen={addOpen} setAddOpen={setAddOpen}/>
-        <AddEvent addOpen={addOpen} setAddOpen={setAddOpen}/>
-        <div className="middle">
-           <h1>{event.data.title}</h1>
-           <h2>{event.data.type}</h2>
-           <h3>{event.data.description}</h3>
-           <span>{event.data.start}</span>
-           <span>{event.data.finish}</span>
+    return (
+        <div class={"theme " + (darkmode ? "light" : "dark")}>
+            {console.log(user)}
+            <div className="event">
+                <TopButtons addOpen={addOpen} setAddOpen={setAddOpen} />
+                <AddEvent addOpen={addOpen} setAddOpen={setAddOpen} />
+                <div className="middle">
+                    <h1>{user.data.events[id].title}</h1>
+                    <h2>{user.data.events[id].type}</h2>
+                    <h3>{user.data.events[id].description}</h3>
+                    <span>{user.data.events[id].start}</span>
+                    <span>{user.data.events[id].finish}</span>
+                </div>
+                <BottomBar />
+            </div>
         </div>
-        <BottomBar/>      
-      </div>    
-    </div>
-  )
+    )
 }
 
 export default EventPage
