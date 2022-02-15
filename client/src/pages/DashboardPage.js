@@ -32,6 +32,8 @@ export default function DashboardPage({setId, darkmode}) {
                     className="tb"
                     addOpen={addOpen}
                     setAddOpen={setAddOpen}
+                    showButtonNotification={false}
+                    showButtonAdd={false}
                 />
 
                 <AddEvent
