@@ -12,7 +12,7 @@ $wolfIMG: "../img/wolf.png";
         justify-content: center;
         height: 75vh;
         position: relative;
-
+        top: 6.25vh;
         .spacer {
             display: flex;
             align-items: center;
@@ -27,14 +27,13 @@ $wolfIMG: "../img/wolf.png";
             flex: 0.5;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             height: 100%;
 
             .clock {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                height: 38%;
+                height: 40%;
                 width: 100%;
                 background-color: rgb(0, 138, 138);
                 border-radius: 145px;
@@ -45,7 +44,6 @@ $wolfIMG: "../img/wolf.png";
                 display: flex;
                 position: relative;
                 justify-content: center;
-                overflow-y: scroll;
 
                 height: 60%;
                 width: 100%;
@@ -55,9 +53,6 @@ $wolfIMG: "../img/wolf.png";
                     position: relative;
                     top: 20%;
                 }
-                &::-webkit-scrollbar {
-                    display: none;
-                }
             }
             ul {
                 display: flex;
@@ -65,8 +60,6 @@ $wolfIMG: "../img/wolf.png";
                 height: 60%;
                 width: 100%;
                 overflow-y: scroll;
-                margin: 0;
-                padding: 0;
             }
             ul::-webkit-scrollbar {
                 display: none;

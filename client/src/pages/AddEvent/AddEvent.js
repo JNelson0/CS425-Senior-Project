@@ -72,6 +72,8 @@ export default function AddEvent({addOpen, setAddOpen, loadUser, setLoading}) {
                 addOpen={addOpen}
                 type={type}
                 setType={setType}
+                loadUser={loadUser}
+                setLoading={setLoading}
             />
             <AddWorkoutDetails
                 workoutList={workoutList}

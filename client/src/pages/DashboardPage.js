@@ -9,27 +9,19 @@ import Clock from "react-live-clock"
 import AddEvent from "./AddEvent/AddEvent.js"
 
 export default function DashboardPage({setId, darkmode}) {
-    const {
-        user,
-        isLoggedIn,
-        currentUserEventQuery,
-        currentUserQuery,
-        getEventById,
-    } = useGlobalContext()
+    const {user, isLoggedIn, currentUserEventQuery} = useGlobalContext()
 
     const [addOpen, setAddOpen] = useState(false)
     const [loading, setLoading] = useState(true)
-    const delay = ms => new Promise(res => setTimeout(res, ms))
 
     async function loadUser() {
+        const delay = ms => new Promise(res => setTimeout(res, ms))
+
         if (loading && isLoggedIn) {
             await currentUserEventQuery()
             await delay(500)
             console.log("Load for 0.5 seconds")
-            setLoading(false)
-        } else {
-            await currentUserQuery()
-            console.log("HERE")
+            setLoading(!loading)
         }
     }
 
@@ -43,7 +35,13 @@ export default function DashboardPage({setId, darkmode}) {
                     showButtonNotification={true}
                     showButtonAdd={true}
                 />
-                <AddEvent addOpen={addOpen} setAddOpen={setAddOpen} />
+
+                <AddEvent
+                    addOpen={addOpen}
+                    setAddOpen={setAddOpen}
+                    loadUser={loadUser}
+                    setLoading={setLoading}
+                />
                 <div className="listWrapper">
                     <div className="spacer">
                         <img src={BackgroundImg} alt="Wolf" />
@@ -55,29 +53,24 @@ export default function DashboardPage({setId, darkmode}) {
                             ticking={true}
                             timezone={"US/Pacific"}
                         />
-
                         {loading ? (
                             <div className="loading">
                                 <span>LOADING</span>
                             </div>
                         ) : (
                             <ul>
-                                {user.events.map(el =>
-                                    getEventById(el) !== undefined ? (
-                                        <EventContainer
-                                            key={getEventById(el).id}
-                                            setId={setId}
-                                            id={getEventById(el).id}
-                                            name={getEventById(el).title}
-                                            date={
-                                                new Date(getEventById(el).start)
-                                            }
-                                            darkmode={darkmode}
-                                        />
-                                    ) : (
-                                        console.log("FINISH EVENT DELETE")
-                                    ),
-                                )}
+                                {user.data.events.map(el => (
+                                    <EventContainer
+                                        key={user.data.events.findIndex(
+                                            e => e === el,
+                                        )}
+                                        setId={setId}
+                                        id={el.id}
+                                        name={el.title}
+                                        date={new Date(el.start)}
+                                        darkmode={darkmode}
+                                    />
+                                ))}
                             </ul>
                         )}
                     </div>

@@ -1,10 +1,10 @@
-import React from "react"
+import React from 'react'
 import "./TopButtons.scss"
-import {Link} from "react-router-dom"
-import SettingsIcon from "@mui/icons-material/Settings"
-import AddIcon from "@mui/icons-material/Add"
-import HomeIcon from "@mui/icons-material/Home"
-import NotificationsIcon from "@mui/icons-material/Notifications"
+import {Link} from 'react-router-dom'
+import SettingsIcon from '@mui/icons-material/Settings';
+import AddIcon from '@mui/icons-material/Add';
+import HomeIcon from '@mui/icons-material/Home';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 export default function TopButtons({
     addOpen,
