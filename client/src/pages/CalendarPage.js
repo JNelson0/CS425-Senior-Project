@@ -39,7 +39,7 @@ const CalendarPage = ({darkmode}) => {
                     <div class="calendar">
                         <ScheduleComponent
                             width="100%"
-                            height="550px"
+                            height="100%"
                             selectedDate={new Date(2022, 1, 14)}
                             eventSettings={{dataSource: list}}
                         >
@@ -49,7 +49,6 @@ const CalendarPage = ({darkmode}) => {
                         </ScheduleComponent>
                     </div>
                 </div>
-                <BottomBar />
             </div>
         </div>
     )
