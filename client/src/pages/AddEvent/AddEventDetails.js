@@ -11,8 +11,6 @@ export default function AddEventDetails({
     setWorkoutDetails,
     type,
     setType,
-    loadUser,
-    setLoading,
 }) {
     const {createEventQuery, currentUserEventQuery} = useGlobalContext()
 
@@ -30,14 +28,31 @@ export default function AddEventDetails({
         "-" +
         (today.getDate() < 10 ? "0" + today.getDate() : today.getDate()) +
         "T" +
-        (today.getHours() < 10 ? "0" + today.getHours() : today.getHours()) +
+        (today.getHours() < 10
+            ? "0" + (today.getHours() + 1)
+            : today.getHours() + 1) +
         ":" +
-        (today.getMinutes() < 10
-            ? "0" + today.getMinutes()
-            : today.getMinutes())
+        (today.getMinutes() < 30 ? "00" : "30")
+
+    var finishDate =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1 < 10
+            ? "0" + (today.getMonth() + 1)
+            : today.getMonth() + 1) +
+        "-" +
+        (today.getDate() < 10
+            ? "0" + (today.getDate() + 1)
+            : today.getDate() + 1) +
+        "T" +
+        (today.getHours() < 10
+            ? "0" + (today.getHours() + 2)
+            : today.getHours() + 2) +
+        ":" +
+        (today.getMinutes() < 30 ? "00" : "30")
 
     const [start, setStart] = useState(date)
-    const [finish, setFinish] = useState(date)
+    const [finish, setFinish] = useState(finishDate)
 
     const exercises = [
         {
@@ -69,7 +84,7 @@ export default function AddEventDetails({
         setDescription("")
         setType("STANDARD")
         setStart(date)
-        setFinish(date)
+        setFinish(finishDate)
     }
 
     const handleSubmit = e => {
@@ -146,7 +161,7 @@ export default function AddEventDetails({
                             id="datetime-local"
                             label="End Time"
                             type="datetime-local"
-                            defaultValue={date}
+                            defaultValue={finishDate}
                             value={finish}
                             sx={{width: 250}}
                             onChange={handleFinish}

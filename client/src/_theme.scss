@@ -7,89 +7,88 @@ $dark-highlight-2: #db5375;
 $nevada-blue: #041E42;
 $nevada-gray: #74767B;
 $nevada-white: #FFFFFF;
+
 $nevada-blue-lighter: rgb(25, 68, 128);
 
 $themes: (
-  "light": (
-    "colors": (
-      "primary": #662e9b,
-      "secondary": #43bccd
+    "light": (
+        "colors": (
+            "primary": #662e9b,
+            "secondary": #43bccd,
+        ),
+        "shades": (
+            "shade-0": #ffffff,
+            "shade-1": $light_background,
+            "shade-2": $light_text,
+            "shade-3": #131313,
+        ),
     ),
-    "shades": (
-      "shade-0": #ffffff,
-      "shade-1": $light_background,
-      "shade-2": $light_text,
-      "shade-3": #131313
-    )
-  ),
-  "dark": (
-    "colors": (
-      "primary": $dark_highlight_1,
-      "secondary": $dark_highlight_2
+    "dark": (
+        "colors": (
+            "primary": $dark_highlight_1,
+            "secondary": $dark_highlight_2,
+        ),
+        "shades": (
+            "shade-0": #404447,
+            "shade-1": $dark_background,
+            "shade-2": $dark_text,
+            "shade-3": #686868,
+        ),
     ),
-    "shades": (
-      "shade-0": #404447,
-      "shade-1": $dark_background,
-      "shade-2": $dark_text,
-      "shade-3": #686868
-    )
-  )
 );
 
 @each $theme-name, $theme-vars in $themes {
-  $shades: map-get($theme-vars, "shades");
-  $colors: map-get($theme-vars, "colors");
+    $shades: map-get($theme-vars, "shades");
+    $colors: map-get($theme-vars, "colors");
 
-  $theme: (
-    "bg-color": map-get($shades, "shade-1"),
-    "text-color": map-get($shades, "shade-2"),
-    "border-color": map-get($shades, "shade-3")
-  );
+    $theme: (
+        "bg-color": map-get($shades, "shade-1"),
+        "text-color": map-get($shades, "shade-2"),
+        "border-color": map-get($shades, "shade-3"),
+    );
 
-  .theme.#{$theme-name} {
-    // define a css variable for each shade
-    @each $name, $color in $shades {
-      --#{$name}: #{$color};
+    .theme.#{$theme-name} {
+        // define a css variable for each shade
+        @each $name, $color in $shades {
+            --#{$name}: #{$color};
+        }
+
+        // define a css variable for each color
+        @each $name, $color in $colors {
+            --#{$name}: #{$color};
+            --#{$name}-dark: #{darken($color, 10%)};
+            --#{$name}-darker: #{darken($color, 20%)};
+        }
+
+        // define a css variable for each theme color
+        @each $name, $color in $theme {
+            --#{$name}: #{$color};
+        }
     }
-
-    // define a css variable for each color
-    @each $name, $color in $colors {
-      --#{$name}: #{$color};
-      --#{$name}-dark: #{darken($color, 10%)};
-      --#{$name}-darker: #{darken($color, 20%)};
-    }
-
-    // define a css variable for each theme color
-    @each $name, $color in $theme {
-      --#{$name}: #{$color};
-    }
-  }
 }
 
 .theme {
-  background: var(--bg-color);
-  color: var(--text-color);
-  border: var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+    border: var(--border-color);
 }
 
 .primary {
-  color: var(--primary);
+    color: var(--primary);
 }
 
 .primary-dark {
-  color: var(--primary-dark);
+    color: var(--primary-dark);
 }
 
 .primary-darker {
-  color: var(--primary-darker);
+    color: var(--primary-darker);
 }
 
 .secondary-dark {
-  color: var(--secondary-dark);
+    color: var(--secondary-dark);
 }
 
 .secondary-darker {
-  color: var(--secondary-darker);
+    color: var(--secondary-darker);
 }
-
-  
