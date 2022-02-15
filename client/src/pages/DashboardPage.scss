@@ -44,6 +44,7 @@ $wolfIMG: "../img/wolf.png";
                 display: flex;
                 position: relative;
                 justify-content: center;
+                overflow-y: scroll;
 
                 height: 60%;
                 width: 100%;
@@ -52,6 +53,9 @@ $wolfIMG: "../img/wolf.png";
                 span {
                     position: relative;
                     top: 20%;
+                }
+                &::-webkit-scrollbar {
+                    display: none;
                 }
             }
             ul {
