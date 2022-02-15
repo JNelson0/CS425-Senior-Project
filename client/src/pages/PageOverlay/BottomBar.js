@@ -9,15 +9,9 @@ export default function BottomBar() {
     return (
         <div className="bottombar">
             <div className="bottombarWrapper">
-                <Link to="/dashboard" id="left">
-                    <DashboardIcon fontSize="large" />
-                </Link>
-                <Link to="/calendar" id="center">
-                    <CalendarTodayIcon fontSize="large" />
-                </Link>
-                <Link to="/event" id="right">
-                    <FitnessCenterIcon fontSize="large" />
-                </Link>
+                <Link to="/dashboard" id="left"><DashboardIcon sx={{fontSize: 35}}/></Link>
+                <Link to="/calendar"id="center"><CalendarTodayIcon sx={{fontSize: 35}}/></Link>
+                <Link to="/event"id="right"><FitnessCenterIcon sx={{fontSize: 35}}/></Link>
             </div>
         </div>
     )
