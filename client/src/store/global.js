@@ -1,38 +1,14 @@
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////TRYING NEW QUERIES//////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-
-import {useState, useCallback, useRef, useEffect} from "react"
+import {useState, useCallback} from "react"
 import constate from "constate"
 import {ApiError} from "../errors"
 import {typographyVariant} from "@mui/system"
-import {useNavigate} from "react-router"
 
-async function request(input, init) {
-    const request = new Request(input, init)
-    return fetch(request).then(async res => {
+async function request(...args) {
+    return fetch(...args).then(async res => {
         // res.ok === 200-299 HTTP Status Code
-        //console.log("INSIDE REQUEST")
-
         if (res.ok) {
-            //console.log("res.ok console log")
-
-            if (request.method.toLowerCase() === "delete") {
-                return
-            }
-
             return res.json()
         } else {
-            // console.log("else console log")
-            // console.log(res.json)
             throw ApiError.fromObject(await res.json())
         }
     })
@@ -50,29 +26,12 @@ function standardJsonInit(method, body) {
 function useGlobal() {
     const [userState, setUserState] = useState({})
     const [eventState, setEventState] = useState({})
+    const [eventInviteeState, setEventInviteeState] = useState({})
     const [groupState, setGroupState] = useState({})
     const [exerciseState, setExerciseState] = useState({})
     const [exerciseResponseState, setExerciseResponseState] = useState({})
 
-    //   useEffect(() => {
-    //     window.localStorage.setItem("userState", JSON.stringify(userState))
-    //   }, [userState])
-    //   useEffect(() => {
-    //     window.localStorage.setItem("eventState", JSON.stringify(eventState))
-    //   }, [eventState])
-    //   useEffect(() => {
-    //     window.localStorage.setItem("groupState", JSON.stringify(groupState))
-    //   }, [groupState])
-    //   useEffect(() => {
-    //     window.localStorage.setItem("exerciseState", JSON.stringify(exerciseState))
-    //   }, [exerciseState])
-    //   useEffect(() => {
-    //     window.localStorage.setItem(
-    //       "exerciseResponseState",
-    //       JSON.stringify(exerciseResponseState),
-    //     )
-    //   }, [exerciseResponseState])
-
+    const [currentUserId, setCurrentUserId] = useState()
     // Setters for Error and Data
 
     // These should be used to reflect the state changes inside the queries.
@@ -86,58 +45,50 @@ function useGlobal() {
     // error -> loading
 
     function createDataSetter(stateSetter) {
-        return (id, value) => {
-            stateSetter(prev => ({
-                ...prev,
-                [id]:
-                    typeof value === "function" ? value(prev[id] ?? {}) : value,
-            }))
+        return (id, data) => {
+            stateSetter(prev => ({...prev, [id]: {data}}))
+        }
+    }
+
+    function createErrorSetter(stateSetter) {
+        return (id, error) => {
+            stateSetter(prev => ({...prev, [id]: {error}}))
         }
     }
 
     const setUserData = createDataSetter(setUserState)
+    const setUserError = createErrorSetter(setUserState)
+
     const setEventData = createDataSetter(setEventState)
+    const setEventError = createErrorSetter(setEventState)
+
     const setGroupData = createDataSetter(setGroupState)
+    const setGroupError = createErrorSetter(setGroupState)
+
+    const setEventInviteeData = createDataSetter(setEventInviteeState)
+    const setEventInviteeError = createErrorSetter(setEventInviteeState)
+
     const setExerciseData = createDataSetter(setExerciseState)
+    const setExerciseError = createErrorSetter(setExerciseState)
+
     const setExerciseResponseData = createDataSetter(setExerciseResponseState)
-
-    const setCurrentUserId = id => {
-        setUserData("currentUserId", id)
-    }
-
-    const setCurrentUserData = value => {
-        setUserState(prev => {
-            if (typeof value !== "function") {
-                // console.log("Inside")
-                // console.log({
-                //     ...prev,
-                //     currentUserId: value.id,
-                //     [value.id]: value,
-                // })
-                return {
-                    ...prev,
-                    currentUserId: value.id,
-                    [value.id]: value,
-                }
-            }
-
-            if (prev.currentUserId == null) {
-                console.log("you probably messed up")
-                return prev
-            }
-
-            return {
-                ...prev,
-                [prev.currentUserId]: value(prev[prev.currentUserId] ?? {}),
-            }
-        })
-    }
+    const setExerciseResponseError = createErrorSetter(setExerciseResponseState)
 
     // Getters
 
+    // Getters are exported and should be used for all state retrieval
+    // IMPORTANT!!!: You should be able to find everything by starting at the user.
+    // You should never have to read the response of a query directly. Use the getters.
+
     function createGetter(state) {
         return id => {
-            return state[id]
+            const {data, error} = state[id] ?? {}
+
+            return {
+                data,
+                error,
+                loading: data == null && error == null,
+            }
         }
     }
 
@@ -147,353 +98,312 @@ function useGlobal() {
     const getExerciseById = createGetter(exerciseState)
     const getExerciseResponseById = createGetter(exerciseResponseState)
 
-    const getCurrentUserId = () => {
-        getUserById("currentUserId")
-    }
+    const user = getUserById(currentUserId)
+    const event = getEventById(eventState)
+    const group = getGroupById(groupState)
+    const exercise = getExerciseById(exerciseState)
+    const response = getExerciseResponseById(exerciseResponseState)
+    const isLoggedIn = Boolean(user)
 
-    const getCurrentUser = () => getUserById(getCurrentUserId())
-    const getIsLoggedIn = () => Boolean(getCurrentUser())
+    //
 
     // Queries available to the client
 
     //
 
     // GET /users/:userId
-    // Tested
     async function userQuery(id) {
-        const data = await request(`/users/${id}`, {credentials: "same-origin"})
-        setUserData(id, data)
+        try {
+            const data = await request(`/users/${id}`, {credentials: "include"})
+            setUserData(id, data)
+        } catch (error) {
+            setUserError(id, error)
+        }
     }
 
     // GET /users/me
-    // You need to be logged in in order to call this query, because you need to have current session
-    // Tested
     async function currentUserQuery() {
-        const data = await request("/users/me", {credentials: "same-origin"})
-        setCurrentUserData(data)
-    }
-
-    function useIsLoggedIn() {
-        const navigate = useNavigate()
-        const [loading, setLoading] = useState(true)
-        const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-        useEffect(() => {
-            currentUserQuery()
-                .then(() => {
-                    setIsLoggedIn(true)
-                    setLoading(false)
-                })
-                .catch(() => {
-                    navigate("/login")
-                })
-        }, [])
-
-        return [loading, isLoggedIn]
+        try {
+            const data = await request("/users/me", {credentials: "include"})
+            setUserData(data.id, data)
+            setCurrentUserId(data.id)
+        } catch (error) {
+            setUserError(currentUserId, error)
+        }
     }
 
     // POST /user
-    // Tested
+    // NOTE: Must be caught outside
     async function createUserQuery(options) {
         const data = await request("/user", standardJsonInit("POST", options))
-        setCurrentUserData(data)
+        setUserData(data.id, data)
+        setCurrentUserId(data.id)
     }
 
     // POST /user/login
-    // Tested
+    // NOTE: Must be caught outside
     async function loginUserQuery(options) {
         const data = await request(
             "/user/login",
             standardJsonInit("POST", options),
         )
-        setCurrentUserData(data)
+        setCurrentUserId(data.id)
+        setUserData(data.id, data)
     }
 
-    // PUT /users/me
-    // Tested
+    // PUT /users/me/update
     async function modifyUserQuery(options) {
-        const data = await request(
-            "/users/me",
-            standardJsonInit("PUT", options),
-        )
-        setCurrentUserData(data)
+        try {
+            const data = await request(
+                "/users/me/update",
+                standardJsonInit("PUT", options),
+            )
+            setUserData(currentUserId, data)
+        } catch (error) {
+            setUserError(currentUserId, error)
+        }
     }
 
     // DELETE /users/me
-    // Note: Needs to be caught on the outside
-    // Tested
-    async function deleteUserQuery() {
-        await request("/users/me", {
-            method: "DELETE",
-            credentials: "same-origin",
-        })
-        setUserData(getCurrentUserId(), undefined)
-        setCurrentUserId(undefined)
+    async function deleteUserQuery(options) {
+        try {
+            await request("/users/me", {
+                method: "DELETE",
+                credentials: "include",
+            })
+            setUserData(currentUserId, undefined)
+        } catch (error) {
+            setUserError(currentUserId, error)
+        }
     }
 
     // GET /events/:eventId/exercises
-    // NOTE: Must be called after /events/:eventId
-    // NOTE: Must be caught
-    // X
     async function getEventExercisesQuery(id) {
-        const data = await request(`/events/${id}/exercises`, {
-            credentials: "same-origin",
-        })
+        try {
+            const data = await request("/events/:eventId/exercises", {
+                method: "DELETE",
+                credentials: "include",
+            })
 
-        for (const exercise of data) {
-            setExerciseData(exercise.id, exercise)
+            for (const exercise of data) {
+                setExerciseData(exercise.id, exercise)
+            }
+            setUserData(currentUserId, {
+                ...user.data,
+                events: data.map(v => v.id),
+            })
+        } catch (error) {
+            setUserError(currentUserId, error)
         }
-
-        setEventData(id, prev => ({
-            ...prev,
-            exercises: data.map(v => v.id),
-        }))
     }
 
     // Queries TODO...
 
     // WIll have to reference schema to figure out relations
 
-    // POST /event
-    // Tested
+    // POST /event EASY
     async function createEventQuery(options) {
-        const data = await request("/event", standardJsonInit("POST", options))
-        setEventData(data.id, data)
-        setCurrentUserData(prev => ({
-            ...prev,
-            events: prev.events.concat(data.id),
-        }))
-    }
-
-    // GET /events
-    // Tested
-    async function currentUserEventQuery() {
-        const data = await request("/events", {credentials: "same-origin"})
-
-        for (const event of data) {
-            setEventData(event.id, event)
+        try {
+            const data = await request(
+                "/event",
+                standardJsonInit("POST", options),
+            )
+        } catch (error) {
+            setEventError(eventState, error)
         }
-
-        setCurrentUserData(prev => ({
-            ...prev,
-            events: data.map(v => v.id),
-        }))
     }
 
-    // GET /events/:eventId Specific User Event
-    // Tested
+    // GET /events MEDIUM User & Event must be updated
+    async function currentUserEventQuery() {
+        try {
+            const data = await request("/events", {credentials: "include"})
+            setEventData(data, data)
+            setUserData(currentUserId, {
+                ...user.data,
+                events: data.map(v => v),
+            })
+        } catch (error) {
+            setEventError(eventState, error)
+        }
+    }
+
+    //GET /events/:eventId Specific User Event
     async function eventFromIdQuery(id) {
-        const data = await request(`/events/${id}`, {
-            credentials: "same-origin",
-        })
-        console.log(data)
-        setEventData(data.id, data)
+        try {
+            const data = await request(`/events/${id}`, {
+                credentials: "same-origin",
+            })
+
+            setEventData(data.id, data)
+        } catch (error) {
+            setEventError(eventState, error)
+        }
     }
 
     // PUT /events/:eventId EASY
-    // Note: Must be caught
-    // Tested
     async function modifyEventQuery(id, options) {
-        const data = await request(
-            `/events/${id}`,
-            standardJsonInit("PUT", options),
-        )
-        setEventData(data.id, data)
+        try {
+            const data = await request(
+                `/events/${id}`,
+                standardJsonInit("PUT", options),
+            )
+            setEventData(event[id], data)
+            setUserData(currentUserId, {...user.data, events: data.map(v => v)})
+        } catch (error) {
+            setEventError(eventState, error)
+        }
     }
 
     // DELETE /events/:eventId EASY
-    // Tested
     async function deleteEventQuery(id) {
-        await request(`/events/${id}`, {
-            method: "DELETE",
-            credentials: "same-origin",
-        })
-        console.log("START DELETE")
-        setEventData(id, undefined)
+        try {
+            const data = await request(`/events/${id}`, {
+                method: "DELETE",
+                credentials: "include",
+            })
+            setEventData(id, undefined)
+        } catch (error) {
+            setEventError(currentUserId, error)
+        }
     }
 
     // DELETE /events/:eventId/invitee EASY
-    // Removes current user from event
-    // Will test later when groups need to get involved
-    async function deleteCurrentUserFromInviteeQuery(eventId) {
-        await request(`/events/${eventId}/invitee`, {
-            method: "DELETE",
-            credentials: "same-origin",
-        })
-
-        const event = getEventById(eventId)
-        setEventData(eventId, prev => ({
-            ...prev,
-            invitees: prev.invitees.filter(
-                invitee => invitee !== getCurrentUserId(),
-            ),
-        }))
+    async function deleteEventInviteeQuery(eventId) {
+        try {
+            await request(`/events/${eventId}/invitee`, {
+                method: "DELETE",
+                credentials: "include",
+            })
+            setEventData(eventId, undefined)
+        } catch (error) {
+            setEventError(eventId, undefined)
+        }
     }
 
     // Need to figure out how to update the rest of the state
 
     // POST /events/:eventId/invitees MEDIUM User & Event must be updated
-    // Will test later when groups need to get involved
     async function createEventInviteeQuery(eventId, options) {
-        const data = await request(
-            `/events/${eventId}/invitees`,
-            standardJsonInit("POST", options),
-        )
-        setEventData(data.id, data)
-        for (const userId of data.invitees) {
-            const user = getUserById(userId)
-            if (!user) {
-                continue
-            }
-            setUserData(userId, prev => ({
-                ...prev,
-                events: prev.events.concat(data.id),
-            }))
+        try {
+            const data = await request(
+                `/events/${eventId}/invitees`,
+                standardJsonInit("POST", options),
+            )
+            setEventInviteeData(eventId, data)
+        } catch (error) {
+            setEventInviteeError(eventId, error)
         }
     }
 
     // POST /events/:eventId/invitees/remove MEDIUM User & Event must be updated
-    // Will test later when groups need to get involved
-    async function deleteEventInviteeQuery(eventId, options) {
-        const data = await request(
-            `/events/${eventId}/invitees/remove`,
-            standardJsonInit("POST", options),
-        )
-        setEventData(data.id, data)
-        for (const userId of options.userIds) {
-            const user = getUserById(userId)
-            if (!user) {
-                continue
+
+    // POST /group EASY
+    async function createGroupQuery(options) {
+        const data = await request(`/group`, standardJsonInit("POST", options))
+        for (const group of data) {
+            setGroupData(group, group)
+        }
+        setUserData(currentUserId, {...user.data, groups: data.map(v => v)})
+    }
+
+    // GET /groups/:groupId EASY
+    async function getGroupIDQuery(id) {
+        try {
+            const data = await request(`/groups/${id}`, {
+                credentials: "include",
+            })
+            for (const group of data) {
+                setGroupData(group, group)
             }
-            setUserData(userId, prev => ({
-                ...prev,
-                events: prev.events.filter(v => v !== data.id),
-            }))
+            setUserData(currentUserId, {...user.data, groups: data.map(v => v)})
+        } catch (error) {
+            setUserError(currentUserId, error)
         }
     }
-    //////////////////////////////////////////////////////////////////////////////
-    // POST /group EASY
-    // async function createGroupQuery(options) {
-    //   const data = await request(`/group`, standardJsonInit("POST", options))
-    //   for (const group of data) {
-    //     setGroupData(group, group)
-    //   }
-    //   setUserData(currentUserIdMutationRef.current, {...user.data, groups: data.map(v => v)})
-    // }
 
-    // // GET /groups/:groupId EASY
-    // async function getGroupIdQuery(id) {
-    //   const data = await request(`/groups/${id}`, {credentials: "same-origin"})
-    //   for (const group of data) {
-    //     setGroupData(group, group)
-    //   }
-    //   setUserData(currentUserIdMutationRef.current, {...user.data, groups: data.map(v => v)})
-    // }
-
-    // // PUT /groups/:groupId EASY
-    // async function modifyGroupQuery(id, options) {
-    //   const data = await request(
-    //     `/groups/${id}`,
-    //     standardJsonInit("PUT", options),
-    //   )
-    //   setGroupData(group[id], data)
-    //   setUserData(currentUserIdMutationRef.current, {...user.data, groups: data.map(v => v)})
-    // }
+    // PUT /groups/:groupId EASY
+    async function modifyGroupQuery(id, options) {
+        try {
+            const data = await request(
+                `/groups/${id}`,
+                standardJsonInit("PUT", options),
+            )
+            setGroupData(group[id], data)
+            setUserData(currentUserId, {...user.data, groups: data.map(v => v)})
+        } catch (error) {
+            setUserError(currentUserId, error)
+        }
+    }
 
     // POST /groups/:groupId/users MEDIUM User & Group must be updated
     // DELETE /groups/:groupId/users/:userId MEDIUM User & Group must be updated
     // DELETE /groups/:groupId MEDIUM User & Group must be updated
-    /////////////////////////////////////////////////////////////////////////////////////////
 
     // GET /events/:eventId/exercises MEDIUM Exercises & Event must be updated
-    async function getExercisesFromEventIdQuery(id) {
-        const data = await request(`/events/${id}/exercises`, {
-            credentials: "same-origin",
-        })
-        // console.log(data)
-        for (const exercise of data) {
-            setExerciseData(exercise.id, exercise)
-        }
-
-        setEventData(id, prev => ({
-            ...prev,
-            exercises: data.map(v => v.id),
-        }))
-    }
-
     // POST /events/:eventId/exercise MEDIUM Exercises & Event must be updated
-    async function createExerciseWithEventIdQuery(id, options) {
-        const data = await request(
-            `/events/${id}/exercise`,
-            standardJsonInit("POST", options),
-        )
-        setExerciseData(data.id, data)
-        setEventData(id, prev => ({
-            ...prev,
-            exercises: prev.exercises.concat(data.id),
-        }))
-    }
 
     // GET /exercise/:exerciseId EASY
-    async function getExerciseByIdQuery(id) {
-        const data = await request(`/exercise/${id}`, {
-            credentials: "same-origin",
-        })
-        setExerciseData(data.id, data)
+    async function getExerciseIDQuery(id) {
+        try {
+            const data = await request(`/exercise/${id}`, {
+                credentials: "include",
+            })
+            for (const exercise of data) {
+                setExerciseData(exercise, exercise)
+            }
+            setUserData(currentUserId, {
+                ...user.data,
+                exercises: data.map(v => v),
+            })
+        } catch (error) {
+            setUserError(currentUserId, error)
+        }
     }
-
     // DELETE /exercise/:exerciseId MEDIUM Exercises & Event must be updated
-    async function deleteExerciseQuery(id) {
-        await request(`/exercise/${id}`, {
-            method: "DELETE",
-            credentials: "same-origin",
-        })
-        setExerciseData(id, undefined)
-    }
-
     // POST /exercise/:exerciseId/response MEDIUM
-    async function createExerciseResponseQuery(exerciseId, options) {
-        const data = await request(
-            `/exercise/${exerciseId}/response`,
-            standardJsonInit("POST", options),
-        )
-        setExerciseResponseData(data.id, data)
-
-        setExerciseData(exerciseId, prev => ({
-            ...prev,
-            exerciseResponses: prev.exerciseResponses.concat(data.id),
-        }))
-    }
 
     // PUT /responses/:responseId EASY
-    async function modifyExerciseResponseQuery(id, options) {
-        const data = await request(
-            `/responses/${id}`,
-            standardJsonInit("PUT", options),
-        )
-        setExerciseResponseData(data.id, data)
+    async function modifyResponseQuery(id, options) {
+        try {
+            const data = await request(
+                `/responses/${id}`,
+                standardJsonInit("PUT", options),
+            )
+            setExerciseResponseData(response[id], data)
+            setUserData(currentUserId, {
+                ...user.data,
+                responses: data.map(v => v),
+            })
+        } catch (error) {
+            setUserError(currentUserId, error)
+        }
     }
 
     // DELETE /responses/:responseId EASY
-    async function deleteExerciseResponseQuery(id) {
-        await request(`/responses/${id}`, {
-            method: "DELETE",
-            credentials: "include",
-        })
-        setExerciseResponseData(id, undefined)
+    async function deleteResponseQuery(id) {
+        try {
+            await request(`/responses/${id}`, {
+                method: "DELETE",
+                credentials: "include",
+            })
+            setExerciseResponseData(id, undefined)
+        } catch (error) {
+            setExerciseResponseData(currentUserId, error)
+        }
     }
 
-    const currentUser = userState.currentUserId
-        ? getUserById(userState.currentUserId)
-        : undefined
-
+    async function deleteEventQuery(id) {
+        try {
+            await request(`/events/${id}`, {
+                method: "DELETE",
+                credentials: "include",
+            })
+            setEventData(id, undefined)
+        } catch (error) {
+            setEventData(currentUserId, error)
+        }
+    }
     return {
-        userState,
-        eventState,
-        groupState,
-        exerciseState,
-        exerciseResponseState,
-
         // Getters
         getUserById,
         getEventById,
@@ -502,9 +412,9 @@ function useGlobal() {
         getExerciseResponseById,
 
         // Extra state
-        user: currentUser,
-        isLoggedIn: Boolean(currentUser),
-        useIsLoggedIn,
+        user,
+        isLoggedIn,
+        event,
 
         // User Queries
         userQuery,
@@ -520,148 +430,139 @@ function useGlobal() {
         currentUserEventQuery,
         modifyEventQuery,
         deleteEventQuery,
-        deleteCurrentUserFromInviteeQuery,
-        createEventInviteeQuery,
-        deleteEventInviteeQuery,
 
-        //Event Exercises Queries
+        //Event Exercises
         getEventExercisesQuery,
-        getExercisesFromEventIdQuery,
-        createExerciseWithEventIdQuery,
-        getExerciseByIdQuery,
-        deleteExerciseQuery,
-        createExerciseResponseQuery,
-        modifyExerciseResponseQuery,
-        deleteExerciseResponseQuery,
     }
 }
+
 const [GlobalProvider, useGlobalContext] = constate(useGlobal)
 
 export {GlobalProvider, useGlobalContext}
 
-// // Public references to these three identifiers should look like this on the front end.
-// // This means user types groups in with #, usernames with @, and email normal.
+// Public references to these three identifiers should look like this on the front end.
+// This means user types groups in with #, usernames with @, and email normal.
 
-// // usernames: @username
-// // emails: email@email
-// // groups: #group
+// usernames: @username
+// emails: email@email
+// groups: #group
 
-// // These are the routes...
+// These are the routes...
 
-// // POST /user
-// // {
-// //  email:"email@email.com"
-// //  password: "password"
-// //  passwordConfirmation: "password",
-// //  firstName: "John",
-// //  lastName: "Doe",
-// //  username: "username"
-// // }
+// POST /user
+// {
+//  email:"email@email.com"
+//  password: "password"
+//  passwordConfirmation: "password",
+//  firstName: "John",
+//  lastName: "Doe",
+//  username: "username"
+// }
 
-// // POST /user/login
-// // {
-// //  emailOrUsername: "username"
-// //  password: "password"
-// // }
+// POST /user/login
+// {
+//  emailOrUsername: "username"
+//  password: "password"
+// }
 
-// // GET /users/:userId
+// GET /users/:userId
 
-// // GET /users/me
+// GET /users/me
 
-// // PUT /users/me/update
-// // {
-// //  lastName: "Last-name",
-// //  firstName: "First-name",
-// //  username: "username",
-// // }
+// PUT /users/me/update
+// {
+//  lastName: "Last-name",
+//  firstName: "First-name",
+//  username: "username",
+// }
 
-// // DELETE /users/me
+// DELETE /users/me
 
-// // POST /event
-// // {
-// //  title: "Workout",
-// //  description: "This is a Workout Event",
-// //  type: "WORKOUT",
-// //  start: Date.now(),
-// //  finish: Date.now() + 30 * 60000
-// // }
-// //
-// // {
-// //  title: "Standard",
-// //  description: "This is a Standard Event",
-// //  type: "STANDARD",
-// //  start: Date.now(),
-// //  finish: Date.now() + 30 * 60000
-// // }
+// POST /event
+// {
+//  title: "Workout",
+//  description: "This is a Workout Event",
+//  type: "WORKOUT",
+//  start: Date.now(),
+//  finish: Date.now() + 30 * 60000
+// }
+//
+// {
+//  title: "Standard",
+//  description: "This is a Standard Event",
+//  type: "STANDARD",
+//  start: Date.now(),
+//  finish: Date.now() + 30 * 60000
+// }
 
-// // GET /events
+// GET /events
 
-// // PUT /events/:eventId
-// // {
-// //  title: "New tilte",
-// //  description: "New description",
-// //  start: Date.now(),
-// //  finish: Date.now() + 30 * 60000
-// // }
+// PUT /events/:eventId
+// {
+//  title: "New tilte",
+//  description: "New description",
+//  start: Date.now(),
+//  finish: Date.now() + 30 * 60000
+// }
 
-// // DELETE /events/:eventId
+// DELETE /events/:eventId
 
-// // DELETE /events/:eventId/invitee
+// DELETE /events/:eventId/invitee
 
-// // POST /events/:eventId/invitees
-// // {
-// //  invitees: ["@username" , "email@email", "#group"]
-// // }
+// POST /events/:eventId/invitees
+// {
+//  invitees: ["@username" , "email@email", "#group"]
+// }
 
-// // POST /events/:eventId/invitees/remove
-// // {
-// //  userIds: [ 1 ],
-// //  groupIds: [ 2 ]
-// // }
+// POST /events/:eventId/invitees/remove
+// {
+//  userIds: [ 1 ],
+//  groupIds: [ 2 ]
+// }
 
-// // POST /group
-// // {
-// //  tag: "team"
-// // }
+// POST /group
+// {
+//  tag: "team"
+// }
 
-// // GET /groups/:groupId
+// GET /groups/:groupId
 
-// // PUT /groups/:groupId
-// // {
-// //  tag: "team"
-// // }
+// PUT /groups/:groupId
+// {
+//  tag: "team"
+// }
 
-// // POST /groups/:groupId/users
-// // {
-// //  userIds: [ 1 ]
-// // }
+// POST /groups/:groupId/users
+// {
+//  userIds: [ 1 ]
+// }
 
-// // DELETE /groups/:groupId/users/:userId
+// DELETE /groups/:groupId/users/:userId
 
-// // DELETE /groups/:groupId
+// DELETE /groups/:groupId
 
-// // GET /events/:eventId/exercises
+// GET /events/:eventId/exercises
 
-// // POST /events/:eventId/exercise
-// // {
-// //  type: "WEIGHTS",
-// //  name: "Bench",
-// //  reps: 8,
-// //  sets: 5,
-// // }
+// POST /events/:eventId/exercise
+// {
+//  type: "WEIGHTS",
+//  name: "Bench",
+//  reps: 8,
+//  sets: 5,
+// }
 
-// // GET /exercise/:exerciseId
+// GET /exercise/:exerciseId
 
-// // DELETE /exercise/:exerciseId
+// DELETE /exercise/:exerciseId
 
-// // POST /exercise/:exerciseId/response
-// // {
-// //   weights: [1, 2, 3, 4, 5]
-// // }
+// POST /exercise/:exerciseId/response
+// {
+//   weights: [1, 2, 3, 4, 5]
+// }
 
-// // PUT /responses/:responseId
-// // {
-// //  weights: [1, 2, 3, 4, 5]
-// // }
+// PUT /responses/:responseId
+// {
+//  weights: [1, 2, 3, 4, 5]
+// }
 
-// // DELETE /responses/:responseId
+// DELETE /responses/:responseId
