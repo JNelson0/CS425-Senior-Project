@@ -13,7 +13,7 @@ export default function TopButtons({addOpen, setAddOpen}) {
                 <Link to="/settings" id="button">
                     <SettingsIcon sx={{fontSize: 33}} />
                 </Link>
-                <Link to="/" id="home">
+                <Link to="/dashboard" id="home">
                     <HomeIcon fontSize="large" />
                 </Link>
             </div>

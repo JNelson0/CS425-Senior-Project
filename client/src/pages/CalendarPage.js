@@ -1,12 +1,7 @@
 import React, {useState} from "react"
 import "./CalendarPage.scss"
-import BottomBar from "./PageOverlay/BottomBar.js"
 import TopButtons from "./PageOverlay/TopButtons.js"
-import EventContainer from "./EventContainer/EventContainer.js"
 import {useGlobalContext} from "../store"
-//import data from "./DataTest.json"
-import RevoCalendar from "revo-calendar"
-import * as ReactDOM from "react-dom"
 
 import {
     ScheduleComponent,
@@ -17,39 +12,56 @@ import {
     Agenda,
     Inject,
 } from "@syncfusion/ej2-react-schedule"
-import {render} from "sass"
+import MapList from "./MapList"
 
 const CalendarPage = ({darkmode}) => {
-    const {user} = useGlobalContext()
-    const list = []
+    const {user, isLoggedIn, currentUserEventQuery} = useGlobalContext()
+    const [list, setList] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    async function loadUser() {
+        const delay = ms => new Promise(res => setTimeout(res, ms))
+        console.log("HEHEHRHEHRHEHREHR")
+        if (loading && isLoggedIn) {
+            await currentUserEventQuery()
+            await delay(500)
+            console.log("Load for 0.5 seconds")
+            setLoading(false)
+        }
+    }
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
-            <div className="calendarPage">
-                <TopButtons />
-                {user.data.events.map(e => {
-                    list.push({
-                        Id: parseInt(e.id),
-                        Subject: e.title,
-                        StartTime: e.start,
-                        EndTime: e.finish,
-                    })
-                })}
-                <div className="middle">
-                    <div class="calendar">
-                        <ScheduleComponent
-                            width="100%"
-                            height="100%"
-                            selectedDate={new Date(2022, 1, 14)}
-                            eventSettings={{dataSource: list}}
-                        >
-                            <Inject
-                                services={[Day, Week, WorkWeek, Month, Agenda]}
-                            />
-                        </ScheduleComponent>
+            {loading ? (
+                <MapList list={list} setLoading={setLoading} />
+            ) : (
+                <div className="calendarPage" onLoad={loadUser}>
+                    <TopButtons />
+
+                    {console.log(list)}
+                    <div className="middle">
+                        <div class="calendar">
+                            {console.log("Trying to load Calendar")}
+                            <ScheduleComponent
+                                width="100%"
+                                height="100%"
+                                selectedDate={new Date(2022, 1, 14)}
+                                eventSettings={{dataSource: list}}
+                            >
+                                <Inject
+                                    services={[
+                                        Day,
+                                        Week,
+                                        WorkWeek,
+                                        Month,
+                                        Agenda,
+                                    ]}
+                                />
+                            </ScheduleComponent>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
         </div>
     )
 }

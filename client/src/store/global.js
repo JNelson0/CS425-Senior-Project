@@ -32,6 +32,7 @@ function useGlobal() {
     const [exerciseResponseState, setExerciseResponseState] = useState({})
 
     const [currentUserId, setCurrentUserId] = useState()
+
     // Setters for Error and Data
 
     // These should be used to reflect the state changes inside the queries.
@@ -125,8 +126,8 @@ function useGlobal() {
     async function currentUserQuery() {
         try {
             const data = await request("/users/me", {credentials: "include"})
-            setUserData(data.id, data)
             setCurrentUserId(data.id)
+            setUserData(currentUserId, data)
         } catch (error) {
             setUserError(currentUserId, error)
         }
@@ -216,6 +217,7 @@ function useGlobal() {
     // GET /events MEDIUM User & Event must be updated
     async function currentUserEventQuery() {
         try {
+            console.log(currentUserId)
             const data = await request("/events", {credentials: "include"})
             setEventData(data, data)
             setUserData(currentUserId, {

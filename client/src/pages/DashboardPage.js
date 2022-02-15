@@ -21,7 +21,7 @@ export default function DashboardPage({setId, darkmode}) {
             await currentUserEventQuery()
             await delay(500)
             console.log("Load for 0.5 seconds")
-            setLoading(!loading)
+            setLoading(false)
         }
     }
 
@@ -34,12 +34,7 @@ export default function DashboardPage({setId, darkmode}) {
                     setAddOpen={setAddOpen}
                 />
 
-                <AddEvent
-                    addOpen={addOpen}
-                    setAddOpen={setAddOpen}
-                    loadUser={loadUser}
-                    setLoading={setLoading}
-                />
+                <AddEvent addOpen={addOpen} setAddOpen={setAddOpen} />
                 <div className="listWrapper">
                     <div className="spacer">
                         <img src={BackgroundImg} alt="Wolf" />
