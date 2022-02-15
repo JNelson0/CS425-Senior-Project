@@ -19,8 +19,7 @@ const App = () => {
         <BrowserRouter>
             <GlobalProvider>
                 <Routes>
-                    <Route index path="/" element={<DashboardPage />} />
-                    <Route path="login" element={<LoginPage />} />
+                    <Route index path="/" element={<LoginPage />} />
                     <Route
                         path="dashboard"
                         element={
