@@ -40,8 +40,8 @@ export default function DashboardPage({setId, darkmode}) {
                     className="tb"
                     addOpen={addOpen}
                     setAddOpen={setAddOpen}
-                    showButtonNotification={true}
-                    showButtonAdd={true}
+                    showButtonNotification={false}
+                    showButtonAdd={false}
                 />
                 <AddEvent addOpen={addOpen} setAddOpen={setAddOpen} />
                 <div className="listWrapper">
