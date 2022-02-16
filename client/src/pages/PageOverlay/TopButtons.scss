@@ -2,91 +2,94 @@
 
 .topWrapper {
     display: flex;
-    flex: 0.5;
     align-items: center;
+    justify-content: space-between;
+    height: 12.5vh;
+    background-color: $nevada-blue;
+    flex-direction: row;
     #button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100px;
-      height: 100px;
-      background-color: $nevada-blue;
-      border-radius: 50px;
-      margin: 1px;
-      text-decoration: none;
-      color: white;
-      transition: all 0.1s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 100px;
+        border-radius: 50px;
+        margin: 1px;
+        text-decoration: none;
+        color: white;
+        transition: all 0.1s ease;
 
-      &:hover {
-        cursor: pointer;
-        background-color: $nevada-blue-lighter;
-        animation: spin 2.8s infinite;
-      }
+        &:hover {
+            cursor: pointer;
+            background-color: $nevada-blue-lighter;
+            animation: spin 2.8s infinite;
+        }
     }
     #home {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100px;
-      height: 100px;
-      background-color: $nevada-blue;
-      border-radius: 50px;
-      margin: 1px;
-      text-decoration: none;
-      color: white;
-      transition: all 0.1s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 100px;
+        background-color: $nevada-blue;
+        border-radius: 50px;
+        margin: 1px;
+        text-decoration: none;
+        color: white;
+        transition: all 0.1s ease;
 
-      &:hover {
-        cursor: pointer;
-        background-color: $nevada-blue-lighter;
-      }
-    }
-  }
-  .notificationsAddWrapper {
-    display: flex;
-    flex: 0.5;
-    justify-content: flex-end;
-    align-items: center;
-    #addButton {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100px;
-      height: 100px;
-      background-color: $nevada-blue;
-      border-radius: 50px;
-      border: 0pt;
-      margin: 1px;
-      text-decoration: none;
-      color: white;
-      transition: all 0.1s ease;
-
-      &:hover {
-        cursor: pointer;
-        background-color: $nevada-blue-lighter;
-      }
+        &:hover {
+            cursor: pointer;
+            background-color: $nevada-blue-lighter;
+        }
     }
 
-    #notificationButton {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100px;
-      height: 100px;
-      background-color: rgb(170, 15, 46);
-      border-radius: 50px;
-      border: 0pt;
-      margin: 1px;
-      text-decoration: none;
-      color: white;
-      transition: all 0.1s ease;
+    .notificationsAddWrapper {
+        display: flex;
+        flex: 0.5;
+        justify-content: flex-end;
+        align-items: center;
+        #addButton {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+            background-color: $nevada-blue;
+            border-radius: 50px;
+            border: 0pt;
+            margin: 1px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.1s ease;
 
-      &:hover {
-        cursor: pointer;
-        background-color: crimson;
-        animation: ring 0.6s linear;
-        animation-iteration-count: 1;
-      }
+            &:hover {
+                cursor: pointer;
+                background-color: $nevada-blue-lighter;
+            }
+        }
+
+        #notificationButton {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+            background-color: rgb(170, 15, 46);
+            border-radius: 50px;
+            border: 0pt;
+            margin: 1px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.1s ease;
+
+            &:hover {
+                cursor: pointer;
+                background-color: crimson;
+                animation: ring 0.6s linear;
+                animation-iteration-count: 1;
+            }
+        }
     }
 }
 
@@ -157,10 +160,10 @@
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(359deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
 }
