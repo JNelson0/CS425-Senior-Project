@@ -3,28 +3,21 @@ import {Link} from "react-router-dom"
 import "./EventContainer.scss"
 import {useGlobalContext} from "../../store"
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
-import AssignID from "./AssignID.js"
 
 export default function EventContainer({id, setId, name, date, darkmode}) {
-    const {user, isLoggedIn, deleteEventQuery, currentUserEventQuery} =
-        useGlobalContext()
+    const {user, deleteEventQuery} = useGlobalContext()
 
     const handleEventDelete = () => {
-        deleteEventQuery(id).then(() => {
-            currentUserEventQuery()
-        })
+        deleteEventQuery(id)
     }
-
-    const [eventID, setEventID] = useState()
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
-            <AssignID id={id} setEventID={setEventID} />
             <li className="eventbuttonWrapper">
                 <Link
-                    to={"/event" + eventID}
+                    to={"/event" + id}
                     className="eventbutton"
-                    onClick={() => setId(eventID)}
+                    onClick={() => setId(id)}
                 >
                     <span>{id}</span>
                     <span>{name}</span>
