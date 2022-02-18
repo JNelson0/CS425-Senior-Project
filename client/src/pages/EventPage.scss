@@ -1,15 +1,21 @@
-@import '../theme.scss';
+@import "../theme.scss";
 
 .event {
-  //background-color: rgb(211, 0, 211);
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  .middle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 75%;
-    flex-direction: column;
-  }
+    //background-color: rgb(211, 0, 211);
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    .middle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 75%;
+        flex-direction: column;
+        .event {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+    }
 }

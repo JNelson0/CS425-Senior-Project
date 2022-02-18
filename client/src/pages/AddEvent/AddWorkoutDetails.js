@@ -14,6 +14,7 @@ export default function AddWorkoutDetails({
         name: "",
         sets: "",
         reps: "",
+        type: "WEIGHTS",
     })
 
     const handleChange = e => {
@@ -28,6 +29,7 @@ export default function AddWorkoutDetails({
             name: "",
             sets: "",
             reps: "",
+            type: "WEIGHTS",
         })
     }
 

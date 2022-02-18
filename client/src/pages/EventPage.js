@@ -6,21 +6,49 @@ import {useGlobalContext} from "../store"
 import AddEvent from "./AddEvent/AddEvent.js"
 
 const EventPage = ({id, darkmode}) => {
-    const {getEventById} = useGlobalContext()
+    const {user, getEventById, getExerciseById, getExercisesFromEventIdQuery} =
+        useGlobalContext()
 
-    const [addOpen, setAddOpen] = useState(false)
+    async function getEventWithExercises() {
+        await getExercisesFromEventIdQuery(id)
+
+        console.log(getEventById(id))
+        console.log(getExerciseById(getEventById(id).exercises[0]))
+    }
+
+    const [loading, setLoading] = useState(true)
+    if (loading) {
+        setLoading(false)
+        getEventWithExercises()
+    }
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <div className="event">
-                <TopButtons addOpen={addOpen} setAddOpen={setAddOpen} />
-                <AddEvent addOpen={addOpen} setAddOpen={setAddOpen} />
+                <TopButtons showButtonAdd={false} />
                 <div className="middle">
-                    <h1>{getEventById(id).title}</h1>
-                    <h2>{getEventById(id).type}</h2>
-                    <h3>{getEventById(id).description}</h3>
-                    <span>{getEventById(id).start}</span>
-                    <span>{getEventById(id).finish}</span>
+                    <div className="event">
+                        <h1>{getEventById(id).title}</h1>
+                        <h2>{getEventById(id).type}</h2>
+                        <h3>{getEventById(id).description}</h3>
+                        <span>{getEventById(id).start}</span>
+                        <span>{getEventById(id).finish}</span>
+                    </div>
+                    <div className="exercise">
+                        <div className="exercise">
+                            {getEventById(id).exercises.map(id => (
+                                <div>
+                                    {getExerciseById(id).type +
+                                        " " +
+                                        getExerciseById(id).name +
+                                        " " +
+                                        getExerciseById(id).sets +
+                                        " " +
+                                        getExerciseById(id).reps}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
                 <BottomBar />
             </div>

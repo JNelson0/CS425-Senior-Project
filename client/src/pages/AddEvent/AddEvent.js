@@ -9,11 +9,10 @@ export default function AddEvent({addOpen, setAddOpen, loadUser, setLoading}) {
         user,
         createEventQuery,
         createExerciseWithEventIdQuery,
-        getEventById,
-        getExercisesFromEventIdQuery,
-        getExerciseByIdQuery,
+        currentUserEventQuery,
         eventState,
-        exerciseState,
+        eventFromIdQuery,
+        getEventById,
     } = useGlobalContext()
 
     const [workoutDetailsPage, setWorkoutDetailsPage] = useState(false)
@@ -59,6 +58,11 @@ export default function AddEvent({addOpen, setAddOpen, loadUser, setLoading}) {
         finish: finishDate,
     })
 
+    const [workoutExerciseList, setWorkoutExerciseList] = useState([])
+
+    const [detailButtonActive, setDetailButtonActive] = useState(true)
+    const [workoutButtonActive, setWorkoutButtonActive] = useState(false)
+
     const resetInput = () => {
         setWorkoutDetailsList({
             title: "",
@@ -67,12 +71,11 @@ export default function AddEvent({addOpen, setAddOpen, loadUser, setLoading}) {
             start: startDate,
             finish: finishDate,
         })
+        setWorkoutExerciseList([])
+        setWorkoutDetailsPage(false)
+        setWorkoutButtonActive(false)
+        setDetailButtonActive(true)
     }
-
-    const [workoutExerciseList, setWorkoutExerciseList] = useState([])
-
-    const [detailButtonActive, setDetailButtonActive] = useState(true)
-    const [workoutButtonActive, setWorkoutButtonActive] = useState(false)
 
     const handleClose = () => {
         setAddOpen(!addOpen)
@@ -109,26 +112,20 @@ export default function AddEvent({addOpen, setAddOpen, loadUser, setLoading}) {
         },
     ]
 
-    const [tempId, setTempId] = useState(user.events[user.events.length - 1])
-    const handleSubmit = e => {
-        e.preventDefault()
+    async function handleSubmit() {
         setAddOpen(!addOpen)
-        createEventQuery(workoutDetailsList)
-        for (const e of exercise) {
-            createExerciseWithEventIdQuery(
+        await createEventQuery(workoutDetailsList)
+        console.log(user)
+        for (const el of workoutExerciseList) {
+            await createExerciseWithEventIdQuery(
                 user.events[user.events.length - 1],
-                e,
+                el,
             )
         }
-        setTempId(user.events[user.events.length - 1])
 
         resetInput()
     }
-    async function testing() {
-        await getExercisesFromEventIdQuery(tempId)
-        console.log(exerciseState)
-        console.log(getEventById(tempId))
-    }
+
     return (
         <div className={"add-event " + (addOpen && "active")}>
             <div className="top">
@@ -193,7 +190,6 @@ export default function AddEvent({addOpen, setAddOpen, loadUser, setLoading}) {
                     <button type="submit" onClick={handleSubmit}>
                         Submit
                     </button>
-                    <button onClick={testing}>TESTING</button>
                 </div>
             </div>
         </div>
