@@ -1,15 +1,3 @@
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////TRYING NEW QUERIES//////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////////////////////
-
 import {useState, useCallback, useRef, useEffect} from "react"
 import constate from "constate"
 import {ApiError} from "../errors"
@@ -20,19 +8,12 @@ async function request(input, init) {
     const request = new Request(input, init)
     return fetch(request).then(async res => {
         // res.ok === 200-299 HTTP Status Code
-        //console.log("INSIDE REQUEST")
-
         if (res.ok) {
-            //console.log("res.ok console log")
-
             if (request.method.toLowerCase() === "delete") {
                 return
             }
-
             return res.json()
         } else {
-            // console.log("else console log")
-            // console.log(res.json)
             throw ApiError.fromObject(await res.json())
         }
     })
@@ -73,18 +54,7 @@ function useGlobal() {
     //     )
     //   }, [exerciseResponseState])
 
-    // Setters for Error and Data
-
-    // These should be used to reflect the state changes inside the queries.
-    // All states have the following 3 states loading, data, error
-
-    // This happens on the first query
-    // loading -> data
-    // loading -> error
-
-    // This happens when retry a failed query
-    // error -> loading
-
+    // Setters for Data
     function createDataSetter(stateSetter) {
         return (id, value) => {
             stateSetter(prev => ({
@@ -108,12 +78,6 @@ function useGlobal() {
     const setCurrentUserData = value => {
         setUserState(prev => {
             if (typeof value !== "function") {
-                // console.log("Inside")
-                // console.log({
-                //     ...prev,
-                //     currentUserId: value.id,
-                //     [value.id]: value,
-                // })
                 return {
                     ...prev,
                     currentUserId: value.id,
@@ -134,7 +98,6 @@ function useGlobal() {
     }
 
     // Getters
-
     function createGetter(state) {
         return id => {
             return state[id]
@@ -156,10 +119,7 @@ function useGlobal() {
 
     // Queries available to the client
 
-    //
-
     // GET /users/:userId
-    // Tested
     async function userQuery(id) {
         const data = await request(`/users/${id}`, {credentials: "same-origin"})
         setUserData(id, data)
@@ -167,7 +127,6 @@ function useGlobal() {
 
     // GET /users/me
     // You need to be logged in in order to call this query, because you need to have current session
-    // Tested
     async function currentUserQuery() {
         const data = await request("/users/me", {credentials: "same-origin"})
         setCurrentUserData(data)
@@ -193,14 +152,12 @@ function useGlobal() {
     }
 
     // POST /user
-    // Tested
     async function createUserQuery(options) {
         const data = await request("/user", standardJsonInit("POST", options))
         setCurrentUserData(data)
     }
 
     // POST /user/login
-    // Tested
     async function loginUserQuery(options) {
         const data = await request(
             "/user/login",
@@ -210,7 +167,6 @@ function useGlobal() {
     }
 
     // PUT /users/me
-    // Tested
     async function modifyUserQuery(options) {
         const data = await request(
             "/users/me",
@@ -221,7 +177,6 @@ function useGlobal() {
 
     // DELETE /users/me
     // Note: Needs to be caught on the outside
-    // Tested
     async function deleteUserQuery() {
         await request("/users/me", {
             method: "DELETE",
@@ -234,7 +189,6 @@ function useGlobal() {
     // GET /events/:eventId/exercises
     // NOTE: Must be called after /events/:eventId
     // NOTE: Must be caught
-    // X
     async function getEventExercisesQuery(id) {
         const data = await request(`/events/${id}/exercises`, {
             credentials: "same-origin",
@@ -250,12 +204,7 @@ function useGlobal() {
         }))
     }
 
-    // Queries TODO...
-
-    // WIll have to reference schema to figure out relations
-
     // POST /event
-    // Tested
     async function createEventQuery(options) {
         const data = await request("/event", standardJsonInit("POST", options))
         setEventData(data.id, data)
@@ -266,7 +215,6 @@ function useGlobal() {
     }
 
     // GET /events
-    // Tested
     async function currentUserEventQuery() {
         const data = await request("/events", {credentials: "same-origin"})
 
@@ -280,8 +228,7 @@ function useGlobal() {
         }))
     }
 
-    // GET /events/:eventId Specific User Event
-    // Tested
+    // GET /events/:eventId
     async function eventFromIdQuery(id) {
         const data = await request(`/events/${id}`, {
             credentials: "same-origin",
@@ -292,7 +239,6 @@ function useGlobal() {
 
     // PUT /events/:eventId EASY
     // Note: Must be caught
-    // Tested
     async function modifyEventQuery(id, options) {
         const data = await request(
             `/events/${id}`,
@@ -302,26 +248,22 @@ function useGlobal() {
     }
 
     // DELETE /events/:eventId EASY
-    // Tested
     async function deleteEventQuery(id) {
         await request(`/events/${id}`, {
             method: "DELETE",
             credentials: "same-origin",
         })
-        console.log("START DELETE")
         setEventData(id, undefined)
     }
 
     // DELETE /events/:eventId/invitee EASY
     // Removes current user from event
-    // Will test later when groups need to get involved
     async function deleteCurrentUserFromInviteeQuery(eventId) {
         await request(`/events/${eventId}/invitee`, {
             method: "DELETE",
             credentials: "same-origin",
         })
 
-        const event = getEventById(eventId)
         setEventData(eventId, prev => ({
             ...prev,
             invitees: prev.invitees.filter(
@@ -330,10 +272,7 @@ function useGlobal() {
         }))
     }
 
-    // Need to figure out how to update the rest of the state
-
     // POST /events/:eventId/invitees MEDIUM User & Event must be updated
-    // Will test later when groups need to get involved
     async function createEventInviteeQuery(eventId, options) {
         const data = await request(
             `/events/${eventId}/invitees`,
@@ -353,7 +292,6 @@ function useGlobal() {
     }
 
     // POST /events/:eventId/invitees/remove MEDIUM User & Event must be updated
-    // Will test later when groups need to get involved
     async function deleteEventInviteeQuery(eventId, options) {
         const data = await request(
             `/events/${eventId}/invitees/remove`,
@@ -371,41 +309,87 @@ function useGlobal() {
             }))
         }
     }
-    //////////////////////////////////////////////////////////////////////////////
-    // POST /group EASY
-    // async function createGroupQuery(options) {
-    //   const data = await request(`/group`, standardJsonInit("POST", options))
-    //   for (const group of data) {
-    //     setGroupData(group, group)
-    //   }
-    //   setUserData(currentUserIdMutationRef.current, {...user.data, groups: data.map(v => v)})
-    // }
 
-    // // GET /groups/:groupId EASY
-    // async function getGroupIdQuery(id) {
-    //   const data = await request(`/groups/${id}`, {credentials: "same-origin"})
-    //   for (const group of data) {
-    //     setGroupData(group, group)
-    //   }
-    //   setUserData(currentUserIdMutationRef.current, {...user.data, groups: data.map(v => v)})
-    // }
+    // POST /group
+    async function createGroupQuery(options) {
+        const data = await request(`/group`, standardJsonInit("POST", options))
 
-    // // PUT /groups/:groupId EASY
-    // async function modifyGroupQuery(id, options) {
-    //   const data = await request(
-    //     `/groups/${id}`,
-    //     standardJsonInit("PUT", options),
-    //   )
-    //   setGroupData(group[id], data)
-    //   setUserData(currentUserIdMutationRef.current, {...user.data, groups: data.map(v => v)})
-    // }
+        setGroupData(data.id, data)
+        setUserData(prev => ({
+            ...prev,
+            group: prev.group.concat(data.id),
+        }))
+    }
 
-    // POST /groups/:groupId/users MEDIUM User & Group must be updated
-    // DELETE /groups/:groupId/users/:userId MEDIUM User & Group must be updated
+    // // GET /groups/:groupId
+    async function getGroupIdQuery(id) {
+        const data = await request(`/groups/${id}`, {
+            credentials: "same-origin",
+        })
+        setGroupData(data.id, data)
+    }
+
+    // // PUT /groups/:groupId
+    async function modifyGroupQuery(id, options) {
+        const data = await request(
+            `/groups/${id}`,
+            standardJsonInit("PUT", options),
+        )
+        setGroupData(data.id, data)
+    }
+
+    // POST /groups/:groupId/users
+    async function addMemberToGroupQuery(groupId, options) {
+        const data = await request(
+            `/groups/${groupId}/users`,
+            standardJsonInit("POST", options),
+        )
+        setGroupData(data.id, data)
+        for (const userId of data.users) {
+            const user = getUserById(userId)
+            if (!user) {
+                continue
+            }
+            setUserData(userId, prev => ({
+                ...prev,
+                group: prev.group.concat(data.id),
+            }))
+        }
+    }
+
+    // DELETE /groups/:groupId/users/:userId
+    async function deleteMemberFromGroupQuery(groupId, userId) {
+        await request(`/groups/${groupId}/users/${userId}`, {
+            method: "DELETE",
+            credentials: "same-origin",
+        })
+
+        const group = getGroupById(groupId)
+        setGroupData(groupId, prev => ({
+            ...prev,
+            users: prev.users.filter(v => v !== group.id),
+        }))
+
+        const user = getUserById(userId)
+        if (!user) {
+            return
+        }
+        setUserData(userId, prev => ({
+            ...prev,
+            group: prev.group.filter(v => v !== userId),
+        }))
+    }
+
     // DELETE /groups/:groupId MEDIUM User & Group must be updated
-    /////////////////////////////////////////////////////////////////////////////////////////
+    async function deleteGroupQuery(id) {
+        await request(`/groups/${id}`, {
+            method: "DELETE",
+            credentials: "same-origin",
+        })
+        setGroupData(id, undefined)
+    }
 
-    // GET /events/:eventId/exercises MEDIUM Exercises & Event must be updated
+    // GET /events/:eventId/exercises
     async function getExercisesFromEventIdQuery(id) {
         const data = await request(`/events/${id}/exercises`, {
             credentials: "same-origin",
@@ -421,7 +405,7 @@ function useGlobal() {
         }))
     }
 
-    // POST /events/:eventId/exercise MEDIUM Exercises & Event must be updated
+    // POST /events/:eventId/exercise
     async function createExerciseWithEventIdQuery(id, options) {
         const data = await request(
             `/events/${id}/exercise`,
@@ -434,7 +418,7 @@ function useGlobal() {
         }))
     }
 
-    // GET /exercise/:exerciseId EASY
+    // GET /exercise/:exerciseId
     async function getExerciseByIdQuery(id) {
         const data = await request(`/exercise/${id}`, {
             credentials: "same-origin",
@@ -442,7 +426,7 @@ function useGlobal() {
         setExerciseData(data.id, data)
     }
 
-    // DELETE /exercise/:exerciseId MEDIUM Exercises & Event must be updated
+    // DELETE /exercise/:exerciseId
     async function deleteExerciseQuery(id) {
         await request(`/exercise/${id}`, {
             method: "DELETE",
@@ -451,7 +435,7 @@ function useGlobal() {
         setExerciseData(id, undefined)
     }
 
-    // POST /exercise/:exerciseId/response MEDIUM
+    // POST /exercise/:exerciseId/response
     async function createExerciseResponseQuery(exerciseId, options) {
         const data = await request(
             `/exercise/${exerciseId}/response`,
@@ -465,7 +449,7 @@ function useGlobal() {
         }))
     }
 
-    // PUT /responses/:responseId EASY
+    // PUT /responses/:responseId
     async function modifyExerciseResponseQuery(id, options) {
         const data = await request(
             `/responses/${id}`,
@@ -474,7 +458,7 @@ function useGlobal() {
         setExerciseResponseData(data.id, data)
     }
 
-    // DELETE /responses/:responseId EASY
+    // DELETE /responses/:responseId
     async function deleteExerciseResponseQuery(id) {
         await request(`/responses/${id}`, {
             method: "DELETE",
@@ -533,6 +517,14 @@ function useGlobal() {
         createExerciseResponseQuery,
         modifyExerciseResponseQuery,
         deleteExerciseResponseQuery,
+
+        //Group Queries
+        createGroupQuery,
+        getGroupIdQuery,
+        modifyGroupQuery,
+        addMemberToGroupQuery,
+        deleteMemberFromGroupQuery,
+        deleteGroupQuery,
     }
 }
 const [GlobalProvider, useGlobalContext] = constate(useGlobal)
