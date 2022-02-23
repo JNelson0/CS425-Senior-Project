@@ -1,4 +1,6 @@
 import router from "./router"
+import db from "../db"
+import {onlyAuthenticated} from "../middleware"
 
 const {google} = require('googleapis')
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID
@@ -20,21 +22,33 @@ const authorizationUri = oauth2Client.generateAuthUrl({
     scope: scopes
 });
 
-router.post('googleapi/generate-auth-token', async (req, res, next) => {
+router.post('/googleapi/generate-auth-token', onlyAuthenticated, async (req, res, next) => {
     try {
         const {code} = req.body
         const {tokens} = await oauth2Client.getToken(code)
-        //Upload refresh token into database
+
+        const storeToken = await db.user.update({
+            where: {
+                id: req.user.id,
+            },
+            data: {
+                googleRefreshToken: tokens.refresh_token,
+            },
+        })
     } catch(error) {
         next(error)
     }
 })
 
-router.post('googleapi/create-event', async(req, res, next) => {
+router.post('/googleapi/create-event', onlyAuthenticated, async(req, res, next) => {
     try {
         const {summary, description, location, startTime, endTime} = req.body
-        //USER_REFRESH_TOKEN grabbed from database
-        oauth2Client.setCredentials({refresh_token: USER_REFRESH_TOKEN})
+        const currentUser = await db.user.findUnique({
+            where: {
+                id: req.user.id,
+            },
+        })
+        oauth2Client.setCredentials({refresh_token: currentUser.googleRefreshToken})
         const calendar = google.calendar('v3')
         const response = await calendar.events.insert({
             auth: oauth2Client,
