@@ -30,6 +30,16 @@
             &.active {
                 transform: scaleY(-1);
             }
+            animation: arrowBlink 2s infinite;
+        }
+
+        @keyframes arrowBlink {
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
         }
         .wrapper {
             display: flex;
