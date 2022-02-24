@@ -97,21 +97,6 @@ export default function AddEvent({addOpen, setAddOpen}) {
         }
     }
 
-    const exercise = [
-        {
-            type: "WEIGHTS",
-            name: "BENCH",
-            sets: 4,
-            reps: 4,
-        },
-        {
-            type: "WEIGHTS",
-            name: "BENCH",
-            sets: 4,
-            reps: 4,
-        },
-    ]
-
     const [error, setError] = useState()
     const [addExercise, setAddExercise] = useState(false)
 

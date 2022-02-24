@@ -17,19 +17,27 @@ const CalendarPage = ({darkmode}) => {
     const {user, getEventById, isLoggedIn} = useGlobalContext()
     const [list, setList] = useState([])
     const [loading, setLoading] = useState(true)
+    const [error, setError] = useState()
 
     useEffect(() => {
-        user.events.map(el => {
-            list.push({
-                Id: parseInt(getEventById(el).id),
-                Subject: getEventById(el).title,
-                StartTime: getEventById(el).start,
-                EndTime: getEventById(el).finish,
+        ;(async () => {
+            user.events.map(el => {
+                list.push({
+                    Id: parseInt(getEventById(el).id),
+                    Subject: getEventById(el).title,
+                    StartTime: getEventById(el).start,
+                    EndTime: getEventById(el).finish,
+                })
             })
-        })
-        setLoading(false)
+        })()
+            .catch(setError)
+            .finally(() => {
+                setLoading(false)
+            })
     }, [])
-
+    if (error) {
+        return <>Error : {String(error)}</>
+    }
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <div className="calendarPage">
