@@ -4,7 +4,7 @@ import AddEventDetails from "./AddEventDetails"
 import AddWorkoutDetails from "./AddWorkoutDetails"
 import {useGlobalContext} from "../../store"
 
-export default function AddEvent({addOpen, setAddOpen, loadUser, setLoading}) {
+export default function AddEvent({addOpen, setAddOpen}) {
     const {
         user,
         createEventQuery,
@@ -115,14 +115,12 @@ export default function AddEvent({addOpen, setAddOpen, loadUser, setLoading}) {
     async function handleSubmit() {
         setAddOpen(!addOpen)
         await createEventQuery(workoutDetailsList)
-        console.log(user)
         for (const el of workoutExerciseList) {
             await createExerciseWithEventIdQuery(
                 user.events[user.events.length - 1],
                 el,
             )
         }
-
         resetInput()
     }
 
