@@ -1,5 +1,5 @@
 export {default as DashboardPage} from "./DashboardPage"
 export {default as CalendarPage} from "./CalendarPage"
-export {default as EventPage} from "./EventPage"
+export {default as EventPage} from "./EventPage/EventPage"
 export {default as LoginPage} from "./LoginPage"
 export {default as SettingsPage} from "./SettingsPage"
