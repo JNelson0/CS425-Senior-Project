@@ -1,95 +1,89 @@
 import React, {useEffect, useState} from "react"
-import {StandardLayout} from "../components"
 import {Navigate} from "react-router"
 import {useGlobalContext} from "../store"
 import "./LoginPage.scss"
-import { Divider, dividerClasses } from "@mui/material"
 import BackgroundIGM from "../img/university-background.png"
 
 const LoginPage = () => {
-  const [emailOrUsername, setEmailOrUsername] = useState("")
-  const [password, setPassword] = useState()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState()
+    const [emailOrUsername, setEmailOrUsername] = useState("")
+    const [password, setPassword] = useState()
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState()
 
-  const [redirectTo, setRedirectTo] = useState()
+    const [redirectTo, setRedirectTo] = useState()
 
-  const {loginUserQuery, isLoggedIn} = useGlobalContext()
+    const {loginUserQuery, isLoggedIn} = useGlobalContext()
 
-  const handleEmailOrUsernameChange = e => {
-    setEmailOrUsername(e.target.value)
-  }
+    const handleEmailOrUsernameChange = e => {
+        setEmailOrUsername(e.target.value)
+    }
 
-  const handlePasswordChange = e => {
-    setPassword(e.target.value)
-  }
+    const handlePasswordChange = e => {
+        setPassword(e.target.value)
+    }
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    // Only need to setLoading because we are not logged in.... Will have to trial and error
-    setLoading(true)
-    loginUserQuery({
-      emailOrUsername,
-      password,
-    })
-      .then(() => {
-        setRedirectTo("/dashboard")
-      })
-      .catch(setError)
-      .finally(() => {
-        setLoading(false)
-      })
-  }
+    const handleSubmit = e => {
+        e.preventDefault()
+        setLoading(true)
+        loginUserQuery({
+            emailOrUsername,
+            password,
+        })
+            .then(() => {
+                setRedirectTo("/dashboard")
+            })
+            .catch(setError)
+            .finally(() => {
+                setLoading(false)
+            })
+    }
 
-  if (redirectTo) {
-    return <Navigate to={redirectTo} />
-  }
+    if (redirectTo) {
+        return <Navigate to={redirectTo} />
+    }
 
-  return (
-    <div class = "loginpage">
-      <div class = "underlay">
-        <img id= "img" src={BackgroundIGM} alt="backg" />
-      </div>
-      <div class = "inputbox">
-        <div class = "textinput">
-          <form onSubmit={handleSubmit}>
-
-            <div id = "emailenter">
-              <label for="name">Username or Email</label> 
-              <input
-                type="text"
-                id="name"
-                value={emailOrUsername}
-                onChange={handleEmailOrUsernameChange}
-              />
+    return (
+        <div class="loginpage">
+            <div class="underlay">
+                <img id="img" src={BackgroundIGM} alt="backg" />
             </div>
+            <div class="inputbox">
+                <div class="textinput">
+                    <form onSubmit={handleSubmit}>
+                        <div id="emailenter">
+                            <label for="name">Username or Email</label>
+                            <input
+                                type="text"
+                                id="name"
+                                value={emailOrUsername}
+                                onChange={handleEmailOrUsernameChange}
+                            />
+                        </div>
 
-            <div id = "passenter">
-              <label for="pass">Password</label>
-              <input
-                type="password"
-                id="pass"
-                value={password}
-                onChange={handlePasswordChange}
-              />
+                        <div id="passenter">
+                            <label for="pass">Password</label>
+                            <input
+                                type="password"
+                                id="pass"
+                                value={password}
+                                onChange={handlePasswordChange}
+                            />
+                        </div>
+
+                        <div id="loginbutton">
+                            <button type="submit" disabled={loading}>
+                                {loading ? "Loading..." : "Login"}
+                            </button>
+                        </div>
+
+                        <div id="error">
+                            {error && <div>{error.message}</div>}
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <div id= "loginbutton">
-              <button type="submit" disabled={loading}>
-                {loading ? "Loading..." : "Login"}
-              </button>
-            </div>
-
-            <div id="error">
-              {error && <div>{error.message}</div>}
-            </div>
-
-          </form>
         </div>
-      </div>
-    </div>
-    
-  )
+    )
 }
 
 export default LoginPage
