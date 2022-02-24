@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import "./CalendarPage.scss"
 import TopButtons from "./PageOverlay/TopButtons.js"
 import {useGlobalContext} from "../store"
@@ -18,7 +18,7 @@ const CalendarPage = ({darkmode}) => {
     const [list, setList] = useState([])
     const [loading, setLoading] = useState(true)
 
-    if (loading && isLoggedIn) {
+    useEffect(() => {
         user.events.map(el => {
             list.push({
                 Id: parseInt(getEventById(el).id),
@@ -28,27 +28,37 @@ const CalendarPage = ({darkmode}) => {
             })
         })
         setLoading(false)
-    }
+    }, [])
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <div className="calendarPage">
                 <TopButtons />
-                {console.log(list)}
                 <div className="middle">
-                    <div class="calendar">
-                        {console.log("Trying to load Calendar")}
-                        <ScheduleComponent
-                            width="100%"
-                            height="100%"
-                            selectedDate={new Date(2022, 1, 14)}
-                            eventSettings={{dataSource: list}}
-                        >
-                            <Inject
-                                services={[Day, Week, WorkWeek, Month, Agenda]}
-                            />
-                        </ScheduleComponent>
-                    </div>
+                    {loading ? (
+                        <div className="loading">
+                            <span>LOADING</span>
+                        </div>
+                    ) : (
+                        <div class="calendar">
+                            <ScheduleComponent
+                                width="100%"
+                                height="100%"
+                                selectedDate={new Date(new Date())}
+                                eventSettings={{dataSource: list}}
+                            >
+                                <Inject
+                                    services={[
+                                        Day,
+                                        Week,
+                                        WorkWeek,
+                                        Month,
+                                        Agenda,
+                                    ]}
+                                />
+                            </ScheduleComponent>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

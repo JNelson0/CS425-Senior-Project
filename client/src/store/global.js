@@ -263,6 +263,7 @@ function useGlobal() {
             ...prev,
             events: prev.events.concat(data.id),
         }))
+        return data.id
     }
 
     // GET /events

@@ -1,5 +1,5 @@
 import "./AddEvent.scss"
-import {React, useState, useEffect} from "react"
+import {React, useState, useEffect, useCallback} from "react"
 import AddEventDetails from "./AddEventDetails"
 import AddWorkoutDetails from "./AddWorkoutDetails"
 import {useGlobalContext} from "../../store"
@@ -112,16 +112,32 @@ export default function AddEvent({addOpen, setAddOpen}) {
         },
     ]
 
+    const [error, setError] = useState()
+    const [addExercise, setAddExercise] = useState(false)
+
+    useEffect(() => {
+        if (addExercise) {
+            ;(async () => {
+                const id = await createEventQuery(workoutDetailsList)
+                for (const el of workoutExerciseList) {
+                    await createExerciseWithEventIdQuery(id, el)
+                }
+            })()
+                .catch(setError)
+                .finally(() => {
+                    resetInput()
+                    setAddExercise(false)
+                })
+        }
+    }, [addExercise])
+
+    if (error) {
+        return <>Error : {String(error)}</>
+    }
+
     async function handleSubmit() {
         setAddOpen(!addOpen)
-        await createEventQuery(workoutDetailsList)
-        for (const el of workoutExerciseList) {
-            await createExerciseWithEventIdQuery(
-                user.events[user.events.length - 1],
-                el,
-            )
-        }
-        resetInput()
+        setAddExercise(true)
     }
 
     return (

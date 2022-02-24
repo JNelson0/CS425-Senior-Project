@@ -21,8 +21,6 @@ export default function DashboardPage({setId, darkmode}) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState()
 
-    const delay = ms => new Promise(res => setTimeout(res, ms))
-
     useEffect(() => {
         ;(async () => {
             if (!isLoggedIn) {
