@@ -12,25 +12,26 @@
     margin-top: 15px;
     border-radius: 15px;
 
-    .button {
+    .exerciseComponent {
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
-        width: 100%;
         height: 100%;
         align-items: center;
-        font-size: 50px;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        img {
+        font-size: 30px;
+        .arrow {
             display: flex;
-
-            width: 4%;
-            &.active {
-                transform: scaleY(-1);
+            height: 100%;
+            width: 10%;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            img {
+                width: 50%;
+                &.active {
+                    transform: scaleY(-1);
+                }
+                animation: arrowBlink 2s infinite;
             }
-            animation: arrowBlink 2s infinite;
         }
 
         @keyframes arrowBlink {
@@ -43,20 +44,42 @@
         }
         .wrapper {
             display: flex;
-            flex: 0.7;
+            width: 80%;
+            height: 100%;
             flex-direction: column;
-            .exerciseInfo {
+            align-items: center;
+            position: relative;
+            justify-content: center;
+            .type {
                 display: flex;
-                flex-direction: row;
-                justify-content: space-evenly;
-                width: 100%;
-                height: 100%;
+                align-items: center;
+                height: 33%;
+                font-size: 50px;
+                margin-bottom: 15px;
+                margin-top: 15px;
+            }
+            .setsReps {
+                height: 66%;
+
+                // border: 1px solid black;
+                .exerciseInfo {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                }
+                .setBoxes {
+                    display: flex;
+                    width: 100%;
+                    height: 50px;
+                }
             }
         }
     }
 
     &.active {
-        height: 40%;
+        height: 70%;
     }
 
     &:hover {
