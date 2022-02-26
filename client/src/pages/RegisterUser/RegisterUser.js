@@ -1,11 +1,10 @@
 import "./RegisterUser.scss"
 import {React, useState, useEffect} from "react"
-import CloseIcon from '@mui/icons-material/Close';
-import { useGlobalContext } from "../../store";
+import CloseIcon from "@mui/icons-material/Close"
+import {useGlobalContext} from "../../store"
 import {Navigate} from "react-router"
 
 export default function RegisterUser({registerOpen, setRegisterOpen}) {
-
     const [email, setEmail] = useState("")
     const [firstName, setFN] = useState("")
     const [lastName, setLN] = useState("")
@@ -23,29 +22,39 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
     }
 
     const handleSubmit = e => {
-    e.preventDefault()
-    // Only need to setLoading because we are not logged in.... Will have to trial and error
-    setLoading(true)
-    createUserQuery({
-        email,
-        password,
-        passwordConfirmation,
-        firstName,
-        lastName,
-        username,
-      })
-      .then(() => {
-        setRedirectTo("/dashboard")
-      })
-      .catch(setError)
-      .finally(() => {
-        setLoading(false)
-      })
-  }
+        e.preventDefault()
+        // Only need to setLoading because we are not logged in.... Will have to trial and error
+        setLoading(true)
+        createUserQuery({
+            email,
+            password,
+            passwordConfirmation,
+            firstName,
+            lastName,
+            username,
+        })
+            .then(() => {
+                setRedirectTo("/dashboard")
+            })
+            .catch(e => {
+                if (e.message.search("email")) {
+                    setError(Error("Email Taken"))
+                } else if (e.message.search("username")) {
+                    setError(Error("UserName taken"))
+                }
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+    }
 
-  if (redirectTo) {
-    return <Navigate to={redirectTo} />
-  }
+    // if (error) {
+    //     console.log(error)
+    // }
+
+    if (redirectTo) {
+        return <Navigate to={redirectTo} />
+    }
 
     const handleEmailChange = e => {
         setEmail(e.target.value)
@@ -69,16 +78,16 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
     return (
         <div>
             <div className={"register-user " + (registerOpen && "active")}>
-                <div className="topbar"> 
-                    <label id = "title">Register </label>
+                <div className="topbar">
+                    <label id="title">Register </label>
                     <div id="close" onClick={() => handleClose()}>
                         <CloseIcon sx={{fontSize: 33}} />
                     </div>
                 </div>
-                <div class = "textinput">
+                <div class="textinput">
                     <form onSubmit={handleSubmit}>
-                        <div id = "fnenter">
-                            <label for="fn">First Name</label> 
+                        <div id="fnenter">
+                            <label for="fn">First Name</label>
                             <input
                                 type="text"
                                 id="fn"
@@ -87,8 +96,8 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
                             />
                         </div>
 
-                        <div id = "lnenter">
-                            <label for="ln">Last Name</label> 
+                        <div id="lnenter">
+                            <label for="ln">Last Name</label>
                             <input
                                 type="text"
                                 id="ln"
@@ -96,9 +105,9 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
                                 onChange={handleLNChange}
                             />
                         </div>
-                    
-                        <div id = "emailenter">
-                            <label for="email">Email</label> 
+
+                        <div id="emailenter">
+                            <label for="email">Email</label>
                             <input
                                 type="text"
                                 id="email"
@@ -107,8 +116,8 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
                             />
                         </div>
 
-                        <div id = "usernameenter">
-                            <label for="name">Username</label> 
+                        <div id="usernameenter">
+                            <label for="name">Username</label>
                             <input
                                 type="text"
                                 id="name"
@@ -118,7 +127,7 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
                             />
                         </div>
 
-                        <div id = "passenter1">
+                        <div id="passenter1">
                             <label for="pass1">Password</label>
                             <input
                                 type="password"
@@ -129,7 +138,7 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
                             />
                         </div>
 
-                        <div id = "passenter2">
+                        <div id="passenter2">
                             <label for="pass2">Re-enter Password</label>
                             <input
                                 type="password"
@@ -140,17 +149,21 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
                             />
                         </div>
 
-                        <div id= "registeruser">
+                        <div id="registeruser">
                             <button type="submit" disabled={loading}>
                                 {loading ? "Loading..." : "Register"}
                             </button>
                         </div>
 
                         <div id="error">
-                            {error && <div>{error.message}</div>}
-                        </div> 
+                            {error != undefined ? (
+                                <div>{error.message}</div>
+                            ) : (
+                                <div />
+                            )}
+                        </div>
                     </form>
-                </div> 
+                </div>
             </div>
         </div>
     )

@@ -41,10 +41,10 @@ export default function EventContainer({id, setId, name, date, darkmode}) {
                                 : date.getMinutes())}
                     </span>
                 </Link>
-                <DeleteForeverIcon
+                {/* <DeleteForeverIcon
                     className="trash"
                     onClick={handleEventDelete}
-                />
+                /> */}
             </li>
         </div>
     )

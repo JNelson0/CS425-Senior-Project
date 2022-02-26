@@ -6,8 +6,12 @@ import ExerciseContainer from "./ExerciseContainer"
 import {useGlobalContext} from "../../store"
 
 const EventPage = ({id, darkmode}) => {
-    const {getEventById, getExerciseById, getExercisesFromEventIdQuery} =
-        useGlobalContext()
+    const {
+        getEventById,
+        getExerciseById,
+        getExercisesFromEventIdQuery,
+        eventFromIdQuery,
+    } = useGlobalContext()
 
     const [loading, setLoading] = useState(true)
 
@@ -15,6 +19,8 @@ const EventPage = ({id, darkmode}) => {
 
     useEffect(() => {
         ;(async () => {
+            console.log(id)
+            let id = await eventFromIdQuery(id)
             await getExercisesFromEventIdQuery(id)
         })()
             .catch(setError)
