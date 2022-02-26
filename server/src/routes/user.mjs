@@ -56,7 +56,7 @@ router.post("/user", async (req, res) => {
         if (e.meta.target[0] === "username") {
             console.log("wrong username")
             throw Error("Username already in use")
-        } else if (e.meta.target[0] === "email") {
+        } if (e.meta.target[0] === "email") {
             console.log("wong email")
             throw Error("Email already in use")
         }
