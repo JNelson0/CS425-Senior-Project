@@ -66,39 +66,40 @@ const LoginPage = () => {
                 value={emailOrUsername}
                 onChange={handleEmailOrUsernameChange}
               />
-
-
-                        <div id="passenter">
-                            <label for="pass">Password</label>
-                            <input
-                                type="password"
-                                id="pass"
-                                value={password}
-                                onChange={handlePasswordChange}
-                            />
-                        </div>
-
-                        <div id="loginbutton">
-                            <button type="submit" disabled={loading}>
-                                {loading ? "Loading..." : "Login"}
-                            </button>
-                        </div>
-
-                        <div id="error">
-                            {error && <div>{error.message}</div>}
-                        </div>
-                    </form>
-                </div>
             </div>
+
+            <div id="passenter">
+                <label for="pass">Password</label>
+                <input
+                    type="password"
+                    id="pass"
+                    value={password}
+                    onChange={handlePasswordChange}
+                />
+            </div>
+
+            <div id="loginbutton">
+                <button type="submit" disabled={loading}>
+                    {loading ? "Loading..." : "Login"}
+                </button>
+            </div>
+
+            <div id="error">
+                {error && <div>{error.message}</div>}
+            </div>
+
           </form>
 
           <div id= "registerbutton">
-              <button id="addButton" onClick={() => setRegisterOpen(!registerOpen)}>
-                Register
-              </button>
+            <button id="addButton" onClick={() => setRegisterOpen(!registerOpen)}>
+              Register
+            </button>
           </div>
+
         </div>
-    )
+      </div>
+    </div>
+  )
 }
 
 export default LoginPage
