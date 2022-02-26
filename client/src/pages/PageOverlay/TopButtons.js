@@ -34,14 +34,14 @@ export default function TopButtons({
                         <NotificationsIcon sx={{fontSize: 35}} />
                     </button>
                 ) : (
-                    <div></div>
+                    <div id="placeholder"></div>
                 )}
                 {showButtonAdd ? (
                     <button id="addButton" onClick={() => setAddOpen(!addOpen)}>
                         <AddIcon sx={{fontSize: 35}} />
                     </button>
                 ) : (
-                    <div></div>
+                    <div id="placeholder"></div>
                 )}
             </div>
         </div>
