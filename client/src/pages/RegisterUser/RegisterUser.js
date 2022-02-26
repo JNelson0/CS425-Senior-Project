@@ -152,9 +152,6 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
                     </form>
                 </div> 
             </div>
-            <div id="error">
-                {error && <div>{error.message}</div>}
-            </div> 
         </div>
     )
 }
