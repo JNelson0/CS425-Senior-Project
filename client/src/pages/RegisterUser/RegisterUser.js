@@ -1,6 +1,8 @@
 import "./RegisterUser.scss"
 import {React, useState, useEffect} from "react"
 import CloseIcon from '@mui/icons-material/Close';
+import { useGlobalContext } from "../../store";
+import {Navigate} from "react-router"
 
 export default function RegisterUser({registerOpen, setRegisterOpen}) {
 
@@ -8,16 +10,42 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
     const [firstName, setFN] = useState("")
     const [lastName, setLN] = useState("")
     const [username, setUsername] = useState("")
-    const [password1, setPassword1] = useState()
-    const [password2, setPassword2] = useState()
+    const [password, setPassword1] = useState("")
+    const [passwordConfirmation, setPassword2] = useState("")
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState()
+    const [redirectTo, setRedirectTo] = useState()
+
+    const {createUserQuery, isRegistered} = useGlobalContext()
+
     const handleClose = () => {
         setRegisterOpen(!registerOpen)
     }
-    const handleSubmit = () => {
 
-    }
+    const handleSubmit = e => {
+    e.preventDefault()
+    // Only need to setLoading because we are not logged in.... Will have to trial and error
+    setLoading(true)
+    createUserQuery({
+        email,
+        password,
+        passwordConfirmation,
+        firstName,
+        lastName,
+        username,
+      })
+      .then(() => {
+        setRedirectTo("/dashboard")
+      })
+      .catch(setError)
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
+  if (redirectTo) {
+    return <Navigate to={redirectTo} />
+  }
 
     const handleEmailChange = e => {
         setEmail(e.target.value)
@@ -39,12 +67,14 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
     }
 
     return (
-        <div className={"register-user " + (registerOpen && "active")}>
-            <div className="topbar"> 
-                <div className="close" onClick={() => handleClose()}>
-                    <CloseIcon sx={{fontSize: 33}} />
+        <div>
+            <div className={"register-user " + (registerOpen && "active")}>
+                <div className="topbar"> 
+                    <label id = "title">Register </label>
+                    <div id="close" onClick={() => handleClose()}>
+                        <CloseIcon sx={{fontSize: 33}} />
+                    </div>
                 </div>
-
                 <div class = "textinput">
                     <form onSubmit={handleSubmit}>
                         <div id = "fnenter">
@@ -56,6 +86,7 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
                                 onChange={handleFNChange}
                             />
                         </div>
+
                         <div id = "lnenter">
                             <label for="ln">Last Name</label> 
                             <input
@@ -75,6 +106,7 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
                                 onChange={handleEmailChange}
                             />
                         </div>
+
                         <div id = "usernameenter">
                             <label for="name">Username</label> 
                             <input
@@ -82,7 +114,7 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
                                 id="name"
                                 value={username}
                                 onChange={handleUsernameChange}
-                                autocomplete="off"
+                                autocomplete="chrome-off"
                             />
                         </div>
 
@@ -91,27 +123,38 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
                             <input
                                 type="password"
                                 id="pass1"
-                                value={password1}
+                                value={password}
                                 onChange={handlePassword1Change}
-                                autocomplete="off"
+                                autocomplete="new-password"
                             />
                         </div>
+
                         <div id = "passenter2">
-                            <label for="pass2">Verify Password</label>
+                            <label for="pass2">Re-enter Password</label>
                             <input
                                 type="password"
                                 id="pass2"
-                                value={password2}
+                                value={passwordConfirmation}
                                 onChange={handlePassword2Change}
-                                autocomplete="off"
+                                autocomplete="new-password"
                             />
                         </div>
-                    </form>
-                </div>     
-            </div>
-            <div className="input">
 
+                        <div id= "registeruser">
+                            <button type="submit" disabled={loading}>
+                                {loading ? "Loading..." : "Register"}
+                            </button>
+                        </div>
+
+                        <div id="error">
+                            {error && <div>{error.message}</div>}
+                        </div> 
+                    </form>
+                </div> 
             </div>
+            <div id="error">
+                {error && <div>{error.message}</div>}
+            </div> 
         </div>
     )
 }

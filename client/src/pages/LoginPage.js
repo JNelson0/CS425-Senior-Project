@@ -53,7 +53,9 @@ const LoginPage = () => {
       <div class = "underlay">
         <img id= "img" src={BackgroundIGM} alt="backg" />
       </div>
+
       <RegisterUser registerOpen={registerOpen} setRegisterOpen={setRegisterOpen} />
+      
       <div class = "inputbox">
         <div class = "textinput">
           <form onSubmit={handleSubmit}>
@@ -95,7 +97,7 @@ const LoginPage = () => {
                 Register
               </button>
           </div>
-          
+
         </div>
       </div>
     </div>
