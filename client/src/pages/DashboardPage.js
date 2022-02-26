@@ -19,23 +19,29 @@ export default function DashboardPage({setId, darkmode}) {
 
     const [addOpen, setAddOpen] = useState(false)
     const [loading, setLoading] = useState(true)
-    const delay = ms => new Promise(res => setTimeout(res, ms))
+    const [error, setError] = useState()
 
-    async function loadUser() {
-        if (loading && isLoggedIn) {
+    useEffect(() => {
+        ;(async () => {
+            if (!isLoggedIn) {
+                await currentUserQuery()
+            }
+
             await currentUserEventQuery()
-            await delay(500)
-            console.log("Load for 0.5 seconds")
-            setLoading(false)
-        } else {
-            await currentUserQuery()
-            console.log("HERE")
-        }
+        })()
+            .catch(setError)
+            .finally(() => {
+                setLoading(false)
+            })
+    }, [])
+
+    if (error) {
+        return <>Error : {String(error)}</>
     }
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
-            <div className="dashboard" onLoad={loadUser}>
+            <div className="dashboard">
                 <TopButtons
                     className="tb"
                     addOpen={addOpen}

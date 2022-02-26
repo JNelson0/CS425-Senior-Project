@@ -1,7 +1,6 @@
-import {useState, useCallback, useRef, useEffect} from "react"
+import {useState, useEffect} from "react"
 import constate from "constate"
 import {ApiError} from "../errors"
-import {typographyVariant} from "@mui/system"
 import {useNavigate} from "react-router"
 
 async function request(input, init) {
@@ -212,6 +211,7 @@ function useGlobal() {
             ...prev,
             events: prev.events.concat(data.id),
         }))
+        return data.id
     }
 
     // GET /events

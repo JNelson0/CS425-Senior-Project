@@ -11,48 +11,14 @@ export default function AddEventDetails({
     setWorkoutDetails,
     type,
     setType,
+    workoutDetailsList,
+    setWorkoutDetailsList,
+    startDate,
+    finishDate,
 }) {
     const {createEventQuery, currentUserEventQuery} = useGlobalContext()
 
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
     //ALL DATES AND TIMES NEED TO BE OF TYPE "05 October 2011 14:48 UTC"
-
-    const today = new Date(Date.now())
-    var date =
-        today.getFullYear() +
-        "-" +
-        (today.getMonth() + 1 < 10
-            ? "0" + (today.getMonth() + 1)
-            : today.getMonth() + 1) +
-        "-" +
-        (today.getDate() < 10 ? "0" + today.getDate() : today.getDate()) +
-        "T" +
-        (today.getHours() < 10
-            ? "0" + (today.getHours() + 1)
-            : today.getHours() + 1) +
-        ":" +
-        (today.getMinutes() < 30 ? "00" : "30")
-
-    var finishDate =
-        today.getFullYear() +
-        "-" +
-        (today.getMonth() + 1 < 10
-            ? "0" + (today.getMonth() + 1)
-            : today.getMonth() + 1) +
-        "-" +
-        (today.getDate() < 10
-            ? "0" + (today.getDate() + 1)
-            : today.getDate() + 1) +
-        "T" +
-        (today.getHours() < 10
-            ? "0" + (today.getHours() + 2)
-            : today.getHours() + 2) +
-        ":" +
-        (today.getMinutes() < 30 ? "00" : "30")
-
-    const [start, setStart] = useState(date)
-    const [finish, setFinish] = useState(finishDate)
 
     const exercises = [
         {
@@ -63,61 +29,24 @@ export default function AddEventDetails({
         },
     ]
 
-    const handleTitle = e => {
-        setTitle(e.target.value)
-    }
-    const handleDescription = e => {
-        setDescription(e.target.value)
-    }
-    const handleType = e => {
-        setType(e.target.value)
-    }
-    const handleStart = e => {
-        setStart(e.target.value)
-    }
-    const handleFinish = e => {
-        setFinish(e.target.value)
-    }
-
-    const resetInput = () => {
-        setTitle("")
-        setDescription("")
-        setType("STANDARD")
-        setStart(date)
-        setFinish(finishDate)
-    }
-
-    const handleSubmit = e => {
-        e.preventDefault()
-        setAddOpen(!addOpen)
-        createEventQuery({
-            title,
-            description,
-            type,
-            start,
-            finish,
-            exercises,
-        }).then(() => currentUserEventQuery())
-        resetInput()
+    const handleChange = e => {
+        setWorkoutDetailsList({
+            ...workoutDetailsList,
+            [e.target.name]: e.target.value,
+        })
     }
 
     return (
-        <div
-            className={
-                workoutDetails === false
-                    ? "eventDetails"
-                    : "eventDetails notActive"
-            }
-        >
-            <form onSubmit={handleSubmit}>
+        <div className="eventDetails">
+            <div className="form">
                 <div className="list">
                     <div>
                         <label>Title:</label>
                         <input
                             type="text"
                             name="title"
-                            value={title}
-                            onChange={handleTitle}
+                            value={workoutDetailsList.title}
+                            onChange={handleChange}
                             placeholder="Enter Event Title"
                             required
                         />
@@ -127,8 +56,8 @@ export default function AddEventDetails({
                         <textarea
                             type="text"
                             name="description"
-                            value={description}
-                            onChange={handleDescription}
+                            value={workoutDetailsList.description}
+                            onChange={handleChange}
                             placeholder="Enter Event Description"
                             required
                         />
@@ -136,9 +65,10 @@ export default function AddEventDetails({
                     <div className="type">
                         <label>Type:</label>
                         <select
-                            value={type}
-                            onChange={handleType}
+                            value={workoutDetailsList.type}
+                            onChange={handleChange}
                             placeholder="Choose an Option"
+                            name="type"
                         >
                             <option value="STANDARD">Event</option>
                             <option value="WORKOUT">Workout</option>
@@ -146,38 +76,34 @@ export default function AddEventDetails({
                     </div>
                     <div className="date">
                         <TextField
+                            name="start"
                             id="datetime-local"
                             label="Start Time"
                             type="datetime-local"
-                            defaultValue={date}
-                            value={start}
+                            defaultValue={startDate}
+                            value={workoutDetailsList.start}
                             sx={{width: 250}}
-                            onChange={handleStart}
+                            onChange={handleChange}
                             InputLabelProps={{
                                 shrink: true,
                             }}
                         />
                         <TextField
+                            name="finish"
                             id="datetime-local"
                             label="End Time"
                             type="datetime-local"
                             defaultValue={finishDate}
-                            value={finish}
+                            value={workoutDetailsList.finish}
                             sx={{width: 250}}
-                            onChange={handleFinish}
+                            onChange={handleChange}
                             InputLabelProps={{
                                 shrink: true,
                             }}
                         />
                     </div>
                 </div>
-                <div className="buttonWrapper">
-                    <button type="reset" onClick={resetInput}>
-                        Clear
-                    </button>
-                    <button type="submit">Submit</button>
-                </div>
-            </form>
+            </div>
         </div>
     )
 }

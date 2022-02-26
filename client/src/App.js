@@ -1,12 +1,7 @@
-import {React, useState, useEffect} from "react"
+import {React, useState} from "react"
 import {GlobalProvider} from "./store"
-import {
-    DashboardPage,
-    LoginPage,
-    CalendarPage,
-    SettingsPage,
-    EventPage,
-} from "./pages"
+import {DashboardPage, LoginPage, CalendarPage, SettingsPage} from "./pages"
+import EventPage from "./pages/EventPage/EventPage.js"
 import {BrowserRouter} from "react-router-dom"
 import {Routes, Route} from "react-router"
 
