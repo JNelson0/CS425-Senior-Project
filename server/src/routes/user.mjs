@@ -22,15 +22,15 @@ import {userInclude} from "../util/includes"
   */
 router.post("/user", async (req, res) => {
   if (req.body.password !== req.body.passwordConfirmation) {
-    throw new HttpError.Forbidden("Passwords don't match.")
+    throw new HttpError.Forbidden("Passwords don't match")
   }
 
   if (!req.body.email.includes("@")) {
-    throw new HttpError.Forbidden("Emails must include @.")
+    throw new HttpError.Forbidden("Emails must include @")
   }
 
   if (req.body.username.includes("@")) {
-    throw new HttpError.Forbidden("Usernames cannot include @.")
+    throw new HttpError.Forbidden("Usernames cannot include @")
   }
 
   const passwordSalt = crypto.randomBytes(32).toString("base64")

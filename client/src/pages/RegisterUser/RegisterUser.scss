@@ -1,0 +1,153 @@
+.register-user {
+
+  
+  background-color: rgb(252, 252, 252);
+  padding: 20px;
+  border: 1px solid rgb(212, 212, 212);
+  border-radius: 6px;
+  box-shadow: 0 3px 8px rgb(51, 51, 51);
+  width: 300px;
+  height: 450px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  
+  transition: all .3s ease;
+  opacity: 0;
+  pointer-events: none;
+  &.active {
+    pointer-events: all;
+    opacity: 1;
+    text-align: left;
+  }
+
+  .topbar{
+    width: 100%;
+    padding-left: 1px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    //border: 3px solid blue;
+    #title{
+      flex:auto;
+      //border: 3px solid red;
+      //justify-content: left;
+      font-size: 18pt;
+      font-weight: 400;
+      // position: absolute;
+      // top: 10px;
+      // left: 18px;
+    }
+    #close{
+      //border: 3px solid green;
+      flex: .1;
+      cursor: pointer;
+      // position: absolute;
+      // right: 20px;
+      // top: 10px;
+      transition: all .8s ease;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  .textinput{
+    top: 10px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    width: 200px;
+    padding-top: 10px;
+    justify-content: left;
+
+    #fnenter label{
+      font-weight: 500;
+    }
+    #fnenter input{
+      width: 134%;
+    }
+    #fnenter {
+      padding-top: 0px;
+    }
+
+    #lnenter label{
+      font-weight: 500;
+    }
+    #lnenter input{
+      width: 134%;
+    }
+    #lnenter {
+      padding-top: 3px;
+    }
+
+    #emailenter label{
+        font-weight: 500;
+    }
+    #emailenter input{
+      width: 134%;
+    }
+    #emailenter{
+      padding-top: 15px;
+    } 
+
+    #usernameenter label{
+      font-weight: 500;
+    }
+    #usernameenter input{
+      width: 134%;
+    }
+    #usernameenter {
+      padding-top: 3px;
+    }
+
+    #passenter1 label{
+      font-weight: 500;
+    }
+    #passenter1 input{
+      width: 134%;
+    }
+    #passenter1{
+        padding-top: 15px;
+    }
+
+    #passenter2 label{
+      font-weight: 500;
+    }
+    #passenter2 input{
+      width: 134%;
+    }
+    #passenter2 {
+      padding-top: 3px;
+    }
+
+    #registeruser button{
+        cursor: pointer;
+        position: absolute;
+        bottom: 30px;
+        left: 30px;
+    }
+    #registeruser button:hover,
+    #registeruser button:focus{
+        box-shadow: 0 2px 1px rgb(212, 212, 212);
+    }
+  }
+}
+#error{
+  width: 200px;
+  display: flex;
+  // position: absolute;
+  // bottom: 10px;
+  // left: 50%;
+  // transform: translate(-50%, 0%);
+  background-color: rgb(252, 252, 252);
+  font-weight: 500;
+  color: rgb(223, 0, 0);
+  padding: 1px;
+  //border: 2px solid rgb(255, 0, 0);
+  border-radius: 3px;
+}

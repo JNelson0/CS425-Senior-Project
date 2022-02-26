@@ -53,8 +53,19 @@ $backgIMG: "../img/university-background.jpg";
             }
             #loginbutton button:hover,
             #loginbutton button:focus{
-                box-shadow: 0 2px 5px rgb(212, 212, 212);
+                box-shadow: 0 2px 1px rgb(212, 212, 212);
+            }
 
+            #registerbutton button{
+                cursor: pointer;
+                position: absolute;
+                bottom: 20px;
+                left: 20px;
+            }
+
+            #registerbutton button:hover,
+            #registerbutton button:focus{
+                box-shadow: 0 2px 1px rgb(212, 212, 212);
             }
         }
     }
