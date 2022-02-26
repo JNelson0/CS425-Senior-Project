@@ -1,40 +1,67 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import "./ExerciseContainer.scss"
 import arrow from "../../img/down.png"
+import SetBoxes from "./SetBoxes"
+import CloseIcon from "@mui/icons-material/Close"
+
 export default function ExerciseContainer({type, name, sets, reps, id}) {
     const [active, setActive] = useState(false)
+    const setNumbers = new Array(parseInt(sets))
 
     return (
         <div className={active ? "exercise active" : "exercise"}>
-            <button
-                className={active ? "button active" : "button"}
-                onClick={() => {
-                    setActive(!active)
-                }}
+            <div
+                className={
+                    active ? "exerciseComponent active" : "exerciseComponent"
+                }
+                // onClick={() => {
+                //     setActive(!active)
+                // }}
             >
-                <img
-                    className={active ? "active" : undefined}
-                    src={arrow}
-                    alt=""
-                />
+                <div
+                    className="arrow"
+                    onClick={() => {
+                        setActive(!active)
+                    }}
+                >
+                    <img
+                        className={active ? "active" : undefined}
+                        src={arrow}
+                        alt=""
+                    />
+                </div>
                 <div className="wrapper">
-                    <div className="type">{type}</div>
+                    <div className="type">{name}</div>
                     {active ? (
-                        <div className="exerciseInfo">
-                            <div>{name}</div>
-                            <div>{sets}</div>
-                            <div>{reps}</div>
+                        <div className="setsReps">
+                            <div className="exerciseInfo">
+                                <div>{sets} Sets</div>
+                                <CloseIcon fontSize="large" />
+                                <div>{reps} Reps</div>
+                            </div>
+                            <div className="setBoxes">
+                                {[...Array(parseInt(sets))].map((e, index) => (
+                                    <SetBoxes index={index} />
+                                ))}
+                            </div>
                         </div>
                     ) : (
                         console.log("SELECTED")
                     )}
                 </div>
-                <img
-                    className={active ? "active" : undefined}
-                    src={arrow}
-                    alt=""
-                />
-            </button>
+                <div
+                    className="arrow"
+                    onClick={() => {
+                        setActive(!active)
+                    }}
+                >
+                    <img
+                        className={active ? "active" : undefined}
+                        src={arrow}
+                        alt=""
+                    />
+                </div>
+            </div>
         </div>
     )
 }
