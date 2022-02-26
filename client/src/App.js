@@ -1,14 +1,16 @@
-import {React, useState} from "react"
+import {React, useEffect, useState} from "react"
 import {GlobalProvider} from "./store"
 import {DashboardPage, LoginPage, CalendarPage, SettingsPage} from "./pages"
 import EventPage from "./pages/EventPage/EventPage.js"
 import {BrowserRouter} from "react-router-dom"
 import {Routes, Route} from "react-router"
+import {Navigate} from "react-router"
 
-const App = () => {
+export default function App() {
     const [id, setId] = useState()
 
     const [toggle, setState] = useState(true)
+    const [redirectTo, setRedirectTo] = useState()
 
     return (
         <BrowserRouter>
@@ -39,10 +41,27 @@ const App = () => {
                         path={"event" + id}
                         element={<EventPage id={id} darkmode={toggle} />}
                     />
+                    <Route
+                        path="*"
+                        element={
+                            <NoMatch
+                                redirectTo={redirectTo}
+                                setRedirectTo={setRedirectTo}
+                            />
+                        }
+                    />
                 </Routes>
             </GlobalProvider>
         </BrowserRouter>
     )
 }
 
-export default App
+const NoMatch = ({redirectTo, setRedirectTo}) => {
+    useEffect(() => {
+        setRedirectTo("/dashboard")
+    }, [])
+    if (redirectTo) {
+        return <Navigate to={redirectTo} />
+    }
+    return <div></div>
+}

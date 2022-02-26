@@ -19,7 +19,6 @@ const EventPage = ({id, darkmode}) => {
 
     useEffect(() => {
         ;(async () => {
-            console.log(id)
             let id = await eventFromIdQuery(id)
             await getExercisesFromEventIdQuery(id)
         })()
