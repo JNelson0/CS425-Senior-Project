@@ -23,22 +23,6 @@ router.post("/group", onlyAuthenticated, async (req, res) => {
   return res.json(toGroupJson(group))
 })
 
-// Get groups associated with logged in user
-router.get("/groups", onlyAuthenticated, async(req, res) => {
-  const userMembershipsInGroup = await db.userMembershipInGroup.findMany({
-    where: {
-      userId: req.user.id,
-    },
-    include: userMembershipInGroupInclude,
-  })
-
-  if(userMembershipsInGroup.length === 0) {
-    return res.json([])
-  }
-
-  return res.json(userMembershipsInGroup.map(({group}) => toGroupJson(group)))
-})
-
 // Get group
 router.get("/groups/:groupId", onlyAuthenticated, async (req, res) => {
   const groupId = Number(req.params.groupId)

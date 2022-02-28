@@ -11,7 +11,7 @@ export default function BottomBar() {
             <div className="bottombarWrapper">
                 <Link to="/dashboard" id="left"><DashboardIcon sx={{fontSize: 35}}/></Link>
                 <Link to="/calendar"id="center"><CalendarTodayIcon sx={{fontSize: 35}}/></Link>
-                <Link to="/group"id="right"><PeopleAltIcon sx={{fontSize: 35}}/></Link>
+                <Link to="/event"id="right"><PeopleAltIcon sx={{fontSize: 35}}/></Link>
             </div>
         </div>
     )
