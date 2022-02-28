@@ -34,6 +34,17 @@ async function main() {
         },
     })
 
+    const user3 = await db.user.create({
+        data: {
+            email: "email3@email.com",
+            passwordSalt: 'salt3',
+            passwordHash: await hashPassword("password", "salt3"),
+            firstName: "Third",
+            lastName: "Account",
+            username: "alex",
+        }
+    })
+
     await db.event.create({
         data: {
             title: "Run",

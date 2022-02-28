@@ -5,7 +5,7 @@ import TopButtons from "../PageOverlay/TopButtons.js"
 import {useGlobalContext} from "../../store"
 import GroupContainer from "./GroupContainer.js"
 import BackgroundImg from "../../img/wolf.png"
-import AddEvent from "../AddEvent/AddEvent.js"
+import AddGroup from "./AddGroup.js"
 
 export default function GroupDashboardPage({setId, darkmode}) {
     const {
@@ -67,7 +67,7 @@ export default function GroupDashboardPage({setId, darkmode}) {
                     showButtonNotification={true}
                     showButtonAdd={true}
                 />
-                <AddEvent addOpen={addOpen} setAddOpen={setAddOpen} />
+                <AddGroup addOpen={addOpen} setAddOpen={setAddOpen} />
                 <div className="listWrapper">
                     <div className="spacer">
                         <img src={BackgroundImg} alt="Wolf" />

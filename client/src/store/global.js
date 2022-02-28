@@ -131,6 +131,13 @@ function useGlobal() {
         setCurrentUserData(data)
     }
 
+    // GET /users/:username
+    async function userByUsernameQuery(username) {
+        const data = await request(`/users/${username}`, {credentials: "same-origin"})
+        setUserData(data.id, data)
+        return data.id
+    }
+
     function useIsLoggedIn() {
         const navigate = useNavigate()
         const [loading, setLoading] = useState(true)
@@ -319,6 +326,7 @@ function useGlobal() {
             ...prev,
             group: prev.group.concat(data.id),
         }))
+        return data.id
     }
 
     // GET /groups
@@ -366,7 +374,7 @@ function useGlobal() {
             }
             setUserData(userId, prev => ({
                 ...prev,
-                group: prev.group.concat(data.id),
+                groups: prev.groups.concat(data.id),
             }))
         }
     }
