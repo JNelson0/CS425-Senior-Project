@@ -23,6 +23,28 @@ async function main() {
         },
     })
 
+    const user2 = await db.user.create({
+        data: {
+            email: "email2@email.com",
+            passwordSalt: 'salt2',
+            passwordHash: await hashPassword("password", "salt2"),
+            firstName: "Other",
+            lastName: "Account",
+            username: "andrew",
+        },
+    })
+
+    const user3 = await db.user.create({
+        data: {
+            email: "email3@email.com",
+            passwordSalt: 'salt3',
+            passwordHash: await hashPassword("password", "salt3"),
+            firstName: "Third",
+            lastName: "Account",
+            username: "alex",
+        }
+    })
+
     await db.event.create({
         data: {
             title: "Run",
@@ -184,6 +206,54 @@ async function main() {
                 },
             },
         },
+    })
+
+    await db.group.create({
+        data: {
+            tag: "Group1",
+            userMemberships: {
+                create: [
+                    {
+                        role: "OWNER",
+                        userId: user.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user2.id,
+                    },
+                ]
+            },
+        },
+    })
+
+    await db.group.create({
+        data: {
+            tag: "Group2",
+            userMemberships: {
+                create: [
+                    {
+                        role: "OWNER",
+                        userId: user2.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user.id,
+                    },
+                ]
+            },
+        },
+    })
+
+    await db.group.create({
+        data: {
+            tag: "Group3", 
+            userMemberships: {
+                create: {
+                    role: "OWNER",
+                    userId: user.id,
+                },
+            }
+        }
     })
 }
 

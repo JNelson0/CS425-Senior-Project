@@ -41,7 +41,7 @@ export default function DashboardPage({setId, darkmode}) {
         setDisplay([...array])
     }
 
-    async function sortDates() {
+    async function sortDates() { 
         for (const e of user.events) {
             if (getEventById(e) != undefined) {
                 let temp = new Date(await getEventById(e).start)

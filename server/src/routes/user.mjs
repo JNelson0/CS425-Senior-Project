@@ -125,6 +125,22 @@ router.get("/users/:userId", async (req, res) => {
     return res.json(toUserJson(user))
 })
 
+// Gets public user information using username
+router.get("/users/:username", async (req, res) => {
+    const user = await db.user.findUnique({
+        where: {
+            username: req.params.username,
+        },
+        include: userInclude,
+    })
+
+    if(user == null) {
+        throw new HttpError.NotFound("User not found.")
+    }
+
+    return res.json(toUserJson(user))
+})
+
 // Modifies private user information
 /* 
   // 
