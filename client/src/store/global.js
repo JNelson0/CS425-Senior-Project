@@ -321,6 +321,20 @@ function useGlobal() {
         }))
     }
 
+    // GET /groups
+    async function currentUserGroupQuery() {
+        const data = await request("/groups", {credentials: "same-origin"})
+
+        for(const group of data) {
+            setGroupData(group.id, group)
+        }
+        
+        setCurrentUserData(prev => ({
+            ...prev,
+            groups: data.map(v => v.id),
+        }))
+    }
+
     // // GET /groups/:groupId
     async function getGroupIdQuery(id) {
         const data = await request(`/groups/${id}`, {
@@ -521,6 +535,7 @@ function useGlobal() {
         //Group Queries
         createGroupQuery,
         getGroupIdQuery,
+        currentUserGroupQuery,
         modifyGroupQuery,
         addMemberToGroupQuery,
         deleteMemberFromGroupQuery,

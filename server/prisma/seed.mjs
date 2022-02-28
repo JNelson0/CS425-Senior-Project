@@ -23,6 +23,17 @@ async function main() {
         },
     })
 
+    const user2 = await db.user.create({
+        data: {
+            email: "email2@email.com",
+            passwordSalt: 'salt2',
+            passwordHash: await hashPassword("password", "salt"),
+            firstName: "Other",
+            lastName: "Account",
+            username: "other",
+        }
+    })
+
     await db.event.create({
         data: {
             title: "Run",
@@ -182,6 +193,42 @@ async function main() {
                     role: "OWNER",
                     userId: user.id,
                 },
+            },
+        },
+    })
+
+    await db.group.create({
+        data: {
+            tag: "Group1",
+            userMemberships: {
+                create: [
+                    {
+                        role: "OWNER",
+                        userId: user.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user2.id,
+                    },
+                ]
+            },
+        },
+    })
+
+    await db.group.create({
+        data: {
+            tag: "Group2",
+            userMemberships: {
+                create: [
+                    {
+                        role: "OWNER",
+                        userId: user2.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user.id,
+                    },
+                ]
             },
         },
     })
