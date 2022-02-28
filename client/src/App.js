@@ -5,6 +5,7 @@ import EventPage from "./pages/EventPage/EventPage.js"
 import GroupDashboardPage from "./pages/Groups/GroupDashboardPage.js"
 import {BrowserRouter} from "react-router-dom"
 import {Routes, Route} from "react-router"
+import GroupPage from "./pages/Groups/GroupPage.js"
 
 const App = () => {
     const [id, setId] = useState()
@@ -44,6 +45,11 @@ const App = () => {
                         path="group"
                         element={<GroupDashboardPage setId={setId} darkmode={toggle} />}
                     />
+                    <Route
+                        path={"groups" + id}
+                        element={<GroupPage id={id} darkmode={toggle} />} 
+                    />
+        
                 </Routes>
             </GlobalProvider>
         </BrowserRouter>

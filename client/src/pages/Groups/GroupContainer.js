@@ -11,7 +11,7 @@ export default function GroupContainer({id, setId, name, darkmode}) {
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <li className="groupbuttonWrapper">
                 <Link
-                    to={"/event" + id}
+                    to={"/groups" + id}
                     className="groupbutton"
                     onClick={() => setId(id)}
                 >

@@ -66,7 +66,6 @@ export default function DashboardPage({setId, darkmode}) {
             })()
                 .catch(setError)
                 .finally(() => {
-                    console.log(user.events)
                     setSorting(true)
                 })
         }
@@ -79,7 +78,6 @@ export default function DashboardPage({setId, darkmode}) {
             })()
                 .catch(setError)
                 .finally(() => {
-                    console.log("Hello")
                     setLoading(false)
                 })
         }
