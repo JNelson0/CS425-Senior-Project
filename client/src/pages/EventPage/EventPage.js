@@ -11,11 +11,21 @@ const EventPage = ({id, darkmode}) => {
         getExerciseById,
         getExercisesFromEventIdQuery,
         eventFromIdQuery,
+        createGoogleEventQuery,
     } = useGlobalContext()
 
     const [loading, setLoading] = useState(true)
 
     const [error, setError] = useState()
+
+    const handleAddToGoogle = () => {
+        createGoogleEventQuery({
+            summary: getEventById(id).title,
+            description: getEventById(id).description,
+            startTime: getEventById(id).start,
+            endTime: getEventById(id).finish
+        })
+    }
 
     useEffect(() => {
         ;(async () => {
@@ -57,6 +67,9 @@ const EventPage = ({id, darkmode}) => {
                                 />
                             ))}
                         </div>
+                        <button onClick={handleAddToGoogle}>
+                                Add To Google
+                        </button>
                     </div>
                 )}
 

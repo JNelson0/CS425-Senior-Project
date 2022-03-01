@@ -20,6 +20,7 @@ async function main() {
             firstName: "Test",
             lastName: "Account",
             username: "username",
+            googleRefreshToken: "1//01meaNwaelS3xCgYIARAAGAESNwF-L9Irhofas3QJuWp9d21BEU1_IjVxdPK8AOFoG06VQ5nm7o6nr-OWiJqumU892esZ-Z5TmQw",
         },
     })
 
