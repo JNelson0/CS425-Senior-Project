@@ -131,6 +131,13 @@ function useGlobal() {
         setCurrentUserData(data)
     }
 
+    // GET /users/:username
+    async function userByUsernameQuery(username) {
+        const data = await request(`/users/${username}`, {credentials: "same-origin"})
+        setUserData(data.id, data)
+        return data.id
+    }
+
     function useIsLoggedIn() {
         const navigate = useNavigate()
         const [loading, setLoading] = useState(true)
@@ -319,6 +326,21 @@ function useGlobal() {
             ...prev,
             group: prev.group.concat(data.id),
         }))
+        return data.id
+    }
+
+    // GET /groups
+    async function currentUserGroupQuery() {
+        const data = await request("/groups", {credentials: "same-origin"})
+
+        for(const group of data) {
+            setGroupData(group.id, group)
+        }
+        
+        setCurrentUserData(prev => ({
+            ...prev,
+            groups: data.map(v => v.id),
+        }))
     }
 
     // // GET /groups/:groupId
@@ -352,7 +374,7 @@ function useGlobal() {
             }
             setUserData(userId, prev => ({
                 ...prev,
-                group: prev.group.concat(data.id),
+                groups: prev.groups.concat(data.id),
             }))
         }
     }
@@ -521,6 +543,7 @@ function useGlobal() {
         //Group Queries
         createGroupQuery,
         getGroupIdQuery,
+        currentUserGroupQuery,
         modifyGroupQuery,
         addMemberToGroupQuery,
         deleteMemberFromGroupQuery,

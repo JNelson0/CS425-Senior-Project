@@ -14,12 +14,13 @@ const EventPage = ({id, darkmode}) => {
     } = useGlobalContext()
 
     const [loading, setLoading] = useState(true)
-
     const [error, setError] = useState()
 
     useEffect(() => {
         ;(async () => {
-            let id = await eventFromIdQuery(id)
+
+            console.log(id)
+            await eventFromIdQuery(id)
             await getExercisesFromEventIdQuery(id)
         })()
             .catch(setError)
@@ -27,6 +28,11 @@ const EventPage = ({id, darkmode}) => {
                 setLoading(false)
             })
     }, [])
+
+    const event = getEventById(id)
+    const exercises = event.exercises.map(id => getExerciseById(id))
+    const hasAllExercises = exercises.every(v => v != null)
+    console.log(exercises)
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
@@ -39,22 +45,26 @@ const EventPage = ({id, darkmode}) => {
                 ) : (
                     <div className="middle">
                         <div className="event">
-                            <h1>{getEventById(id).title}</h1>
-                            <h2>{getEventById(id).type}</h2>
-                            <h2>{getEventById(id).description}</h2>
-                            <span>{getEventById(id).start}</span>
-                            <span>{getEventById(id).finish}</span>
+                            <h1>{event.title}</h1>
+                            <h2>{event.type}</h2>
+                            <h2>{event.description}</h2>
+                            <span>{event.start}</span>
+                            <span>{event.finish}</span>
                         </div>
                         <div className="exerciseList">
-                            {getEventById(id).exercises.map(id => (
-                                <ExerciseContainer
-                                    id={id}
-                                    type={getExerciseById(id).type}
-                                    name={getExerciseById(id).name}
-                                    sets={getExerciseById(id).sets}
-                                    reps={getExerciseById(id).reps}
-                                />
-                            ))}
+                            {hasAllExercises ? (
+                                exercises.map(exercise => (
+                                    <ExerciseContainer
+                                        id={exercise.id}
+                                        type={exercise.type}
+                                        name={exercise.name}
+                                        sets={exercise.sets}
+                                        reps={exercise.reps}
+                                    />
+                                ))
+                            ) : (
+                                <>Loading...</>
+                            )}
                         </div>
                     </div>
                 )}

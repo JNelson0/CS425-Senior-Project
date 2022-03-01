@@ -54,11 +54,11 @@ router.post("/user", async (req, res) => {
     } catch (e) {
         console.log(e.meta.target)
         if (e.meta.target[0] === "username") {
-            console.log("\n\n\n\nUSERNAME\n\n\n\n")
-            throw Error("USERMANE VEWY SPICY WONG")
-        } else if (e.meta.target[0] === "email") {
-            console.log("\n\n\n\nEMAIL\n\n\n\n")
-            throw Error("EMAIL WONG")
+            console.log("wrong username")
+            throw Error("Username already in use")
+        } if (e.meta.target[0] === "email") {
+            console.log("wong email")
+            throw Error("Email already in use")
         }
         throw e
     }
@@ -120,6 +120,22 @@ router.get("/users/:userId", async (req, res) => {
 
     if (user == null) {
         throw new HttpError.NotFound("User not found.") // NOTE: Errors need to be in normal human syntax
+    }
+
+    return res.json(toUserJson(user))
+})
+
+// Gets public user information using username
+router.get("/users/:username", async (req, res) => {
+    const user = await db.user.findUnique({
+        where: {
+            username: req.params.username,
+        },
+        include: userInclude,
+    })
+
+    if(user == null) {
+        throw new HttpError.NotFound("User not found.")
     }
 
     return res.json(toUserJson(user))

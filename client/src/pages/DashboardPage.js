@@ -58,6 +58,7 @@ export default function DashboardPage({setId, darkmode}) {
     async function sortDates() {
         let dates = []
 
+
         for (const e of user.events) {
             if (getEventById(e) != undefined) {
                 let temp = new Date(await getEventById(e).start)

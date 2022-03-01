@@ -36,13 +36,14 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
             .then(() => {
                 setRedirectTo("/dashboard")
             })
-            .catch(e => {
-                if (e.message.search("email")) {
-                    setError(Error("Email Taken"))
-                } else if (e.message.search("username")) {
-                    setError(Error("UserName taken"))
-                }
-            })
+            .catch(setError)
+            // .catch(e => {
+            //     if (e.message.search("email")) {
+            //         setError(Error("Email Taken"))
+            //     } else if (e.message.search("username")) {
+            //         setError(Error("UserName taken"))
+            //     }
+            // })
             .finally(() => {
                 setLoading(false)
             })

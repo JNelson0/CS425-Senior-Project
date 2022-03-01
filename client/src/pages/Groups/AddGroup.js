@@ -1,0 +1,107 @@
+import "./AddGroup.scss"
+import {React, useState, useEffect, useCallback} from "react"
+import {useGlobalContext} from "../../store"
+import AddGroupDetails from "./AddGroupDetails.js"
+
+let inviteeIds = []
+let id
+let invitees = []
+
+export default function AddGroup({addOpen, setAddOpen}) {
+    const {
+        user,  
+        createGroupQuery,
+        addMemberToGroupQuery,
+    } = useGlobalContext()
+
+    const [groupDetails, setGroupDetails] = useState({
+        tag: "",
+        usernameCSV: "",
+    })
+
+    const resetInput = () => {
+        setGroupDetails({
+            tag: "",
+            usernameCSV: "",
+        })
+    }
+
+    async function handleSubmit() {
+        setAddOpen(!addOpen)
+        setAddGroup(true)
+    }
+    const handleClose = () => {
+        setAddOpen(!addOpen)
+    }
+
+    const [error, setError] = useState()
+    const [addGroup, setAddGroup] = useState(false)
+    const [addUserToGroup, setAddUserToGroup] = useState(false)
+
+    useEffect(() => {
+        if (addGroup) {
+            ;(async () => {
+                const groupId = await createGroupQuery({
+                    tag: groupDetails.tag
+                })
+                id = parseInt(groupId, 10)
+                invitees = groupDetails.usernameCSV.split(',')
+                inviteeIds = invitees.map(Number)
+            })()
+                .catch(setError)
+                .finally(() => {
+                    setAddGroup(false)
+                    setAddUserToGroup(true)
+                })
+        }
+    }, [addGroup])
+
+    useEffect(() => {
+        if(addUserToGroup) {
+            ;(async () => {
+                console.log(id)
+                await addMemberToGroupQuery(id, {
+                    userIds: inviteeIds
+               })
+            })()
+                .catch(setError)
+                .finally(() => {
+                    resetInput()
+                    setAddUserToGroup(false)
+                })
+        }
+    }, [addUserToGroup])
+
+    return (
+        <div className={"add-group " + (addOpen && "active")}>
+            <div className="top">
+                <div className="topSplit1"></div>
+                <div className="topSplit2"></div>
+                <div className="topSplit3">
+                    <div className="closeMenu" onClick={handleClose}>
+                        <span className="line1"></span>
+                        <span className="line2"></span>
+                    </div>
+                </div>
+            </div>
+            <div className="middle">
+                <AddGroupDetails 
+                    setAddOpen={setAddOpen}
+                    addOpen={addOpen}
+                    groupDetails={groupDetails}
+                    setGroupDetails={setGroupDetails}
+                />
+            </div>
+            <div className="bottom">
+                <div className="buttonWrapper">
+                    <button type="reset" onClick={resetInput}>
+                        Clear
+                    </button>
+                    <button type="submit" onClick={handleSubmit}>
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    )
+}

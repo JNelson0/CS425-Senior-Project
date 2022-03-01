@@ -2,9 +2,11 @@ import {React, useEffect, useState} from "react"
 import {GlobalProvider} from "./store"
 import {DashboardPage, LoginPage, CalendarPage, SettingsPage} from "./pages"
 import EventPage from "./pages/EventPage/EventPage.js"
+import GroupDashboardPage from "./pages/Groups/GroupDashboardPage.js"
 import {BrowserRouter} from "react-router-dom"
 import {Routes, Route} from "react-router"
 import {Navigate} from "react-router"
+import GroupPage from "./pages/Groups/GroupPage.js"
 
 export default function App() {
     const [id, setId] = useState()
@@ -50,6 +52,15 @@ export default function App() {
                             />
                         }
                     />
+                    <Route 
+                        path="group"
+                        element={<GroupDashboardPage setId={setId} darkmode={toggle} />}
+                    />
+                    <Route
+                        path={"groups" + id}
+                        element={<GroupPage id={id} darkmode={toggle} />} 
+                    />
+        
                 </Routes>
             </GlobalProvider>
         </BrowserRouter>
