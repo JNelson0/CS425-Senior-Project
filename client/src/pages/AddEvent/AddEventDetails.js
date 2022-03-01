@@ -20,15 +20,6 @@ export default function AddEventDetails({
 
     //ALL DATES AND TIMES NEED TO BE OF TYPE "05 October 2011 14:48 UTC"
 
-    const exercises = [
-        {
-            type: "WEIGHTS",
-            name: "name",
-            sets: 4,
-            reps: 4,
-        },
-    ]
-
     const handleChange = e => {
         setWorkoutDetailsList({
             ...workoutDetailsList,

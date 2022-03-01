@@ -27,9 +27,7 @@ export default function AddEvent({addOpen, setAddOpen}) {
         "-" +
         (today.getDate() < 10 ? "0" + today.getDate() : today.getDate()) +
         "T" +
-        (today.getHours() < 10
-            ? "0" + (today.getHours() + 1)
-            : today.getHours() + 1) +
+        (today.getHours() < 9 ? "0" + today.getHours() : today.getHours()) +
         ":" +
         (today.getMinutes() < 30 ? "00" : "30")
 
@@ -40,13 +38,11 @@ export default function AddEvent({addOpen, setAddOpen}) {
             ? "0" + (today.getMonth() + 1)
             : today.getMonth() + 1) +
         "-" +
-        (today.getDate() < 10
-            ? "0" + (today.getDate() + 1)
-            : today.getDate() + 1) +
+        (today.getDate() < 9 ? "0" + today.getDate() : today.getDate()) +
         "T" +
-        (today.getHours() < 10
-            ? "0" + (today.getHours() + 2)
-            : today.getHours() + 2) +
+        (today.getHours() < 8
+            ? "0" + (today.getHours() + 1)
+            : today.getHours() + 1) +
         ":" +
         (today.getMinutes() < 30 ? "00" : "30")
 
@@ -103,9 +99,13 @@ export default function AddEvent({addOpen, setAddOpen}) {
     useEffect(() => {
         if (addExercise) {
             ;(async () => {
-                const id = await createEventQuery(workoutDetailsList)
-                for (const el of workoutExerciseList) {
-                    await createExerciseWithEventIdQuery(id, el)
+                if (workoutDetailsList.type === "STANDARD") {
+                    const id = await createEventQuery(workoutDetailsList)
+                } else if (workoutDetailsList.type === "WORKOUT") {
+                    const id = await createEventQuery(workoutDetailsList)
+                    for (const el of workoutExerciseList) {
+                        await createExerciseWithEventIdQuery(id, el)
+                    }
                 }
             })()
                 .catch(setError)

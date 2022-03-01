@@ -29,13 +29,27 @@ export default function DashboardPage({setId, darkmode}) {
         array[xp] = array[yp]
         array[yp] = temp
     }
-
-    async function selectionSort(array) {
+    async function sortMonth(array) {
         var i, j, min_idx
         for (i = 0; i < array.length - 1; i++) {
             min_idx = i
             for (j = i + 1; j < array.length; j++)
-                if (array[j].day < array[min_idx].day) min_idx = j
+                if (array[j].month < array[min_idx].month) min_idx = j
+            swap(array, min_idx, i)
+        }
+        setDisplay([...array])
+    }
+
+    async function sortDay(array) {
+        var i, j, min_idx
+        for (i = 0; i < array.length - 1; i++) {
+            min_idx = i
+            for (j = i + 1; j < array.length; j++)
+                if (
+                    array[j].day < array[min_idx].day &&
+                    array[j].month === array[min_idx].month
+                )
+                    min_idx = j
             swap(array, min_idx, i)
         }
         setDisplay([...array])
@@ -53,7 +67,9 @@ export default function DashboardPage({setId, darkmode}) {
                 dates.push({id, month, day})
             }
         }
-        await selectionSort(dates)
+        await sortMonth(dates)
+        await sortDay(dates)
+
         setSorting(false)
     }
 
