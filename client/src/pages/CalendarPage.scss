@@ -16,5 +16,18 @@
             width: 98%;
             border: 6px solid $nevada-blue-lighter;
         }
+        .loading {
+            height: 95%;
+            width: 98%;
+            border: 6px solid $nevada-blue-lighter;
+            background-color: white;
+            font-size: 80px;
+            font-weight: 600;
+            display: flex;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+            overflow-y: scroll;
+        }
     }
 }

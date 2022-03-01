@@ -18,7 +18,6 @@ const EventPage = ({id, darkmode}) => {
 
     useEffect(() => {
         ;(async () => {
-
             console.log(id)
             await eventFromIdQuery(id)
             await getExercisesFromEventIdQuery(id)
@@ -51,21 +50,25 @@ const EventPage = ({id, darkmode}) => {
                             <span>{event.start}</span>
                             <span>{event.finish}</span>
                         </div>
-                        <div className="exerciseList">
-                            {hasAllExercises ? (
-                                exercises.map(exercise => (
-                                    <ExerciseContainer
-                                        id={exercise.id}
-                                        type={exercise.type}
-                                        name={exercise.name}
-                                        sets={exercise.sets}
-                                        reps={exercise.reps}
-                                    />
-                                ))
-                            ) : (
-                                <>Loading...</>
-                            )}
-                        </div>
+                        {event.type === "WORKOUT" ? (
+                            <div className="exerciseList">
+                                {hasAllExercises ? (
+                                    exercises.map(exercise => (
+                                        <ExerciseContainer
+                                            id={exercise.id}
+                                            type={exercise.type}
+                                            name={exercise.name}
+                                            sets={exercise.sets}
+                                            reps={exercise.reps}
+                                        />
+                                    ))
+                                ) : (
+                                    <>Loading...</>
+                                )}
+                            </div>
+                        ) : (
+                            console.log("NOPE")
+                        )}
                     </div>
                 )}
 

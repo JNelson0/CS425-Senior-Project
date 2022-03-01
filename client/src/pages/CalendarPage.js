@@ -11,6 +11,8 @@ import {
     Month,
     Agenda,
     Inject,
+    ViewsDirective,
+    ViewDirective,
 } from "@syncfusion/ej2-react-schedule"
 
 const CalendarPage = ({darkmode}) => {
@@ -20,6 +22,7 @@ const CalendarPage = ({darkmode}) => {
         isLoggedIn,
         currentUserQuery,
         currentUserEventQuery,
+        deleteEventQuery,
     } = useGlobalContext()
     const [list, setList] = useState([])
     const [loading, setLoading] = useState(true)
@@ -48,6 +51,42 @@ const CalendarPage = ({darkmode}) => {
             })
     }, [])
 
+    const [IDToDelete, setIDToDelete] = useState(undefined)
+
+    useEffect(() => {
+        if (IDToDelete !== undefined) {
+            ;(async () => {
+                await deleteEventQuery(IDToDelete)
+            })()
+                .catch(setError)
+                .finally(() => {
+                    setIDToDelete(undefined)
+                })
+        }
+    }, [IDToDelete])
+
+    const onActionBegin = args => {
+        console.log(args)
+        if (args.requestType === "toolbarItemRendering") {
+            // This block is execute before toolbarItem render
+        }
+        if (args.requestType === "dateNavigate") {
+            // This block is executed before previous and next navigation
+        }
+        if (args.requestType === "viewNavigate") {
+            // This block is execute before view navigation
+        }
+        if (args.requestType === "eventCreate") {
+            // This block is execute before an appointment create
+        }
+        if (args.requestType === "eventChange") {
+            // This block is execute before an appointment change
+        }
+        if (args.requestType === "eventRemove") {
+            setIDToDelete(args.data[0].Id)
+        }
+    }
+
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <div className="calendarPage">
@@ -64,16 +103,15 @@ const CalendarPage = ({darkmode}) => {
                                 height="100%"
                                 selectedDate={new Date(new Date())}
                                 eventSettings={{dataSource: list}}
+                                actionBegin={onActionBegin}
                             >
-                                <Inject
-                                    services={[
-                                        Day,
-                                        Week,
-                                        WorkWeek,
-                                        Month,
-                                        Agenda,
-                                    ]}
-                                />
+                                <ViewsDirective>
+                                    <ViewDirective option="Day" />
+                                    <ViewDirective option="Week" />
+                                    <ViewDirective option="Month" />
+                                    <ViewDirective option="Agenda" />
+                                </ViewsDirective>
+                                <Inject services={[Day, Week, Month, Agenda]} />
                             </ScheduleComponent>
                         </div>
                     )}
