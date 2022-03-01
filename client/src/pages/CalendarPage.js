@@ -14,14 +14,26 @@ import {
 } from "@syncfusion/ej2-react-schedule"
 
 const CalendarPage = ({darkmode}) => {
-    const {user, getEventById, isLoggedIn} = useGlobalContext()
+    const {
+        user,
+        getEventById,
+        isLoggedIn,
+        currentUserQuery,
+        currentUserEventQuery,
+    } = useGlobalContext()
     const [list, setList] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState()
 
     useEffect(() => {
         ;(async () => {
-            user.events.map(el => {
+            if (!isLoggedIn) {
+                await currentUserQuery()
+            }
+
+            await currentUserEventQuery()
+
+            await user.events.map(el => {
                 list.push({
                     Id: parseInt(getEventById(el).id),
                     Subject: getEventById(el).title,
@@ -35,9 +47,7 @@ const CalendarPage = ({darkmode}) => {
                 setLoading(false)
             })
     }, [])
-    if (error) {
-        return <>Error : {String(error)}</>
-    }
+
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <div className="calendarPage">
