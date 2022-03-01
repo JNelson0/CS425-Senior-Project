@@ -21,7 +21,7 @@ export default function DashboardPage({setId, darkmode}) {
     const [loading, setLoading] = useState(true)
     const [sorting, setSorting] = useState(false)
     const [error, setError] = useState()
-    let dates = []
+
     const [display, setDisplay] = useState([])
 
     function swap(array, xp, yp) {
@@ -42,6 +42,8 @@ export default function DashboardPage({setId, darkmode}) {
     }
 
     async function sortDates() {
+        let dates = []
+
         for (const e of user.events) {
             if (getEventById(e) != undefined) {
                 let temp = new Date(await getEventById(e).start)
@@ -115,24 +117,6 @@ export default function DashboardPage({setId, darkmode}) {
                                 <span>LOADING</span>
                             </div>
                         ) : (
-                            // <ul>
-                            //     {user.events.map(el =>
-                            //         getEventById(el) !== undefined ? (
-                            //             <EventContainer
-                            //                 key={getEventById(el).id}
-                            //                 setId={setId}
-                            //                 id={getEventById(el).id}
-                            //                 name={getEventById(el).title}
-                            //                 date={
-                            //                     new Date(getEventById(el).start)
-                            //                 }
-                            //                 darkmode={darkmode}
-                            //             />
-                            //         ) : (
-                            //             console.log("FINISH EVENT DELETE")
-                            //         ),
-                            //     )}
-                            // </ul>
                             <ul>
                                 {display.map(el => (
                                     <EventContainer
