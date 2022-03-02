@@ -5,6 +5,7 @@ import TopButtons from "../PageOverlay/TopButtons.js"
 import {useGlobalContext} from "../../store"
 import {useNavigate} from "react-router-dom"
 
+
 const GroupPage = ({id, darkmode}) => {
     const {
         user,
@@ -41,8 +42,7 @@ const GroupPage = ({id, darkmode}) => {
 
     useEffect(() => {
         ;(async () => {
-            id = await getGroupIdQuery(id)
-            await currentUserQuery()
+            let id = await getGroupIdQuery(id)
         })()
             .catch(setError)
             .finally(() => {
@@ -95,31 +95,37 @@ const GroupPage = ({id, darkmode}) => {
                         <span>LOADING</span>
                     </div>
                 ) : (
-                    <div className="middle">
-                        <div className="group">
-                            <h1>{getGroupById(id).tag}</h1>
-                            <h2>Owner: </h2>
-                            <span>{owner}</span>
-                            <h2>Users: </h2>
-                            <ul>
-                                {display.map(el => (
-                                    <span>{el}</span>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                )}
-                {userIsOwner ? (
+            <div className="middle">
+                    <div className="middleHeader">
+                    <h1>{getGroupById(id).tag}</h1>
+                    {userIsOwner ? (
                     <button onClick={handleDeleteEvent}>
                         DELETE GROUP
                     </button>
-                ) : (
-                    <span>
-                        You are a normal user of this group
-                    </span>
-                )}
+                ) :<></>}
+                    </div>
+                    <div className="middleWrapper">
+                    <div className="groupName">
+                            <h2>Owner:</h2>
+                            <span>{owner}</span>               
+                            <h2>Users: </h2>
+                            <ul>
+                                {display.map(el => (
+                                    <li>{el}</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="groupEvents">
+                            <h1>Group Events: </h1>
+                        </div>
+                </div>
             </div>
-        </div>
+                )}
+            <div className="bottomBar">
+                <BottomBar />
+        </div> 
+    </div>
+</div>       
     )
 }
 
