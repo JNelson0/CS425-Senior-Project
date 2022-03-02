@@ -3,6 +3,7 @@ import "./GroupPage.scss"
 import BottomBar from "../PageOverlay/BottomBar.js"
 import TopButtons from "../PageOverlay/TopButtons.js"
 import {useGlobalContext} from "../../store"
+import {useNavigate} from "react-router-dom"
 
 const GroupPage = ({id, darkmode}) => {
     const {
@@ -14,6 +15,7 @@ const GroupPage = ({id, darkmode}) => {
         getUserById,
         getGroupById,
         getGroupIdQuery,
+        deleteGroupQuery,
     } = useGlobalContext()
 
     const [loading, setLoading] = useState(true)
@@ -22,11 +24,25 @@ const GroupPage = ({id, darkmode}) => {
     const [queried, setQueried] = useState(false)
     const [userQueried, setUserQueried] = useState(false)
     const [owner, setOwner] = useState()
+    const [userIsOwner, setUserIsOwner] = useState(false)
     let groupUsers = []
+
+    let navigate = useNavigate()
+
+    const routeBackToGroups = () => {
+        let path = `group`
+        navigate(path)
+    }
+
+    const handleDeleteEvent = () => {
+        deleteGroupQuery(id)
+        routeBackToGroups()
+    }
 
     useEffect(() => {
         ;(async () => {
-            let id = await getGroupIdQuery(id)
+            id = await getGroupIdQuery(id)
+            await currentUserQuery()
         })()
             .catch(setError)
             .finally(() => {
@@ -41,6 +57,9 @@ const GroupPage = ({id, darkmode}) => {
                     await userQuery(userId)
                 }
                 await userQuery(getGroupById(id).owners[0])
+                if(getGroupById(id).owners[0] === user.id) {
+                    setUserIsOwner(true)
+                }
             })()
                 .catch(setError)
                 .finally(() => {
@@ -89,6 +108,15 @@ const GroupPage = ({id, darkmode}) => {
                             </ul>
                         </div>
                     </div>
+                )}
+                {userIsOwner ? (
+                    <button onClick={handleDeleteEvent}>
+                        DELETE GROUP
+                    </button>
+                ) : (
+                    <span>
+                        You are a normal user of this group
+                    </span>
                 )}
             </div>
         </div>
