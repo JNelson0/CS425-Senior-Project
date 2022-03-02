@@ -22,8 +22,8 @@ const EventPage = ({id, darkmode}) => {
         createGoogleEventQuery({
             summary: getEventById(id).title,
             description: getEventById(id).description,
-            startTime: getEventById(id).start,
-            endTime: getEventById(id).finish
+            startTime: getEventById(id).start.slice(0,-5),
+            endTime: getEventById(id).finish.slice(0,-5)
         })
     }
 
