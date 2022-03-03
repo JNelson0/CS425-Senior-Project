@@ -109,6 +109,9 @@ export default function AddEvent({addOpen, setAddOpen}) {
                 }
             })()
                 .catch(setError)
+                .then(() => {
+                    setAddOpen(!addOpen)
+                })
                 .finally(() => {
                     resetInput()
                     setAddExercise(false)
@@ -121,7 +124,6 @@ export default function AddEvent({addOpen, setAddOpen}) {
     }
 
     async function handleSubmit() {
-        setAddOpen(!addOpen)
         setAddExercise(true)
     }
 

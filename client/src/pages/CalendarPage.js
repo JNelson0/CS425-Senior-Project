@@ -67,6 +67,7 @@ const CalendarPage = ({darkmode}) => {
 
     const onActionBegin = args => {
         console.log(args)
+        console.log(args.requestType)
         if (args.requestType === "toolbarItemRendering") {
             // This block is execute before toolbarItem render
         }
