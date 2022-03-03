@@ -22,7 +22,7 @@ export default function TopButtons({
                     </Link>
                 </Tooltip>
 
-                <Tooltip title="Dashboard" enterDelay={500} placement="bottom">
+                <Tooltip title="Home" enterDelay={500} placement="bottom">
                     <Link to="/dashboard" id="home">
                         <HomeIcon sx={{fontSize: 35}} />
                     </Link>
