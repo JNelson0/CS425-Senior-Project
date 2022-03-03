@@ -157,6 +157,11 @@ function useGlobal() {
         return [loading, isLoggedIn]
     }
 
+    async function logoutUser() {
+        setUserData(userState.currentUserId, undefined)
+        currentUser = undefined
+    }
+
     // POST /user
     async function createUserQuery(options) {
         const data = await request("/user", standardJsonInit("POST", options))
@@ -511,6 +516,7 @@ function useGlobal() {
         user: currentUser,
         isLoggedIn: Boolean(currentUser),
         useIsLoggedIn,
+        logoutUser,
 
         // User Queries
         userQuery,

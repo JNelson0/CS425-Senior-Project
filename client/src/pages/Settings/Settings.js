@@ -1,4 +1,4 @@
-import React from 'react'
+import {React, useEffect, useState} from "react"
 import "./Settings.scss"
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
@@ -9,6 +9,11 @@ import Switch from '@mui/material/Switch';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/Radio';
 
+import {useGlobalContext} from "../../store"
+import {Navigate} from "react-router"
+
+//please leave unused imports for the time being, thanks!
+
 var state = true;
 
 export function getMode(){
@@ -17,13 +22,16 @@ export function getMode(){
 
 function flipMode(){
   window['state'] = false;
-  {console.log("state in function: " + state)}
 }
 
 export default function SettingsToggles({toggle, setS}) {
   
-  
-  const [toggle_state, setState] = React.useState({
+  const [redirectTo, setRedirectTo] = useState()
+
+  const [error, setError] = useState()
+  const {logoutUser} = useGlobalContext()
+  const [logout, setLogout] = useState(false)
+  const [toggle_state, setState] = useState({
     //default states
     darkmode: false,
     //setting2: false,
@@ -34,7 +42,7 @@ export default function SettingsToggles({toggle, setS}) {
   //{console.log(toggle_state.darkmode)}
   //{console.log("state: " + state)}
 
-  const [radio_state, setRadio] = React.useState('pounds');
+  const [radio_state, setRadio] = useState('pounds');
 
   const toggleHandler = (event) => {
     setState({
@@ -52,6 +60,32 @@ export default function SettingsToggles({toggle, setS}) {
       //event updates radio for events
     });
   };
+
+  const handleLogout = (event) => {
+    event.preventDefault()
+    setLogout(true)
+ 
+  }
+
+
+  useEffect(() => {
+    if(logout) {
+      ;(async () => {
+        await logoutUser()
+      })()
+        .catch(setError)
+        
+        .finally(() => {
+          setRedirectTo("/")
+        })
+        console.log(error)
+    }
+    
+  }, [logout])
+
+  if (redirectTo) {
+    return <Navigate to={redirectTo} />
+  }
 
   return (
     <div className="settings">
@@ -79,7 +113,7 @@ export default function SettingsToggles({toggle, setS}) {
             </FormGroup>
         </FormControl>
 
-
+        <button className = "logoutButton" onClick={handleLogout}>Logout</button>
         {/* <FormControl>
             <label>Units</label>
             <RadioGroup 
