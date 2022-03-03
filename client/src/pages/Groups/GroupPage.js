@@ -35,9 +35,9 @@ const GroupPage = ({id, darkmode}) => {
     }, [])
 
     useEffect(() => {
-        if(queried) {
+        if (queried) {
             ;(async () => {
-                for(const userId of getGroupById(id).users) {
+                for (const userId of getGroupById(id).users) {
                     await userQuery(userId)
                 }
                 await userQuery(getGroupById(id).owners[0])
@@ -50,9 +50,9 @@ const GroupPage = ({id, darkmode}) => {
     }, [queried])
 
     useEffect(() => {
-        if(userQueried) {
+        if (userQueried) {
             ;(async () => {
-                for(const userId of getGroupById(id).users) {
+                for (const userId of getGroupById(id).users) {
                     groupUsers.push(getUserById(userId).username)
                 }
                 setOwner(getUserById(getGroupById(id).owners[0]).username)
@@ -64,8 +64,6 @@ const GroupPage = ({id, darkmode}) => {
                 })
         }
     }, [userQueried])
-
-
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>

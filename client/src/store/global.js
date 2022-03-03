@@ -133,7 +133,9 @@ function useGlobal() {
 
     // GET /users/:username
     async function userByUsernameQuery(username) {
-        const data = await request(`/users/${username}`, {credentials: "same-origin"})
+        const data = await request(`/users/${username}`, {
+            credentials: "same-origin",
+        })
         setUserData(data.id, data)
         return data.id
     }
@@ -240,7 +242,6 @@ function useGlobal() {
         const data = await request(`/events/${id}`, {
             credentials: "same-origin",
         })
-        console.log(data)
         setEventData(data.id, data)
     }
 
@@ -333,10 +334,10 @@ function useGlobal() {
     async function currentUserGroupQuery() {
         const data = await request("/groups", {credentials: "same-origin"})
 
-        for(const group of data) {
+        for (const group of data) {
             setGroupData(group.id, group)
         }
-        
+
         setCurrentUserData(prev => ({
             ...prev,
             groups: data.map(v => v.id),

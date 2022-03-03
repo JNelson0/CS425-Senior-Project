@@ -26,7 +26,7 @@ async function main() {
     const user2 = await db.user.create({
         data: {
             email: "email2@email.com",
-            passwordSalt: 'salt2',
+            passwordSalt: "salt2",
             passwordHash: await hashPassword("password", "salt2"),
             firstName: "Other",
             lastName: "Account",
@@ -37,12 +37,12 @@ async function main() {
     const user3 = await db.user.create({
         data: {
             email: "email3@email.com",
-            passwordSalt: 'salt3',
+            passwordSalt: "salt3",
             passwordHash: await hashPassword("password", "salt3"),
             firstName: "Third",
             lastName: "Account",
             username: "alex",
-        }
+        },
     })
 
     await db.event.create({
@@ -221,7 +221,7 @@ async function main() {
                         role: "INVITEE",
                         userId: user2.id,
                     },
-                ]
+                ],
             },
         },
     })
@@ -239,21 +239,21 @@ async function main() {
                         role: "INVITEE",
                         userId: user.id,
                     },
-                ]
+                ],
             },
         },
     })
 
     await db.group.create({
         data: {
-            tag: "Group3", 
+            tag: "Group3",
             userMemberships: {
                 create: {
                     role: "OWNER",
                     userId: user.id,
                 },
-            }
-        }
+            },
+        },
     })
 }
 

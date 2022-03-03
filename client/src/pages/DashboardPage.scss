@@ -55,9 +55,6 @@ $wolfIMG: "../img/wolf.png";
                     position: relative;
                     top: 20%;
                 }
-                &::-webkit-scrollbar {
-                    display: none;
-                }
             }
             ul {
                 display: flex;
@@ -69,9 +66,16 @@ $wolfIMG: "../img/wolf.png";
                 overflow-y: scroll;
                 margin: 0;
                 padding: 0;
-            }
-            ul::-webkit-scrollbar {
-                display: none;
+                &::-webkit-scrollbar {
+                    width: 30px;
+                }
+                &::-webkit-scrollbar-track {
+                    background-color: lightgrey;
+                    border-radius: 15px;
+                }
+                &::-webkit-scrollbar-thumb {
+                    background-color: gray;
+                }
             }
         }
     }
