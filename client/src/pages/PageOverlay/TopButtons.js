@@ -5,6 +5,7 @@ import SettingsIcon from "@mui/icons-material/Settings"
 import AddIcon from "@mui/icons-material/Add"
 import HomeIcon from "@mui/icons-material/Home"
 import NotificationsIcon from "@mui/icons-material/Notifications"
+import Tooltip from '@mui/material/Tooltip'
 
 export default function TopButtons({
     addOpen,
@@ -15,12 +16,17 @@ export default function TopButtons({
     return (
         <div className="topWrapper">
             <div className="settingsHomeWrapper">
-                <Link to="/settings" id="button">
-                    <SettingsIcon sx={{fontSize: 33}} />
-                </Link>
-                <Link to="/dashboard" id="home">
-                    <HomeIcon sx={{fontSize: 35}} />
-                </Link>
+                <Tooltip title="Settings" enterDelay={500} placement="bottom">
+                    <Link to="/settings" id="button">
+                        <SettingsIcon sx={{fontSize: 33}} />
+                    </Link>
+                </Tooltip>
+
+                <Tooltip title="Dashboard" enterDelay={500} placement="bottom">
+                    <Link to="/dashboard" id="home">
+                        <HomeIcon sx={{fontSize: 35}} />
+                    </Link>
+                </Tooltip>
             </div>
 
             <div className="notificationsAddWrapper">
@@ -37,9 +43,11 @@ export default function TopButtons({
                     <div id="placeholder"></div>
                 )}
                 {showButtonAdd ? (
-                    <button id="addButton" onClick={() => setAddOpen(!addOpen)}>
-                        <AddIcon sx={{fontSize: 35}} />
-                    </button>
+                    <Tooltip title="Dashboard" enterDelay={500} placement="bottom">
+                        <button id="addButton" onClick={() => setAddOpen(!addOpen)}>
+                            <AddIcon sx={{fontSize: 35}} />
+                        </button>
+                    </Tooltip>
                 ) : (
                     <div id="placeholder"></div>
                 )}
