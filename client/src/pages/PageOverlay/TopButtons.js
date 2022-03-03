@@ -6,7 +6,7 @@ import AddIcon from "@mui/icons-material/Add"
 import HomeIcon from "@mui/icons-material/Home"
 import NotificationsIcon from "@mui/icons-material/Notifications"
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
-import Tooltip from '@mui/material/Tooltip'
+import Tooltip from "@mui/material/Tooltip"
 
 import ReminderWindow from "./ReminderWindow"
 import {useGlobalContext} from "../../store"
@@ -57,8 +57,15 @@ export default function TopButtons({
                     <div id="placeholder"></div>
                 )}
                 {showButtonAdd ? (
-                    <Tooltip title="Dashboard" enterDelay={500} placement="bottom">
-                        <button id="addButton" onClick={() => setAddOpen(!addOpen)}>
+                    <Tooltip
+                        title="Add Event"
+                        enterDelay={500}
+                        placement="bottom"
+                    >
+                        <button
+                            className="addButton"
+                            onClick={() => setAddOpen(!addOpen)}
+                        >
                             <AddIcon sx={{fontSize: 35}} />
                         </button>
                     </Tooltip>
@@ -71,7 +78,7 @@ export default function TopButtons({
                         onClick={() => setDeleteEvent(true)}
                     >
                         <DeleteForeverIcon sx={{fontSize: 35}} />
-                    </button>                
+                    </button>
                 ) : (
                     <div id="placeholder"></div>
                 )}
