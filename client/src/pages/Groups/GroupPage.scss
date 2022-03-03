@@ -1,8 +1,11 @@
 @import "../../theme.scss";
 
 .group {
-    height: 100vh;
+    //height: 100vh;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     overflow: hidden;
     .loading {
         display: flex;
@@ -12,38 +15,48 @@
         font-size: 80px;
         font-weight: 600;
     }
-    .middle {
+    body{
+        margin: 0;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 75%;
         flex-direction: column;
-        .event {
+        min-height: 100vh;
+     }
+     ul{
+         // removes bullet points
+        list-style-type: none; 
+        // overwrite space
+        padding-left: 0; 
+        margin: 0;
+      }
+    .middle {
+        padding: 20px;
+        .middleHeader{
             display: flex;
+            justify-content: center; 
             align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            height: 40%;
-            overflow: visible;
-            h1 {
-                margin: 0;
+            button{
+              margin-left: 20px;
             }
-            h2 {
-                margin: 0;
-            }
-        }
-        .groupList {
-            display: flex;
-            height: 80%;
-            display: flex;
-            flex-direction: column;
-            width: 60%;
-            align-items: center;
-            overflow-y: scroll;
+          }
 
-            &::-webkit-scrollbar {
-                display: none;
+        .middleWrapper{
+            display: flex; /* Now the direct empty div has flex property */
+            justify-content: space-evenly;
+            .groupName,
+            .groupEvents {
+              background-color: #7a7a7a;
+              color: white;
+              border-radius: 20px;
+              width: 30%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              padding: 20px;
+
             }
-        }
+          }
+    }
+    .bottomBar{
+        margin-top: auto;
     }
 }

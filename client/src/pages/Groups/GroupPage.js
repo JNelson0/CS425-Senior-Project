@@ -3,6 +3,8 @@ import "./GroupPage.scss"
 import BottomBar from "../PageOverlay/BottomBar.js"
 import TopButtons from "../PageOverlay/TopButtons.js"
 import {useGlobalContext} from "../../store"
+import {useNavigate} from "react-router-dom"
+
 
 const GroupPage = ({id, darkmode}) => {
     const {
@@ -14,6 +16,7 @@ const GroupPage = ({id, darkmode}) => {
         getUserById,
         getGroupById,
         getGroupIdQuery,
+        deleteGroupQuery,
     } = useGlobalContext()
 
     const [loading, setLoading] = useState(true)
@@ -22,7 +25,20 @@ const GroupPage = ({id, darkmode}) => {
     const [queried, setQueried] = useState(false)
     const [userQueried, setUserQueried] = useState(false)
     const [owner, setOwner] = useState()
+    const [userIsOwner, setUserIsOwner] = useState(false)
     let groupUsers = []
+
+    let navigate = useNavigate()
+
+    const routeBackToGroups = () => {
+        let path = `group`
+        navigate(path)
+    }
+
+    const handleDeleteEvent = () => {
+        deleteGroupQuery(id)
+        routeBackToGroups()
+    }
 
     useEffect(() => {
         ;(async () => {
@@ -41,6 +57,9 @@ const GroupPage = ({id, darkmode}) => {
                     await userQuery(userId)
                 }
                 await userQuery(getGroupById(id).owners[0])
+                if(getGroupById(id).owners[0] === user.id) {
+                    setUserIsOwner(true)
+                }
             })()
                 .catch(setError)
                 .finally(() => {
@@ -68,28 +87,47 @@ const GroupPage = ({id, darkmode}) => {
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <div className="group">
-                <TopButtons showButtonAdd={false} />
+                <TopButtons
+                    className="tb"
+                    showButtonNotification={false}
+                    showButtonAdd={false}
+                />
                 {loading ? (
                     <div className="loading">
                         <span>LOADING</span>
                     </div>
                 ) : (
-                    <div className="middle">
-                        <div className="group">
-                            <h1>{getGroupById(id).tag}</h1>
-                            <h2>Owner: </h2>
-                            <span>{owner}</span>
+            <div className="middle">
+                    <div className="middleHeader">
+                    <h1>{getGroupById(id).tag}</h1>
+                    {userIsOwner ? (
+                    <button onClick={handleDeleteEvent}>
+                        DELETE GROUP
+                    </button>
+                ) :<></>}
+                    </div>
+                    <div className="middleWrapper">
+                    <div className="groupName">
+                            <h2>Owner:</h2>
+                            <span>{owner}</span>               
                             <h2>Users: </h2>
                             <ul>
                                 {display.map(el => (
-                                    <span>{el}</span>
+                                    <li>{el}</li>
                                 ))}
                             </ul>
                         </div>
-                    </div>
-                )}
+                        <div className="groupEvents">
+                            <h1>Group Events: </h1>
+                        </div>
+                </div>
             </div>
-        </div>
+                )}
+            <div className="bottomBar">
+                <BottomBar />
+        </div> 
+    </div>
+</div>       
     )
 }
 

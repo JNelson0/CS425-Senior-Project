@@ -64,7 +64,7 @@ export default function GroupDashboardPage({setId, darkmode}) {
                     className="tb"
                     addOpen={addOpen}
                     setAddOpen={setAddOpen}
-                    showButtonNotification={true}
+                    showButtonNotification={false}
                     showButtonAdd={true}
                 />
                 <AddGroup addOpen={addOpen} setAddOpen={setAddOpen} />

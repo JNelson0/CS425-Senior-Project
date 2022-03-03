@@ -91,7 +91,11 @@ const CalendarPage = ({darkmode}) => {
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <div className="calendarPage">
-                <TopButtons />
+                <TopButtons
+                    className="tb"
+                    showButtonNotification={false}
+                    showButtonAdd={true}
+                />
                 <div className="middle">
                     {loading ? (
                         <div className="loading">

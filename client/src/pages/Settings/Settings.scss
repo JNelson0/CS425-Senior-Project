@@ -17,5 +17,14 @@
         // &:hover{
         //     cursor: pointer;
         // }
+        .logoutButton{
+            cursor: pointer;
+            position: relative;
+            top: 85%;
+            &:hover{
+                box-shadow: 0 2px 1px rgb(212, 212, 212);
+            }
+        }
+        
     }
 }
