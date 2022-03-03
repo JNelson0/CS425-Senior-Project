@@ -89,7 +89,11 @@ const GroupPage = ({id, darkmode}) => {
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <div className="group">
-                <TopButtons showButtonAdd={false} />
+                <TopButtons
+                    className="tb"
+                    showButtonNotification={false}
+                    showButtonAdd={false}
+                />
                 {loading ? (
                     <div className="loading">
                         <span>LOADING</span>
