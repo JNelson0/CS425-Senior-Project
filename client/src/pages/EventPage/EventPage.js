@@ -13,23 +13,45 @@ const EventPage = ({id, darkmode}) => {
         getExercisesFromEventIdQuery,
         eventFromIdQuery,
         getUserById,
+        userQuery,
         deleteEventQuery,
     } = useGlobalContext()
 
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState()
-
+    const [queried, setQueried] = useState(false)
+    const [owner, setOwner] = useState()
     useEffect(() => {
         ;(async () => {
             await eventFromIdQuery(id)
             await getExercisesFromEventIdQuery(id)
+            await userQuery(getEventById(id).owners[0])
         })()
             .catch(setError)
 
             .finally(() => {
-                setLoading(false)
+                //const eventOwner = getUserById(getEventById(id).owners[0])
+                //console.log(eventOwner)
+                //owner = eventOwner.firstName + " " + eventOwner.lastName
+                setQueried(true)
             })
     }, [])
+
+    useEffect(() => {
+        if (queried) {
+            ;(async () => {
+                const eventOwner = getUserById(getEventById(id).owners[0])
+                //console.log(eventOwner)
+                setOwner(eventOwner.firstName + " " + eventOwner.lastName)
+                console.log(owner)
+            })()
+                .catch(setError)
+                .finally(() => {
+                    setLoading(false)
+                })
+        }
+    }, [queried])
+
 
     const [deleteEvent, setDeleteEvent] = useState(false)
     useEffect(() => {
@@ -90,9 +112,9 @@ const EventPage = ({id, darkmode}) => {
                 ? "0" + finish.getSeconds()
                 : finish.getSeconds())
 
-        const eventOwner = getUserById(getEventById(id).owners[0])
+
+        //const eventOwner = getUserById(getEventById(id).owners[0])
         // console.log(eventOwner)
-        const owner = eventOwner.firstName + " " + eventOwner.lastName
         // console.log(owner)
 
         const exercises = event.exercises.map(id => getExerciseById(id))
@@ -134,7 +156,7 @@ const EventPage = ({id, darkmode}) => {
                                         "Finish Time: " +
                                         finishTime}
                                 </span>
-
+                 
                                 <span>{"Created by: " + owner}</span>
                             </div>
                             {event.type === "WORKOUT" ? (
