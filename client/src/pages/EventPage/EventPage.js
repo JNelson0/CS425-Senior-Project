@@ -91,7 +91,9 @@ const EventPage = ({id, darkmode}) => {
                 : finish.getSeconds())
 
         const eventOwner = getUserById(getEventById(id).owners[0])
-        const owner = eventOwner.firstName + eventOwner.lastName
+        // console.log(eventOwner)
+        const owner = eventOwner.firstName + " " + eventOwner.lastName
+        // console.log(owner)
 
         const exercises = event.exercises.map(id => getExerciseById(id))
         const hasAllExercises = exercises.every(v => v != null)
