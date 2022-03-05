@@ -19,8 +19,7 @@ const EventPage = ({id, darkmode}) => {
 
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState()
-    const [queried, setQueried] = useState(false)
-    const [owner, setOwner] = useState()
+
     useEffect(() => {
         ;(async () => {
             await eventFromIdQuery(id)
@@ -30,28 +29,9 @@ const EventPage = ({id, darkmode}) => {
             .catch(setError)
 
             .finally(() => {
-                //const eventOwner = getUserById(getEventById(id).owners[0])
-                //console.log(eventOwner)
-                //owner = eventOwner.firstName + " " + eventOwner.lastName
-                setQueried(true)
+                setLoading(false)
             })
     }, [])
-
-    useEffect(() => {
-        if (queried) {
-            ;(async () => {
-                const eventOwner = getUserById(getEventById(id).owners[0])
-                //console.log(eventOwner)
-                setOwner(eventOwner.firstName + " " + eventOwner.lastName)
-                console.log(owner)
-            })()
-                .catch(setError)
-                .finally(() => {
-                    setLoading(false)
-                })
-        }
-    }, [queried])
-
 
     const [deleteEvent, setDeleteEvent] = useState(false)
     useEffect(() => {
@@ -62,8 +42,14 @@ const EventPage = ({id, darkmode}) => {
         }
     }, [deleteEvent])
 
+    if (error) {
+        return <>{error}</>
+    }
+
     const event = getEventById(id)
-    if (event !== undefined) {
+    const eventOwner = getUserById(getEventById(id).owners[0])
+
+    if (event !== undefined && eventOwner != undefined) {
         const start = new Date(event.start)
         const startDate =
             (start.getMonth() < 10
@@ -112,11 +98,7 @@ const EventPage = ({id, darkmode}) => {
                 ? "0" + finish.getSeconds()
                 : finish.getSeconds())
 
-
-        //const eventOwner = getUserById(getEventById(id).owners[0])
-        // console.log(eventOwner)
-        // console.log(owner)
-
+        const owner = eventOwner.firstName + " " + eventOwner.lastName
         const exercises = event.exercises.map(id => getExerciseById(id))
         const hasAllExercises = exercises.every(v => v != null)
 
@@ -156,7 +138,7 @@ const EventPage = ({id, darkmode}) => {
                                         "Finish Time: " +
                                         finishTime}
                                 </span>
-                 
+
                                 <span>{"Created by: " + owner}</span>
                             </div>
                             {event.type === "WORKOUT" ? (
