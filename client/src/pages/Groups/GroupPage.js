@@ -177,40 +177,42 @@ const GroupPage = ({id, darkmode}) => {
                         <div className="groupEvents">
                             <h1>Group Events: </h1>
                         </div>
+                    {userIsOwner ? (
                         <div className="groupDetails">
-                            <div className="form">
-                                    <div className="list">
-                                        <div>
-                                            <label>Remove User:</label>
-                                            <input
-                                                type="text"
-                                                value={userToDelete}
-                                                onChange={handleChangeDeleteUser}
-                                                placeholder="Enter single user id"
-                                            />
-                                            <input 
-                                                type="submit"
-                                                value="Remove user"
-                                                onClick={handleDeleteUser}
-                                            /> 
-                                        </div>
-                                        <div>
-                                            <label>Add Users:</label>
-                                            <input 
-                                                type="text"
-                                                value={usersToAdd}
-                                                onChange={handleChangeAddUsers}
-                                                placeholder="Enter userIds separated by commas with no space"
-                                            />
-                                            <input
-                                                type="submit"
-                                                value="Add users"
-                                                onClick={handleAddUsers} 
-                                            />
-                                        </div>
+                        <div className="form">
+                                <div className="list">
+                                    <div>
+                                        <label>Remove User:</label>
+                                        <input
+                                            type="text"
+                                            value={userToDelete}
+                                            onChange={handleChangeDeleteUser}
+                                            placeholder="Enter single user id"
+                                        />
+                                        <input 
+                                            type="submit"
+                                            value="Remove user"
+                                            onClick={handleDeleteUser}
+                                        /> 
                                     </div>
-                            </div>
+                                    <div>
+                                        <label>Add Users:</label>
+                                        <input 
+                                            type="text"
+                                            value={usersToAdd}
+                                            onChange={handleChangeAddUsers}
+                                            placeholder="Enter userIds separated by commas with no space"
+                                        />
+                                        <input
+                                            type="submit"
+                                            value="Add users"
+                                            onClick={handleAddUsers} 
+                                        />
+                                    </div>
+                                </div>
                         </div>
+                    </div>
+                    ) : (<></>)}
                 </div>
             </div>
                 )}
