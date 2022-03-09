@@ -3,6 +3,7 @@ import "./CalendarPage.scss"
 import TopButtons from "./PageOverlay/TopButtons.js"
 import {useGlobalContext} from "../store"
 
+
 import {
     ScheduleComponent,
     Day,
@@ -14,6 +15,7 @@ import {
     ViewsDirective,
     ViewDirective,
 } from "@syncfusion/ej2-react-schedule"
+import { id } from "date-fns/locale"
 
 const CalendarPage = ({darkmode}) => {
     const {
@@ -23,6 +25,7 @@ const CalendarPage = ({darkmode}) => {
         currentUserQuery,
         currentUserEventQuery,
         deleteEventQuery,
+        createEventQuery,
     } = useGlobalContext()
     const [list, setList] = useState([])
     const [loading, setLoading] = useState(true)
@@ -65,6 +68,21 @@ const CalendarPage = ({darkmode}) => {
         }
     }, [IDToDelete])
 
+    
+    const [eventToAdd, setEventToAdd] = useState(undefined)
+    useEffect(() => {
+        if (eventToAdd !== undefined) {
+            ;(async () => {
+                //console.log(eventToAdd)
+                await createEventQuery(eventToAdd)
+            })()
+                .catch(setError)
+                .finally(() => {              
+                    setEventToAdd(undefined)
+                })
+        }
+    }, [eventToAdd])
+
     const onActionBegin = args => {
         console.log(args)
         console.log(args.requestType)
@@ -79,12 +97,21 @@ const CalendarPage = ({darkmode}) => {
         }
         if (args.requestType === "eventCreate") {
             // This block is execute before an appointment create
+            setEventToAdd({
+                title: args.data[0].Subject,
+                description: args.data[0].Description || "",
+                type: "STANDARD",
+                start: args.data[0].StartTime,
+                finish: args.data[0].EndTime,
+            })
+            console.log(args.data[0])
         }
         if (args.requestType === "eventChange") {
             // This block is execute before an appointment change
         }
         if (args.requestType === "eventRemove") {
             setIDToDelete(args.data[0].Id)
+            //console.log(args.data[0].Id)
         }
     }
 
