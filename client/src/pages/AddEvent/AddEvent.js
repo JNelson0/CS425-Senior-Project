@@ -2,9 +2,10 @@ import "./AddEvent.scss"
 import {React, useState, useEffect, useCallback} from "react"
 import AddEventDetails from "./AddEventDetails"
 import AddWorkoutDetails from "./AddWorkoutDetails"
+import CloseIcon from "@mui/icons-material/Close"
 import {useGlobalContext} from "../../store"
 
-export default function AddEvent({addOpen, setAddOpen}) {
+export default function AddEvent({addOpen, setAddOpen, darkmode}) {
     const {
         user,
         createEventQuery,
@@ -128,69 +129,71 @@ export default function AddEvent({addOpen, setAddOpen}) {
     }
 
     return (
-        <div className={"add-event " + (addOpen && "active")}>
-            <div className="top">
-                <div className="topSplit1"></div>
-                <div
-                    className={
-                        workoutDetailsList.type !== "STANDARD"
-                            ? "topSplit2"
-                            : "topSplit2 No"
-                    }
-                >
-                    <button
+        
+        <div class={"theme " + (darkmode ? "light" : "dark")}>
+            <div className={"add-event " + (addOpen && "active")}>
+                <div className="top">
+                    <div className="topSplit1"></div>
+                    <div
                         className={
-                            workoutButtonActive ? "button active" : "button"
+                            workoutDetailsList.type !== "STANDARD"
+                                ? "topSplit2"
+                                : "topSplit2 No"
                         }
-                        onClick={handleButton1}
                     >
-                        Details
-                    </button>
-                    <button
-                        className={
-                            workoutButtonActive ? "button active" : "button"
-                        }
-                        onClick={handleButton2}
-                    >
-                        Workout
-                    </button>
-                </div>
-                <div className="topSplit3">
-                    <div className="closeMenu" onClick={handleClose}>
-                        <span className="line1"></span>
-                        <span className="line2"></span>
+                        <button
+                            className={
+                                workoutButtonActive ? "button active" : "button"
+                            }
+                            onClick={handleButton1}
+                        >
+                            Details
+                        </button>
+                        <button
+                            className={
+                                workoutButtonActive ? "button active" : "button"
+                            }
+                            onClick={handleButton2}
+                        >
+                            Workout
+                        </button>
+                    </div>
+                    <div className="topSplit3">
+                        <div className="closeMenu" onClick={handleClose}>
+                            <CloseIcon sx={{fontSize: 33}} />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="middle">
-                {workoutDetailsPage ? (
-                    <AddWorkoutDetails
-                        setWorkoutDetailsPage={setWorkoutDetailsPage}
-                        workoutExerciseList={workoutExerciseList}
-                        setWorkoutExerciseList={setWorkoutExerciseList}
-                        setAddOpen={setAddOpen}
-                        addOpen={addOpen}
-                    />
-                ) : (
-                    <AddEventDetails
-                        setWorkoutDetailsPage={setWorkoutDetailsPage}
-                        setAddOpen={setAddOpen}
-                        addOpen={addOpen}
-                        workoutDetailsList={workoutDetailsList}
-                        setWorkoutDetailsList={setWorkoutDetailsList}
-                        startDate={startDate}
-                        finishDate={finishDate}
-                    />
-                )}
-            </div>
-            <div className="bottom">
-                <div className="buttonWrapper">
-                    <button type="reset" onClick={resetInput}>
-                        Clear
-                    </button>
-                    <button type="submit" onClick={handleSubmit}>
-                        Submit
-                    </button>
+                <div className="middle">
+                    {workoutDetailsPage ? (
+                        <AddWorkoutDetails
+                            setWorkoutDetailsPage={setWorkoutDetailsPage}
+                            workoutExerciseList={workoutExerciseList}
+                            setWorkoutExerciseList={setWorkoutExerciseList}
+                            setAddOpen={setAddOpen}
+                            addOpen={addOpen}
+                        />
+                    ) : (
+                        <AddEventDetails
+                            setWorkoutDetailsPage={setWorkoutDetailsPage}
+                            setAddOpen={setAddOpen}
+                            addOpen={addOpen}
+                            workoutDetailsList={workoutDetailsList}
+                            setWorkoutDetailsList={setWorkoutDetailsList}
+                            startDate={startDate}
+                            finishDate={finishDate}
+                        />
+                    )}
+                </div>
+                <div className="bottom">
+                    <div className="buttonWrapper">
+                        <button type="reset" onClick={resetInput}>
+                            Clear
+                        </button>
+                        <button type="submit" onClick={handleSubmit}>
+                            Submit
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

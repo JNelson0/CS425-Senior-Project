@@ -116,7 +116,7 @@ export default function DashboardPage({setId, darkmode}) {
                     showButtonAdd={true}
                     showButtonDeleteEvent={false}
                 />
-                <AddEvent addOpen={addOpen} setAddOpen={setAddOpen} />
+                <AddEvent addOpen={addOpen} setAddOpen={setAddOpen} darkmode={darkmode}/>
                 <div className="listWrapper">
                     <div className="spacer">
                         <img src={BackgroundImg} alt="Wolf" />
