@@ -172,6 +172,7 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
                             setWorkoutExerciseList={setWorkoutExerciseList}
                             setAddOpen={setAddOpen}
                             addOpen={addOpen}
+                            darkmode={darkmode}
                         />
                     ) : (
                         <AddEventDetails
@@ -182,6 +183,7 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
                             setWorkoutDetailsList={setWorkoutDetailsList}
                             startDate={startDate}
                             finishDate={finishDate}
+                            darkmode={darkmode}
                         />
                     )}
                 </div>
