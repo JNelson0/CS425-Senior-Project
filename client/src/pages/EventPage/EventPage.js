@@ -170,14 +170,12 @@ const EventPage = ({id, darkmode}) => {
                             ) : (
                                 <></>
                             )}
-                        </div>
-
-                        <button onClick={handleAddToGoogle}>
+                            <button onClick={handleAddToGoogle}>
                                 Add To Google
-                        </button>
-                    </div>
+                            </button>
+                        </div>
                 )}
-
+                
                     <BottomBar />
                 </div>
             </div>
