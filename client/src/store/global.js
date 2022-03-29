@@ -495,6 +495,14 @@ function useGlobal() {
         setExerciseResponseData(id, undefined)
     }
 
+    // POST /googleapi/create-event
+    async function createGoogleEventQuery(options) {
+        await request(
+            `/googleapi/create-event`,
+            standardJsonInit("POST", options),
+        )
+    }
+
     const currentUser = userState.currentUserId
         ? getUserById(userState.currentUserId)
         : undefined
@@ -555,6 +563,9 @@ function useGlobal() {
         addMemberToGroupQuery,
         deleteMemberFromGroupQuery,
         deleteGroupQuery,
+
+        //Google Queries
+        createGoogleEventQuery,
     }
 }
 const [GlobalProvider, useGlobalContext] = constate(useGlobal)

@@ -1,5 +1,7 @@
 import {React, useEffect, useState} from "react"
 import "./Settings.scss"
+import 'dotenv/config'
+import { GoogleLogin } from "react-google-login"
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
@@ -61,6 +63,10 @@ export default function SettingsToggles({toggle, setS}) {
     });
   };
 
+  const responseGoogle = response => {
+    console.log(response)
+  }
+    
   const handleLogout = (event) => {
     event.preventDefault()
     setLogout(true)
@@ -109,7 +115,13 @@ export default function SettingsToggles({toggle, setS}) {
                 }
                 label="setting2"
                 /> */}
-                
+              <GoogleLogin 
+                clientId={String(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
+                buttonText="Login"
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                cookiePolicy={'single_host_origin'}
+              />
             </FormGroup>
         </FormControl>
 

@@ -48,6 +48,8 @@ model User {
   passwordSalt String @unique
   passwordHash String
 
+  googleRefreshToken String? @unique
+
   eventMemberships  UserMembershipInEvent[]
   groupMemberships  UserMembershipInGroup[]
   exerciseResponses ExerciseResponse[]
