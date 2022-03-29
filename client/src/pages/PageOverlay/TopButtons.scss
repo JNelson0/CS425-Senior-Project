@@ -29,7 +29,7 @@
                 animation: spin 2.5s infinite;
             }
         }
-        #placeholder{
+        #placeholder {
             width: 100px;
             height: 100px;
             margin: 1px;
@@ -58,7 +58,7 @@
         flex: 0.5;
         justify-content: flex-end;
         align-items: center;
-        #addButton {
+        .addButton {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -77,8 +77,27 @@
                 background-color: rgb(25, 68, 128);
             }
         }
+        .deleteEvent {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+            background-color: $nevada-blue;
+            border-radius: 50px;
+            border: 0pt;
+            margin: 1px;
+            text-decoration: none;
+            color: crimson;
+            transition: all 0.02s ease;
 
-        #notificationButton {
+            &:hover {
+                cursor: pointer;
+                background-color: rgb(25, 68, 128);
+            }
+        }
+
+        .notificationButton {
             display: flex;
             align-items: center;
             justify-content: center;

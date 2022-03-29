@@ -3,6 +3,7 @@ import "./CalendarPage.scss"
 import TopButtons from "./PageOverlay/TopButtons.js"
 import {useGlobalContext} from "../store"
 
+
 import {
     ScheduleComponent,
     Day,
@@ -11,17 +12,34 @@ import {
     Month,
     Agenda,
     Inject,
+    ViewsDirective,
+    ViewDirective,
 } from "@syncfusion/ej2-react-schedule"
+import { id } from "date-fns/locale"
 
 const CalendarPage = ({darkmode}) => {
-    const {user, getEventById, isLoggedIn} = useGlobalContext()
+    const {
+        user,
+        getEventById,
+        isLoggedIn,
+        currentUserQuery,
+        currentUserEventQuery,
+        deleteEventQuery,
+        createEventQuery,
+    } = useGlobalContext()
     const [list, setList] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState()
 
     useEffect(() => {
         ;(async () => {
-            user.events.map(el => {
+            if (!isLoggedIn) {
+                await currentUserQuery()
+            }
+
+            await currentUserEventQuery()
+
+            await user.events.map(el => {
                 list.push({
                     Id: parseInt(getEventById(el).id),
                     Subject: getEventById(el).title,
@@ -35,13 +53,76 @@ const CalendarPage = ({darkmode}) => {
                 setLoading(false)
             })
     }, [])
-    if (error) {
-        return <>Error : {String(error)}</>
+
+    const [IDToDelete, setIDToDelete] = useState(undefined)
+
+    useEffect(() => {
+        if (IDToDelete !== undefined) {
+            ;(async () => {
+                await deleteEventQuery(IDToDelete)
+            })()
+                .catch(setError)
+                .finally(() => {
+                    setIDToDelete(undefined)
+                })
+        }
+    }, [IDToDelete])
+
+    
+    const [eventToAdd, setEventToAdd] = useState(undefined)
+    useEffect(() => {
+        if (eventToAdd !== undefined) {
+            ;(async () => {
+                //console.log(eventToAdd)
+                await createEventQuery(eventToAdd)
+            })()
+                .catch(setError)
+                .finally(() => {              
+                    setEventToAdd(undefined)
+                })
+        }
+    }, [eventToAdd])
+
+    const onActionBegin = args => {
+        console.log(args)
+        console.log(args.requestType)
+        if (args.requestType === "toolbarItemRendering") {
+            // This block is execute before toolbarItem render
+        }
+        if (args.requestType === "dateNavigate") {
+            // This block is executed before previous and next navigation
+        }
+        if (args.requestType === "viewNavigate") {
+            // This block is execute before view navigation
+        }
+        if (args.requestType === "eventCreate") {
+            // This block is execute before an appointment create
+            setEventToAdd({
+                title: args.data[0].Subject,
+                description: args.data[0].Description || "",
+                type: "STANDARD",
+                start: args.data[0].StartTime,
+                finish: args.data[0].EndTime,
+            })
+            console.log(args.data[0])
+        }
+        if (args.requestType === "eventChange") {
+            // This block is execute before an appointment change
+        }
+        if (args.requestType === "eventRemove") {
+            setIDToDelete(args.data[0].Id)
+            //console.log(args.data[0].Id)
+        }
     }
+
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <div className="calendarPage">
-                <TopButtons />
+                <TopButtons
+                    className="tb"
+                    showButtonNotification={false}
+                    showButtonAdd={true}
+                />
                 <div className="middle">
                     {loading ? (
                         <div className="loading">
@@ -54,16 +135,15 @@ const CalendarPage = ({darkmode}) => {
                                 height="100%"
                                 selectedDate={new Date(new Date())}
                                 eventSettings={{dataSource: list}}
+                                actionBegin={onActionBegin}
                             >
-                                <Inject
-                                    services={[
-                                        Day,
-                                        Week,
-                                        WorkWeek,
-                                        Month,
-                                        Agenda,
-                                    ]}
-                                />
+                                <ViewsDirective>
+                                    <ViewDirective option="Day" />
+                                    <ViewDirective option="Week" />
+                                    <ViewDirective option="Month" />
+                                    <ViewDirective option="Agenda" />
+                                </ViewsDirective>
+                                <Inject services={[Day, Week, Month, Agenda]} />
                             </ScheduleComponent>
                         </div>
                     )}

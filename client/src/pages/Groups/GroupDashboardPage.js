@@ -14,6 +14,7 @@ export default function GroupDashboardPage({setId, darkmode}) {
         currentUserQuery,
         currentUserGroupQuery,
         getGroupById,
+        getUserById,
     } = useGlobalContext()
 
     const [addOpen, setAddOpen] = useState(false)
@@ -24,17 +25,17 @@ export default function GroupDashboardPage({setId, darkmode}) {
     const [display, setDisplay] = useState([])
 
     useEffect(() => {
-            ;(async () => {
-                if (!isLoggedIn) {
-                    await currentUserQuery()
-                }
+        ;(async () => {
+            if (!isLoggedIn) {
+                await currentUserQuery()
+            }
 
-                await currentUserGroupQuery()
-            })()
-                .catch(setError)
-                .finally(() => {
-                    setQueried(true)
-                })
+            await currentUserGroupQuery()
+        })()
+            .catch(setError)
+            .finally(() => {
+                setQueried(true)
+            })
     }, [])
 
     useEffect(() => {
@@ -48,10 +49,9 @@ export default function GroupDashboardPage({setId, darkmode}) {
                 .finally(() => {
                     setDisplay([...groups])
                     setLoading(false)
-                }) 
+                })
         }
     }, [queried])
-
 
     if (error) {
         return <>Error : {String(error)}</>
@@ -59,12 +59,12 @@ export default function GroupDashboardPage({setId, darkmode}) {
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
-            <div className ="dashboard">
+            <div className="dashboard">
                 <TopButtons
                     className="tb"
                     addOpen={addOpen}
                     setAddOpen={setAddOpen}
-                    showButtonNotification={true}
+                    showButtonNotification={false}
                     showButtonAdd={true}
                 />
                 <AddGroup addOpen={addOpen} setAddOpen={setAddOpen} />
@@ -73,7 +73,7 @@ export default function GroupDashboardPage({setId, darkmode}) {
                         <img src={BackgroundImg} alt="Wolf" />
                     </div>
                     <div className="middleSpacer">
-                    {loading ? (
+                        {loading ? (
                             <div className="loading">
                                 <span>LOADING</span>
                             </div>

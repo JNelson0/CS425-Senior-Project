@@ -157,7 +157,7 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
                         </div>
 
                         <div id="error">
-                            {error != undefined ? (
+                            {error !== undefined ? (
                                 <div>{error.message}</div>
                             ) : (
                                 <div />

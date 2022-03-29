@@ -19,27 +19,30 @@ export default function EventContainer({id, setId, name, date, darkmode}) {
                     className="eventbutton"
                     onClick={() => setId(id)}
                 >
-                    <span>{id}</span>
-                    <span>{name}</span>
-                    <span>
-                        {(date.getMonth() < 10
-                            ? "0" + (date.getMonth() + 1)
-                            : date.getMonth() + 1) +
-                            "-" +
-                            (date.getDate() < 10
-                                ? "0" + date.getDate()
-                                : date.getDate()) +
-                            "-" +
-                            date.getFullYear() +
-                            " " +
-                            (date.getHours() < 10
-                                ? "0" + date.getHours()
-                                : date.getHours()) +
-                            ":" +
-                            (date.getMinutes() < 10
-                                ? "0" + date.getMinutes()
-                                : date.getMinutes())}
-                    </span>
+                    {/* <span>{id}</span> */}
+                    <div className="wrapper">
+                        <span>{name}</span>
+                        <span>
+                            {(date.getMonth() < 10
+                                ? "0" + (date.getMonth() + 1)
+                                : date.getMonth() + 1) +
+                                "-" +
+                                (date.getDate() < 10
+                                    ? "0" + date.getDate()
+                                    : date.getDate()) +
+                                "-" +
+                                date.getFullYear() +
+                                " " +
+                                (date.getHours() < 10
+                                    ? "0" + date.getHours()
+                                    : date.getHours()) +
+                                ":" +
+                                (date.getMinutes() < 10
+                                    ? "0" + date.getMinutes()
+                                    : date.getMinutes())}
+                        </span>
+                    </div>
+                    <div className="line" />
                 </Link>
                 {/* <DeleteForeverIcon
                     className="trash"

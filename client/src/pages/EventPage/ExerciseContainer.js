@@ -14,9 +14,6 @@ export default function ExerciseContainer({type, name, sets, reps, id}) {
                 className={
                     active ? "exerciseComponent active" : "exerciseComponent"
                 }
-                // onClick={() => {
-                //     setActive(!active)
-                // }}
             >
                 <div
                     className="arrow"
@@ -46,7 +43,7 @@ export default function ExerciseContainer({type, name, sets, reps, id}) {
                             </div>
                         </div>
                     ) : (
-                        console.log("SELECTED")
+                        <></>
                     )}
                 </div>
                 <div
