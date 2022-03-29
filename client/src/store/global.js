@@ -469,11 +469,26 @@ function useGlobal() {
             `/exercise/${exerciseId}/response`,
             standardJsonInit("POST", options),
         )
+        // console.log(data.id)
         setExerciseResponseData(data.id, data)
 
         setExerciseData(exerciseId, prev => ({
             ...prev,
-            exerciseResponses: prev.exerciseResponses.concat(data.id),
+            exerciseResponses: data.id,
+        }))
+    }
+
+    // GET /exercise/:exerciseId/responses
+    async function getExerciseResponseFromExerciseIdQuery(exerciseId) {
+        const data = await request(`/exercise/${exerciseId}/responses`, {
+            credentials: "same-origin",
+        })
+
+        setExerciseResponseData(data.id, data)
+
+        setExerciseData(exerciseId, prev => ({
+            ...prev,
+            exerciseResponses: data.id,
         }))
     }
 
@@ -546,6 +561,7 @@ function useGlobal() {
         createExerciseResponseQuery,
         modifyExerciseResponseQuery,
         deleteExerciseResponseQuery,
+        getExerciseResponseFromExerciseIdQuery,
 
         //Group Queries
         createGroupQuery,

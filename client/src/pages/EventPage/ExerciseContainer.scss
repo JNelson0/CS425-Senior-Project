@@ -14,7 +14,20 @@
     &.active {
         height: 70%;
     }
-
+    .popup {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        button {
+            width: 30%;
+            height: 25%;
+            cursor: pointer;
+        }
+    }
     &:hover {
         background-color: #ddd7cf;
     }
@@ -68,7 +81,7 @@
             }
             .setsReps {
                 height: 66%;
-
+                width: 100%;
                 // border: 1px solid black;
                 .exerciseInfo {
                     display: flex;
@@ -81,6 +94,44 @@
                     display: flex;
                     width: 100%;
                     height: 50px;
+                    .responses {
+                        display: flex;
+                        justify-content: center;
+                        width: 100%;
+                        .index {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            width: 40%;
+                        }
+                        .responseNumbers {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: large;
+                            width: 60%;
+                            margin-left: 5px;
+                            border: 2px solid rgb(153, 153, 153);
+                            border-radius: 15px;
+                            cursor: pointer;
+                            transition: all 0.5s ease;
+                            &:hover {
+                                border: 2px solid black;
+                                background-color: rgb(255, 255, 255);
+                            }
+                        }
+                        input {
+                            text-align: center;
+                            font-size: large;
+                            width: 60%;
+                            margin-left: 5px;
+                            border: 2px solid rgb(153, 153, 153);
+                            border-radius: 15px;
+                        }
+                    }
+                    .active {
+                        display: none;
+                    }
                 }
             }
         }

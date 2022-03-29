@@ -3,62 +3,162 @@ import "./ExerciseContainer.scss"
 import arrow from "../../img/down.png"
 import SetBoxes from "./SetBoxes"
 import CloseIcon from "@mui/icons-material/Close"
+import "./SetBoxes.scss"
+import {useGlobalContext} from "../../store"
 
 export default function ExerciseContainer({type, name, sets, reps, id}) {
     const [active, setActive] = useState(false)
-    const setNumbers = new Array(parseInt(sets))
+    const [numbers, setNumbers] = useState(new Array(parseInt(sets)))
+    const [responseSubmit, setResponseSubmit] = useState(false)
+    const [buttonVisible, setButtonVisible] = useState(true)
 
-    return (
-        <div className={active ? "exercise active" : "exercise"}>
-            <div
-                className={
-                    active ? "exerciseComponent active" : "exerciseComponent"
-                }
-            >
-                <div
-                    className="arrow"
-                    onClick={() => {
-                        setActive(!active)
-                    }}
-                >
-                    <img
-                        className={active ? "active" : undefined}
-                        src={arrow}
-                        alt=""
-                    />
-                </div>
-                <div className="wrapper">
-                    <div className="type">{name}</div>
-                    {active ? (
-                        <div className="setsReps">
-                            <div className="exerciseInfo">
-                                <div>{sets} Sets</div>
-                                <CloseIcon fontSize="large" />
-                                <div>{reps} Reps</div>
-                            </div>
-                            <div className="setBoxes">
-                                {[...Array(parseInt(sets))].map((e, index) => (
-                                    <SetBoxes index={index} />
-                                ))}
-                            </div>
+    const [popup, setPopup] = useState(false)
+    const {createExerciseResponseQuery, getExerciseById} = useGlobalContext()
+
+    const handleChange = e => {
+        setNumbers({
+            ...numbers,
+            [e.target.id]: e.target.value,
+        })
+    }
+
+    const checkInputs = () => {
+        let counter = 0
+        for (let i = 0; i < parseInt(sets); i++) {
+            numbers[i] === "" || numbers[i] === undefined
+                ? (counter -= 1)
+                : (counter += 1)
+        }
+        if (counter === parseInt(sets)) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    const [error, setError] = useState()
+    useEffect(() => {
+        if (responseSubmit) {
+            let responseArray = new Array()
+            // console.log(numbers)
+            for (let i = 0; i < parseInt(sets); i++) {
+                numbers[i] = parseInt(numbers[i])
+                responseArray.push(numbers[i])
+            }
+            ;(async () => {
+                await createExerciseResponseQuery(id, responseArray)
+            })()
+                .catch(setError)
+                .then(() => {
+                    setResponseSubmit(false)
+                    setButtonVisible(false)
+                })
+        }
+    }, [responseSubmit])
+
+    const handleSubmit = e => {
+        e.preventDefault()
+        checkInputs() ? setResponseSubmit(true) : setPopup(true)
+    }
+
+    if (error) {
+        return <>{error}</>
+    }
+    const exerciseData = getExerciseById(id)
+
+    if (exerciseData !== undefined) {
+        return (
+            <div className={active ? "exercise active" : "exercise"}>
+                {popup ? (
+                    <div className="popup">
+                        Please enter all exercise information before submitting
+                        <button onClick={() => setPopup(false)}>Edit</button>
+                    </div>
+                ) : (
+                    <div
+                        className={
+                            active
+                                ? "exerciseComponent active"
+                                : "exerciseComponent"
+                        }
+                    >
+                        <div
+                            className="arrow"
+                            onClick={() => {
+                                setActive(!active)
+                            }}
+                        >
+                            <img
+                                className={active ? "active" : undefined}
+                                src={arrow}
+                                alt=""
+                            />
                         </div>
-                    ) : (
-                        <></>
-                    )}
-                </div>
-                <div
-                    className="arrow"
-                    onClick={() => {
-                        setActive(!active)
-                    }}
-                >
-                    <img
-                        className={active ? "active" : undefined}
-                        src={arrow}
-                        alt=""
-                    />
-                </div>
+                        <div className="wrapper">
+                            <div className="type">{name}</div>
+                            {active ? (
+                                <div className="setsReps">
+                                    <div className="exerciseInfo">
+                                        <div>{sets} Sets</div>
+                                        <CloseIcon fontSize="large" />
+                                        <div>{reps} Reps</div>
+                                    </div>
+                                    <form className="setBoxes" action="submit">
+                                        {[...Array(parseInt(sets))].map(
+                                            (e, index) => (
+                                                <SetBoxes
+                                                    index={index}
+                                                    setButtonVisible={
+                                                        setButtonVisible
+                                                    }
+                                                    responseSubmit={
+                                                        responseSubmit
+                                                    }
+                                                    setResponseSubmit={
+                                                        setResponseSubmit
+                                                    }
+                                                    numbers={numbers}
+                                                    handleChange={handleChange}
+                                                    id={exerciseData.id}
+                                                    responses={
+                                                        exerciseData.exerciseResponses
+                                                    }
+                                                />
+                                            ),
+                                        )}
+
+                                        <button
+                                            className={
+                                                buttonVisible ? "" : "active"
+                                            }
+                                            type="submit"
+                                            onClick={handleSubmit}
+                                        >
+                                            Submit
+                                        </button>
+                                    </form>
+                                </div>
+                            ) : (
+                                <></>
+                            )}
+                        </div>
+                        <div
+                            className="arrow"
+                            onClick={() => {
+                                setActive(!active)
+                            }}
+                        >
+                            <img
+                                className={active ? "active" : undefined}
+                                src={arrow}
+                                alt=""
+                            />
+                        </div>
+                    </div>
+                )}
             </div>
-        </div>
-    )
+        )
+    } else {
+        return <>Loading</>
+    }
 }
