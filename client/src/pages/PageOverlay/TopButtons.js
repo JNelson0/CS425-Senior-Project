@@ -17,6 +17,7 @@ export default function TopButtons({
     showButtonAdd,
     showButtonDeleteEvent,
     setDeleteEvent,
+    setEventId,
 }) {
     const [bellOpen, setBellOpen] = useState(false)
 
@@ -30,7 +31,11 @@ export default function TopButtons({
                 </Tooltip>
 
                 <Tooltip title="Home" enterDelay={500} placement="bottom">
-                    <Link to="/dashboard" id="home">
+                    <Link
+                        to="/dashboard"
+                        id="home"
+                        onClick={() => setEventId()}
+                    >
                         <HomeIcon sx={{fontSize: 35}} />
                     </Link>
                 </Tooltip>
