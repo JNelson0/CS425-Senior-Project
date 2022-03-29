@@ -1,5 +1,7 @@
 .add-group {
-    background-color: lightgrey;
+    background-color: inherit;
+    border: 2px solid lightslategrey;
+    border-radius: 8px;
     width: 60%;
     height: 80%;
     position: fixed;
@@ -21,7 +23,7 @@
         height: 15%;
         align-items: center;
         justify-content: flex-end;
-        background-color: lightgrey;
+        //background-color: lightgrey;
 
         .topSplit1 {
             display: flex;
@@ -49,29 +51,13 @@
             justify-content: flex-end;
 
             .closeMenu {
-                width: 32px;
-                height: 25px;
                 position: relative;
                 right: 15px;
-                top: 5px;
+                top: -29px;
                 display: flex;
-                flex-direction: column;
-                justify-content: space-between;
                 cursor: pointer;
                 transition: all 1s ease;
 
-                span {
-                    width: 100%;
-                    height: 3px;
-                    background-color: black;
-                    transform-origin: left;
-                    &:first-child {
-                        transform: rotate(45deg);
-                    }
-                    &:last-child {
-                        transform: rotate(-45deg);
-                    }
-                }
             }
         }
     }

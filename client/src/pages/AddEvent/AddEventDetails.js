@@ -90,6 +90,7 @@ export default function AddEventDetails({
                                 name="finish"
                                 id="datetime-local"
                                 label="End Time"
+                                type="datetime-local"
                                 defaultValue={finishDate}
                                 value={workoutDetailsList.finish}
                                 sx={{width: 250}}
