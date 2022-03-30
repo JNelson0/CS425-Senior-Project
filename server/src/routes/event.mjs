@@ -196,7 +196,7 @@ router.post(
                 include: eventInclude,
             })
         })
-
+        console.log(event)
         return res.json(toEventJson(event))
     },
 )

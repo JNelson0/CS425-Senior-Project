@@ -292,7 +292,7 @@ function useGlobal() {
             standardJsonInit("POST", options),
         )
         setEventData(data.id, data)
-        for (const userId of data.invitees) {
+        for (const userId of data.users) {
             const user = getUserById(userId)
             if (!user) {
                 continue
