@@ -16,7 +16,7 @@ export default function SettingsPage({darkmode, setS}) {
         <TopButtons
             className="tb"
             showButtonNotification={false}
-            showButtonAdd={true}
+            showButtonAdd={false}
         />
         <div className="middle">
           <SettingsToggles toggle={darkmode} setS={setS}/>

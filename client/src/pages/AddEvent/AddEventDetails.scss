@@ -1,3 +1,5 @@
+@import "../../_theme.scss";
+
 .eventDetails {
     display: flex;
     height: 100%;
@@ -11,7 +13,7 @@
 
         .list {
             font-weight: 600;
-            color: black;
+            color: inherit;
             height: 60%;
             width: 100%;
             font-size: 30px;
@@ -48,12 +50,21 @@
                     font-size: 20px;
                 }
             }
-            .date {
+            .date.light{
                 height: 200px;
                 display: flex;
                 flex-direction: row;
-                #datetime-local {
+                #datetime-local{
                     width: 80%;
+                }
+            }
+            .date.dark{
+                height: 200px;
+                display: flex;
+                flex-direction: row;
+                #datetime-local{
+                    width: 80%;
+                    color: $dark-text;
                 }
             }
         }
