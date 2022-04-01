@@ -7,6 +7,7 @@ import EventContainer from "./EventContainer/EventContainer.js"
 import BackgroundImg from "../img/wolf.png"
 import Clock from "react-live-clock"
 import AddEvent from "./AddEvent/AddEvent.js"
+import EventPage from "./EventPage/EventPage"
 
 export default function DashboardPage({setId, darkmode}) {
     const {
@@ -17,6 +18,7 @@ export default function DashboardPage({setId, darkmode}) {
         getEventById,
     } = useGlobalContext()
 
+    const [eventId, setEventId] = useState()
     const [addOpen, setAddOpen] = useState(false)
     const [loading, setLoading] = useState(true)
     const [sorting, setSorting] = useState(false)
@@ -115,43 +117,73 @@ export default function DashboardPage({setId, darkmode}) {
                     showButtonNotification={false}
                     showButtonAdd={true}
                     showButtonDeleteEvent={false}
+                    setEventId={setEventId}
                 />
-                <AddEvent addOpen={addOpen} setAddOpen={setAddOpen} />
-                <div className="listWrapper">
-                    <div className="spacer">
-                        <img src={BackgroundImg} alt="Wolf" />
-                    </div>
-                    <div className="middleSpacer">
-                        <Clock
-                            className="clock"
-                            format={"h:mm:ss a"}
-                            ticking={true}
-                            timezone={"US/Pacific"}
-                        />
-
-                        {loading ? (
-                            <div className="loading">
-                                <span>LOADING</span>
+                <div className="dashboardContent">
+                    <div
+                        className={
+                            eventId ? "dashboardLeft active" : "dashboardLeft"
+                        }
+                    >
+                  <AddEvent addOpen={addOpen} setAddOpen={setAddOpen} darkmode={darkmode}/>
+                        <div className="listWrapper">
+                            <div className="spacer">
+                                <img src={BackgroundImg} alt="Wolf" />
                             </div>
-                        ) : (
-                            <ul>
-                                {display.map(el => (
-                                    <EventContainer
-                                        key={getEventById(el.id).id}
-                                        setId={setId}
-                                        id={getEventById(el.id).id}
-                                        name={getEventById(el.id).title}
-                                        date={
-                                            new Date(getEventById(el.id).start)
-                                        }
-                                        darkmode={darkmode}
-                                    />
-                                ))}
-                            </ul>
-                        )}
+                            <div className="middleSpacer">
+                                <Clock
+                                    className="clock"
+                                    format={"h:mm:ss a"}
+                                    ticking={true}
+                                    timezone={"US/Pacific"}
+                                />
+                                {loading ? (
+                                    <div className="loading">
+                                        <span>LOADING</span>
+                                    </div>
+                                ) : (
+                                    <div className="eventList">
+                                        {display.map(el => (
+                                            <EventContainer
+                                                key={getEventById(el.id).id}
+                                                setId={setId}
+                                                id={getEventById(el.id).id}
+                                                name={getEventById(el.id).title}
+                                                date={
+                                                    new Date(
+                                                        getEventById(
+                                                            el.id,
+                                                        ).start,
+                                                    )
+                                                }
+                                                darkmode={darkmode}
+                                                setEventId={setEventId}
+                                                eventId={eventId}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                            <div className="spacer">
+                                <img src={BackgroundImg} alt="Wolf" />
+                            </div>
+                        </div>
                     </div>
-                    <div className="spacer">
-                        <img src={BackgroundImg} alt="Wolf" />
+                    <div
+                        className={
+                            eventId ? "dashboardRight active" : "dashboardRight"
+                        }
+                    >
+                        {eventId ? (
+                            <EventPage
+                                id={eventId}
+                                darkmode={darkmode}
+                                topbar={false}
+                                bottombar={false}
+                            />
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
                 <BottomBar className="bb" />
