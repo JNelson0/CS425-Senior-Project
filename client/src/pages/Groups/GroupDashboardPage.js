@@ -67,7 +67,7 @@ export default function GroupDashboardPage({setId, darkmode}) {
                     showButtonNotification={false}
                     showButtonAdd={true}
                 />
-                <AddGroup addOpen={addOpen} setAddOpen={setAddOpen} />
+                <AddGroup addOpen={addOpen} setAddOpen={setAddOpen} darkmode={darkmode}/>
                 <div className="listWrapper">
                     <div className="spacer">
                         <img src={BackgroundImg} alt="Wolf" />

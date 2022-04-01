@@ -125,7 +125,7 @@ export default function DashboardPage({setId, darkmode}) {
                             eventId ? "dashboardLeft active" : "dashboardLeft"
                         }
                     >
-                        <AddEvent addOpen={addOpen} setAddOpen={setAddOpen} />
+                  <AddEvent addOpen={addOpen} setAddOpen={setAddOpen} darkmode={darkmode}/>
                         <div className="listWrapper">
                             <div className="spacer">
                                 <img src={BackgroundImg} alt="Wolf" />
@@ -137,7 +137,6 @@ export default function DashboardPage({setId, darkmode}) {
                                     ticking={true}
                                     timezone={"US/Pacific"}
                                 />
-
                                 {loading ? (
                                     <div className="loading">
                                         <span>LOADING</span>

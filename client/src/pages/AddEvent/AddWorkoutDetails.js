@@ -9,6 +9,7 @@ export default function AddWorkoutDetails({
     setAddOpen,
     workoutExerciseList,
     setWorkoutExerciseList,
+    darkmode
 }) {
     const [workout, setWorkout] = useState({
         name: "",
@@ -47,55 +48,58 @@ export default function AddWorkoutDetails({
     }
 
     return (
-        <div className="workoutDetails">
-            <div className="list">
-                <div className="heading">
-                    <span>Name</span>
-                    <span>Sets</span>
-                    <span>Reps</span>
-                    <div className="Empty" />
+        <div class={"theme " + (darkmode ? "light" : "dark")}>
+            <div className="workoutDetails">
+                <div className="list">
+                    <div className="heading">
+                        <span>Name</span>
+                        <span>Sets</span>
+                        <span>Reps</span>
+                        <div className="Empty" />
+                    </div>
+                    {workoutExerciseList.map(el => (
+                        <Workout
+                            key={workoutExerciseList.findIndex(e => e === el)}
+                            name={el.name}
+                            sets={el.sets}
+                            reps={el.reps}
+                            handleDelete={handleDelete}
+                            setId={setId}
+                            darkmode={darkmode}
+                        />
+                    ))}
                 </div>
-                {workoutExerciseList.map(el => (
-                    <Workout
-                        key={workoutExerciseList.findIndex(e => e === el)}
-                        name={el.name}
-                        sets={el.sets}
-                        reps={el.reps}
-                        handleDelete={handleDelete}
-                        setId={setId}
-                    />
-                ))}
-            </div>
-            <div className="inputs">
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        name="name"
-                        value={workout.name}
-                        onChange={handleChange}
-                        placeholder="Enter name of workout"
-                        required
-                    />
-                    <input
-                        type="number"
-                        min="1"
-                        name="sets"
-                        value={workout.sets}
-                        onChange={handleChange}
-                        placeholder="Enter number of sets"
-                        required
-                    />
-                    <input
-                        type="number"
-                        min="1"
-                        name="reps"
-                        value={workout.reps}
-                        onChange={handleChange}
-                        placeholder="Enter number of reps"
-                        required
-                    />
-                    <button type="submit">Add</button>
-                </form>
+                <div className="inputs">
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            type="text"
+                            name="name"
+                            value={workout.name}
+                            onChange={handleChange}
+                            placeholder="Enter name of workout"
+                            required
+                        />
+                        <input
+                            type="number"
+                            min="1"
+                            name="sets"
+                            value={workout.sets}
+                            onChange={handleChange}
+                            placeholder="Enter number of sets"
+                            required
+                        />
+                        <input
+                            type="number"
+                            min="1"
+                            name="reps"
+                            value={workout.reps}
+                            onChange={handleChange}
+                            placeholder="Enter number of reps"
+                            required
+                        />
+                        <button type="submit">Add</button>
+                    </form>
+                </div>
             </div>
         </div>
     )

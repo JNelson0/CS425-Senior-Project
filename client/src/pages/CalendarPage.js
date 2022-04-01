@@ -129,7 +129,7 @@ const CalendarPage = ({darkmode}) => {
                             <span>LOADING</span>
                         </div>
                     ) : (
-                        <div class="calendar">
+                        <div class={"calendar" + (darkmode ? "" : " dark")}>
                             <ScheduleComponent
                                 width="100%"
                                 height="100%"
