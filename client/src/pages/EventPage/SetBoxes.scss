@@ -8,7 +8,22 @@
         justify-content: center;
         width: 40%;
     }
-
+    .responseNumbers {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: large;
+        width: 60%;
+        margin-left: 5px;
+        border: 2px solid rgb(153, 153, 153);
+        border-radius: 15px;
+        transition: all 0.5s ease;
+        font-weight: 500;
+        &:hover {
+            border: 2px solid black;
+            background-color: rgb(255, 255, 255);
+        }
+    }
     input {
         text-align: center;
         font-size: large;

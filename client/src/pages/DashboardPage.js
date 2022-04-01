@@ -19,7 +19,6 @@ export default function DashboardPage({setId, darkmode}) {
     } = useGlobalContext()
 
     const [eventId, setEventId] = useState()
-    console.log(eventId)
     const [addOpen, setAddOpen] = useState(false)
     const [loading, setLoading] = useState(true)
     const [sorting, setSorting] = useState(false)

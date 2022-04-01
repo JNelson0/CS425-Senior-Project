@@ -3,6 +3,8 @@ import "./EventPage.scss"
 import BottomBar from "../PageOverlay/BottomBar.js"
 import TopButtons from "../PageOverlay/TopButtons.js"
 import ExerciseContainer from "./ExerciseContainer"
+import BackgroundImg from "../../img/wolf.png"
+
 import {useGlobalContext} from "../../store"
 import {Navigate} from "react-router"
 
@@ -41,7 +43,7 @@ const EventPage = ({id, darkmode, topbar, bottombar}) => {
             .finally(() => {
                 setLoading(false)
             })
-    }, [])
+    }, [id])
 
     const [deleteEvent, setDeleteEvent] = useState(false)
     useEffect(() => {
@@ -128,11 +130,17 @@ const EventPage = ({id, darkmode, topbar, bottombar}) => {
 
                     {loading ? (
                         <div className="loading">
-                            <span>LOADING</span>
+                            <img src={BackgroundImg} alt="" />
                         </div>
                     ) : (
                         <div className="middle">
-                            <div className="event">
+                            <div
+                                className={
+                                    event.type === "WORKOUT"
+                                        ? "event no"
+                                        : "event"
+                                }
+                            >
                                 <h1>{event.title}</h1>
                                 <h2>{event.description}</h2>
                                 {startDate === finishDate ? (

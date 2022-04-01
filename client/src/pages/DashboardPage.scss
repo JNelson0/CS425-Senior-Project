@@ -18,7 +18,7 @@ $wolfIMG: "../img/wolf.png";
             transition: all 0.5s ease;
 
             &.active {
-                width: 50%;
+                width: 40%;
                 border-right: 3px solid black;
                 img {
                     display: none;
@@ -27,6 +27,12 @@ $wolfIMG: "../img/wolf.png";
                     .middleSpacer {
                         .clock {
                             height: 25%;
+                            font-size: 70px;
+                        }
+                        .eventList {
+                            &::-webkit-scrollbar {
+                                width: 3px;
+                            }
                         }
                     }
                 }
@@ -61,10 +67,10 @@ $wolfIMG: "../img/wolf.png";
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                        height: 38%;
+                        height: 35%;
                         width: 100%;
                         background-color: rgb(0, 138, 138);
-                        border-radius: 145px;
+                        border-radius: 45px;
                         font-size: 80px;
                         color: white;
                     }
@@ -85,10 +91,11 @@ $wolfIMG: "../img/wolf.png";
                     .eventList {
                         display: flex;
                         flex-direction: column;
-                        top: 5px;
+                        top: 10px;
                         height: 60%;
                         width: 80%;
                         overflow-y: scroll;
+                        position: relative;
 
                         &::-webkit-scrollbar {
                             width: 5px;
@@ -114,7 +121,7 @@ $wolfIMG: "../img/wolf.png";
             transition: all 0.5s ease;
 
             &.active {
-                width: 50%;
+                width: 60%;
             }
         }
     }

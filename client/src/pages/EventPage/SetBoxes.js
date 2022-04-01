@@ -28,20 +28,16 @@ export default function SetBoxes({
     }
 
     const responseData = getExerciseResponseById(responses)
-    if (responseData && !loading) {
+
+    if (responseData) {
         const weightResponses = responseData[0]
+        weightResponses ? setButtonVisible(false) : setButtonVisible(true)
         return (
             <div className="setBoxes">
                 <div className="responses">
                     <div className="index">Set {index + 1}</div>
                     {weightResponses && !responseSubmit ? (
-                        <div
-                            className="responseNumbers"
-                            onClick={() => {
-                                setButtonVisible(true)
-                                setResponseSubmit(false)
-                            }}
-                        >
+                        <div className="responseNumbers">
                             {weightResponses.weights
                                 ? weightResponses.weights[index]
                                 : numbers[index]}

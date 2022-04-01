@@ -34,7 +34,7 @@ export default function TopButtons({
                     <Link
                         to="/dashboard"
                         id="home"
-                        onClick={() => setEventId()}
+                        // onClick={() => setEventId()}
                     >
                         <HomeIcon sx={{fontSize: 35}} />
                     </Link>
