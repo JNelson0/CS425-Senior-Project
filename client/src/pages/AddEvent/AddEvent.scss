@@ -36,12 +36,55 @@
             display: flex;
             flex: 0.33;
             justify-content: space-evenly;
-            .button {
-                transition: all 0.3s ease;
+            .button.light{
+                transition: all 0.1s ease;
                 margin: 10px;
-                width: 30%;
-
-                font-size: 25px;
+                width: 140px;
+                height: 40px;
+                font-weight: 500;
+                font-size: large;
+                border-radius: 6px;
+                color: $button-blue-darker;
+                background-color: inherit;
+                border: $button-blue 1px solid;
+                transition: all 0.1s ease;
+                margin: 0px 5px 0px 5px;
+                &:hover {
+                    background-color: #e7e7e7;
+                    box-shadow: 0 2px 1px rgb(175, 175, 175);
+                }
+                &.active{
+                    border: $button-blue 2px solid;
+                    &:hover{
+                        background-color: inherit;
+                        box-shadow: 0 0px 0px rgb(175, 175, 175);
+                    }
+                }
+            }
+            .button.dark{
+                transition: all 0.1s ease;
+                margin: 10px;
+                width: 140px;
+                height: 40px;
+                font-weight: 500;
+                font-size: large;
+                border-radius: 6px;
+                color: $dark-text;
+                background-color: inherit;
+                border: #dbdbdb 1px solid;
+                transition: all 0.1s ease;
+                margin: 0px 5px 0px 5px;
+                &:hover {
+                    background-color: #535353;
+                    box-shadow: 0 2px 1px rgb(56, 56, 56);
+                }
+                &.active{
+                    border: #dbdbdb 2px solid;
+                    &:hover{
+                        background-color: inherit;
+                        box-shadow: 0 0px 0px rgb(175, 175, 175);
+                    }
+                }
             }
 
             &.No {
@@ -71,7 +114,7 @@
         display: flex;
         height: 15%;
         width: 100%;
-        .buttonWrapper {
+        .buttonWrapper.light{
             display: flex;
             justify-content: center;
             width: 100%;
@@ -80,12 +123,36 @@
                 height: 40px;
                 font-weight: 500;
                 font-size: large;
-                border-radius: 8px;
-                background-color: white;
+                border-radius: 6px;
+                color: $nevada-white;
+                background-color: $button-blue;
+                border: $button-blue-lighter 1px solid;
                 transition: all 0.25s ease;
                 margin: 0px 5px 0px 5px;
                 &:hover {
-                    background-color: rgb(219, 219, 219);
+                    background-color: #2976ce;
+                    box-shadow: 0 2px 1px rgb(196, 196, 196);
+                }
+            }
+        }
+        .buttonWrapper.dark{
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            button {
+                width: 120px;
+                height: 40px;
+                font-weight: 500;
+                font-size: large;
+                border-radius: 6px;
+                color: $nevada-white;
+                background-color: $button-blue;
+                border: $button-blue-lighter 1px solid;
+                transition: all 0.1s ease;
+                margin: 0px 5px 0px 5px;
+                &:hover {
+                    background-color: #246ec2;
+                    box-shadow: 0 2px 1px rgb(56, 56, 56);
                 }
             }
         }

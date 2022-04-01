@@ -143,19 +143,25 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
                     >
                         <button
                             className={
-                                workoutButtonActive ? "button active" : "button"
+                                "button "
+                                + (darkmode ? "light" : "dark")
+                                + (detailButtonActive ? " active" : "") 
                             }
                             onClick={handleButton1}
                         >
-                            Details
+                            DETAILS
                         </button>
+                        {console.log("detail" + detailButtonActive)}
+                        {console.log("workout" + workoutButtonActive)}
                         <button
                             className={
-                                workoutButtonActive ? "button active" : "button"
+                                "button "
+                                + (darkmode ? "light" : "dark")
+                                + (workoutButtonActive ? " active" : "") 
                             }
                             onClick={handleButton2}
                         >
-                            Workout
+                            WORKOUT
                         </button>
                     </div>
                     <div className="topSplit3">
@@ -188,12 +194,12 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
                     )}
                 </div>
                 <div className="bottom">
-                    <div className="buttonWrapper">
-                        <button type="reset" onClick={resetInput}>
-                            Clear
+                    <div className={"buttonWrapper " + (darkmode ? "light" : "dark")}>
+                        <button type="reset" onClick={resetInput} fontWeight="bold">
+                            CLEAR
                         </button>
                         <button type="submit" onClick={handleSubmit}>
-                            Submit
+                            SUBMIT
                         </button>
                     </div>
                 </div>
