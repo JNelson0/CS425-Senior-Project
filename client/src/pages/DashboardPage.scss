@@ -29,11 +29,6 @@ $wolfIMG: "../img/wolf.png";
                             height: 25%;
                             font-size: 70px;
                         }
-                        .eventList {
-                            &::-webkit-scrollbar {
-                                width: 3px;
-                            }
-                        }
                     }
                 }
             }
