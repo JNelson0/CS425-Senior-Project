@@ -115,166 +115,6 @@ async function main() {
             username: "devrin",
         }
     })
-
-    await db.event.create({
-        data: {
-            title: "Team Practice",
-            description: "Practice at football field",
-            type: "STANDARD",
-            start: new Date('March 7, 2022 08:30:00'),
-            finish: new Date('March 7, 2022 09:30:00'),
-            userMemberships: {
-                create: 
-                [{
-                    role: "OWNER",
-                    userId: user.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user2.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user3.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user4.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user5.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user6.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user7.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user8.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user9.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user10.id,
-                },
-            ]
-            },
-        },
-    })
-    await db.event.create({
-        data: {
-            title: "Team Practice",
-            description: "Practice at football field",
-            type: "STANDARD",
-            start: new Date('March 9, 2022 08:30:00'),
-            finish: new Date('March 9, 2022 09:30:00'),
-            userMemberships: {
-                create: 
-                [{
-                    role: "OWNER",
-                    userId: user.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user2.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user3.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user4.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user5.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user6.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user7.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user8.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user9.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user10.id,
-                },
-            ]
-            },
-        },
-    })
-    await db.event.create({
-        data: {
-            title: "Team Practice",
-            description: "Practice at football field",
-            type: "STANDARD",
-            start: new Date('March 11, 2022 08:30:00'),
-            finish: new Date('March 11, 2022 09:30:00'),
-            userMemberships: {
-                create: 
-                [{
-                    role: "OWNER",
-                    userId: user.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user2.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user3.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user4.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user5.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user6.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user7.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user8.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user9.id,
-                },
-                {
-                    role: "INVITEE",
-                    userId: user10.id,
-                },
-            ]
-            },
-        },
-    })
     await db.event.create({
         data: {
             title: "Weight Lifting",
@@ -400,6 +240,7 @@ async function main() {
                 },
             ]
             },
+
             exercises: {
                 create: [
                 {
@@ -422,7 +263,7 @@ async function main() {
             }
         },
     })
-    await db.group.create({
+  const group1 = await db.group.create({
         data: {
             tag: "Team Roster",
             userMemberships: {
@@ -473,7 +314,188 @@ async function main() {
         },
     })
 
-    await db.group.create({
+    await db.event.create({
+        data: {
+            title: "Team Practice",
+            description: "Practice at football field",
+            type: "STANDARD",
+            start: new Date('March 7, 2022 08:30:00'),
+            finish: new Date('March 7, 2022 09:30:00'),
+            userMemberships: {
+                create: 
+                [{
+                    role: "OWNER",
+                    userId: user.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user2.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user3.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user4.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user5.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user6.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user7.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user8.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user9.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user10.id,
+                },
+            ]
+            },
+            groupMemberships: {
+                create: 
+                [{
+                    role: "OWNER",
+                    groupId: group1.id,
+                }]
+            }
+        },
+    })
+    await db.event.create({
+        data: {
+            title: "Team Practice",
+            description: "Practice at football field",
+            type: "STANDARD",
+            start: new Date('March 9, 2022 08:30:00'),
+            finish: new Date('March 9, 2022 09:30:00'),
+            userMemberships: {
+                create: 
+                [{
+                    role: "OWNER",
+                    userId: user.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user2.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user3.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user4.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user5.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user6.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user7.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user8.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user9.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user10.id,
+                },
+            ]
+            },
+            groupMemberships: {
+                create: 
+                [{
+                    role: "OWNER",
+                    groupId: group1.id,
+                }]
+            }
+        },
+    })
+
+    await db.event.create({
+        data: {
+            title: "Team Practice",
+            description: "Practice at football field",
+            type: "STANDARD",
+            start: new Date('March 11, 2022 08:30:00'),
+            finish: new Date('March 11, 2022 09:30:00'),
+            userMemberships: {
+                create: 
+                [{
+                    role: "OWNER",
+                    userId: user.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user2.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user3.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user4.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user5.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user6.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user7.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user8.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user9.id,
+                },
+                {
+                    role: "INVITEE",
+                    userId: user10.id,
+                },
+            ]
+            },
+            groupMemberships: {
+                create: 
+                [{
+                    role: "OWNER",
+                    groupId: group1.id,
+                }]
+            }
+        },
+    })
+    const group2 = await db.group.create({
         data: {
             tag: "Weights Group",
             userMemberships: {

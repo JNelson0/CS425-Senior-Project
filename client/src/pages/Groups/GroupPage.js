@@ -4,20 +4,25 @@ import BottomBar from "../PageOverlay/BottomBar.js"
 import TopButtons from "../PageOverlay/TopButtons.js"
 import {useGlobalContext} from "../../store"
 import {useNavigate} from "react-router-dom"
+import EventContainer from "../EventContainer/EventContainer.js"
 
 
-const GroupPage = ({id, darkmode}) => {
+const GroupPage = ({setId,id, darkmode}) => {
     const {
         user,
         userState,
         isLoggedIn,
         userQuery,
+        eventFromIdQuery,
+        eventState,
         currentUserQuery,
         addMemberToGroupQuery,
         deleteMemberFromGroupQuery,
         getUserById,
         getGroupById,
         getGroupIdQuery,
+        getEventById,
+        createEventInviteeQuery,
         deleteGroupQuery,
     } = useGlobalContext()
 
@@ -34,6 +39,7 @@ const GroupPage = ({id, darkmode}) => {
     const [usersToAdd, setUsersToAdd] = useState("")
     const [addUsers, setAddUsers] = useState(false)
     let groupUsers = []
+    let groupEvents = []
 
     let navigate = useNavigate()
 
@@ -141,6 +147,11 @@ const GroupPage = ({id, darkmode}) => {
         }
     }, [userQueried])
 
+    useEffect(()=>{
+        console.log(eventState)
+    },[eventState])
+
+
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <div className="group">
@@ -176,6 +187,15 @@ const GroupPage = ({id, darkmode}) => {
                         </div>
                         <div className="groupEvents">
                             <h1>Group Events: </h1>
+                            {
+                            console.log(getEventById(5))
+                            }
+                            <ul>
+                                    <li>
+                                     {getEventById(5).title} {getEventById(5).start}
+                                    </li>                         
+                            </ul>
+                     
                         </div>
                     {userIsOwner ? (
                         <div className="groupDetails">
