@@ -3,10 +3,12 @@ import "./EventPage.scss"
 import BottomBar from "../PageOverlay/BottomBar.js"
 import TopButtons from "../PageOverlay/TopButtons.js"
 import ExerciseContainer from "./ExerciseContainer"
+import BackgroundImg from "../../img/wolf.png"
+
 import {useGlobalContext} from "../../store"
 import {Navigate} from "react-router"
 
-const EventPage = ({id, darkmode}) => {
+const EventPage = ({id, darkmode, topbar, bottombar}) => {
     const {
         getEventById,
         getExerciseById,
@@ -25,8 +27,8 @@ const EventPage = ({id, darkmode}) => {
         createGoogleEventQuery({
             summary: getEventById(id).title,
             description: getEventById(id).description,
-            startTime: getEventById(id).start.slice(0,-5),
-            endTime: getEventById(id).finish.slice(0,-5)
+            startTime: getEventById(id).start.slice(0, -5),
+            endTime: getEventById(id).finish.slice(0, -5),
         })
     }
 
@@ -41,7 +43,7 @@ const EventPage = ({id, darkmode}) => {
             .finally(() => {
                 setLoading(false)
             })
-    }, [])
+    }, [id])
 
     const [deleteEvent, setDeleteEvent] = useState(false)
     useEffect(() => {
@@ -115,19 +117,30 @@ const EventPage = ({id, darkmode}) => {
         return (
             <div class={"theme " + (darkmode ? "light" : "dark")}>
                 <div className="eventPage">
-                    <TopButtons
-                        showButtonAdd={false}
-                        showButtonDeleteEvent={true}
-                        showButtonNotification={false}
-                        setDeleteEvent={setDeleteEvent}
-                    />
+                    {topbar ? (
+                        <TopButtons
+                            showButtonAdd={false}
+                            showButtonDeleteEvent={true}
+                            showButtonNotification={false}
+                            setDeleteEvent={setDeleteEvent}
+                        />
+                    ) : (
+                        <></>
+                    )}
+
                     {loading ? (
                         <div className="loading">
-                            <span>LOADING</span>
+                            <img src={BackgroundImg} alt="" />
                         </div>
                     ) : (
                         <div className="middle">
-                            <div className="event">
+                            <div
+                                className={
+                                    event.type === "WORKOUT"
+                                        ? "event no"
+                                        : "event"
+                                }
+                            >
                                 <h1>{event.title}</h1>
                                 <h2>{event.description}</h2>
                                 {startDate === finishDate ? (
@@ -174,9 +187,9 @@ const EventPage = ({id, darkmode}) => {
                                 Add To Google
                             </button>
                         </div>
-                )}
-                
-                    <BottomBar />
+                    )}
+
+                    {bottombar ? <BottomBar /> : <></>}
                 </div>
             </div>
         )
