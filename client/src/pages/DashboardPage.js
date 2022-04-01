@@ -144,7 +144,7 @@ export default function DashboardPage({setId, darkmode}) {
                                         <span>LOADING</span>
                                     </div>
                                 ) : (
-                                    <ul>
+                                    <div className="eventList">
                                         {display.map(el => (
                                             <EventContainer
                                                 key={getEventById(el.id).id}
@@ -163,7 +163,7 @@ export default function DashboardPage({setId, darkmode}) {
                                                 eventId={eventId}
                                             />
                                         ))}
-                                    </ul>
+                                    </div>
                                 )}
                             </div>
                             <div className="spacer">

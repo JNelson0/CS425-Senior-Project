@@ -21,7 +21,7 @@ export default function EventContainer({
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
-            <li className="eventbuttonWrapper">
+            <div className="eventbuttonWrapper">
                 {/* <Link
                     to={"/event" + id}
                     className="eventbutton"
@@ -62,7 +62,7 @@ export default function EventContainer({
                     className="trash"
                     onClick={handleEventDelete}
                 /> */}
-            </li>
+            </div>
         </div>
     )
 }
