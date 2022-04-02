@@ -29,7 +29,8 @@ const GroupPage = ({id, darkmode}) => {
     const [owner, setOwner] = useState()
     const [userIsOwner, setUserIsOwner] = useState(false)
 
-    const [userToDelete, setUserToDelete] = useState()
+    const [userToDelete, setUserToDelete] = useState("")
+    const [userIdToDelete, setUserIdToDelete] = useState()
     const [deleteUser, setDeleteUser] = useState(false)
     const [usersToAdd, setUsersToAdd] = useState("")
     const [addUsers, setAddUsers] = useState(false)
@@ -70,7 +71,10 @@ const GroupPage = ({id, darkmode}) => {
     useEffect(() => {
         if(deleteUser) {
             ;(async () => {
-                await deleteMemberFromGroupQuery(id, Number(userToDelete))
+                for (const userId of getGroupById(id).users) {
+                    if(userToDelete === getUserById(userId).username)
+                    await deleteMemberFromGroupQuery(id, Number(userId))
+                }
             })()
                 .catch(setError)
                 .finally(() => {
@@ -187,7 +191,7 @@ const GroupPage = ({id, darkmode}) => {
                                             type="text"
                                             value={userToDelete}
                                             onChange={handleChangeDeleteUser}
-                                            placeholder="Enter single user id"
+                                            placeholder="Enter single username"
                                         />
                                         <input 
                                             type="submit"
