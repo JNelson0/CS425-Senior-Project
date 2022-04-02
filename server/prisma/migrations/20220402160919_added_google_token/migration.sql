@@ -1,53 +1,44 @@
--- CreateEnum
-CREATE TYPE "UserRole" AS ENUM ('USER', 'ADMIN');
+/*
+  Warnings:
 
--- CreateEnum
-CREATE TYPE "EventType" AS ENUM ('STANDARD', 'WORKOUT');
+  - You are about to drop the column `name` on the `Group` table. All the data in the column will be lost.
+  - You are about to drop the `EventMembership` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `GroupMembership` table. If the table is not empty, all the data it contains will be lost.
+  - A unique constraint covering the columns `[tag]` on the table `Group` will be added. If there are existing duplicate values, this will fail.
+  - A unique constraint covering the columns `[googleRefreshToken]` on the table `User` will be added. If there are existing duplicate values, this will fail.
+  - Added the required column `tag` to the `Group` table without a default value. This is not possible if the table is not empty.
 
--- CreateEnum
-CREATE TYPE "EventMembershipRole" AS ENUM ('OWNER', 'INVITEE');
-
--- CreateEnum
-CREATE TYPE "GroupMembershipRole" AS ENUM ('OWNER', 'INVITEE');
-
+*/
 -- CreateEnum
 CREATE TYPE "ExerciseType" AS ENUM ('WEIGHTS');
 
--- CreateTable
-CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
-    "firstName" TEXT NOT NULL,
-    "lastName" TEXT NOT NULL,
-    "username" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "passwordSalt" TEXT NOT NULL,
-    "passwordHash" TEXT NOT NULL,
-    "googleRefreshToken" TEXT,
+-- DropForeignKey
+ALTER TABLE "EventMembership" DROP CONSTRAINT "EventMembership_eventId_fkey";
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
-);
+-- DropForeignKey
+ALTER TABLE "EventMembership" DROP CONSTRAINT "EventMembership_userId_fkey";
 
--- CreateTable
-CREATE TABLE "Event" (
-    "id" SERIAL NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-    "type" "EventType" NOT NULL,
-    "title" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
-    "start" TIMESTAMP(3),
-    "finish" TIMESTAMP(3) NOT NULL,
+-- DropForeignKey
+ALTER TABLE "GroupMembership" DROP CONSTRAINT "GroupMembership_groupId_fkey";
 
-    CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
-);
+-- DropForeignKey
+ALTER TABLE "GroupMembership" DROP CONSTRAINT "GroupMembership_userId_fkey";
 
--- CreateTable
-CREATE TABLE "Group" (
-    "id" SERIAL NOT NULL,
-    "tag" TEXT NOT NULL,
+-- DropIndex
+DROP INDEX "Group_name_key";
 
-    CONSTRAINT "Group_pkey" PRIMARY KEY ("id")
-);
+-- AlterTable
+ALTER TABLE "Group" DROP COLUMN "name",
+ADD COLUMN     "tag" TEXT NOT NULL;
+
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "googleRefreshToken" TEXT;
+
+-- DropTable
+DROP TABLE "EventMembership";
+
+-- DropTable
+DROP TABLE "GroupMembership";
 
 -- CreateTable
 CREATE TABLE "Exercise" (
@@ -99,19 +90,10 @@ CREATE TABLE "UserMembershipInGroup" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_passwordSalt_key" ON "User"("passwordSalt");
+CREATE UNIQUE INDEX "Group_tag_key" ON "Group"("tag");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_googleRefreshToken_key" ON "User"("googleRefreshToken");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Group_tag_key" ON "Group"("tag");
 
 -- AddForeignKey
 ALTER TABLE "Exercise" ADD CONSTRAINT "Exercise_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
