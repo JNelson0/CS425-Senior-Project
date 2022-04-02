@@ -11,6 +11,11 @@ function toGroupJson(group) {
     }
     return a
   }, [])
+  group.events = group.eventMemberships.reduce((a,v) =>{
+    if(v.role === "OWNER"){
+      a.push(v.eventId)
+    }
+  })
   delete group.userMemberships
 
   return group

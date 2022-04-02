@@ -15,6 +15,7 @@ const GroupPage = ({setId,id, darkmode}) => {
         userQuery,
         eventFromIdQuery,
         eventState,
+        groupState,
         currentUserQuery,
         addMemberToGroupQuery,
         deleteMemberFromGroupQuery,
@@ -31,6 +32,7 @@ const GroupPage = ({setId,id, darkmode}) => {
     const [display, setDisplay] = useState([])
     const [queried, setQueried] = useState(false)
     const [userQueried, setUserQueried] = useState(false)
+    const [eventQueried, setEventQueried] = useState(false)
     const [owner, setOwner] = useState()
     const [userIsOwner, setUserIsOwner] = useState(false)
 
@@ -148,8 +150,24 @@ const GroupPage = ({setId,id, darkmode}) => {
     }, [userQueried])
 
     useEffect(()=>{
-        console.log(eventState)
-    },[eventState])
+        if(eventQueried){
+        ;(async ()=> {
+        console.log(groupState)
+        for (const eventId of getGroupById(id).events) {
+            groupEvents.push(getUserById(eventId).events)
+
+            }
+
+        })()
+        .catch(setError)
+        .finally(() => {
+            setDisplay([...groupEvents])
+            setLoading(false)
+            })
+        }
+    },[eventQueried])
+
+
 
 
     return (
