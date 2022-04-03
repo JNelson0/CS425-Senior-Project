@@ -6,7 +6,7 @@ import 'dotenv/config'
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
-const REDIRECT_URL = "http://localhost:8080"
+const REDIRECT_URL = "http://localhost:3000"
 
 const oauth2Client = new google.auth.OAuth2(
     CLIENT_ID,
@@ -27,7 +27,9 @@ router.post("/googleapi/generate-auth-token", onlyAuthenticated, async (req, res
     try {
         const {code} = req.body
         const {tokens} = await oauth2Client.getToken(code)
+        console.log(tokens)
 
+        /*
         const storeToken = await db.user.update({
             where: {
                 id: req.user.id,
@@ -36,6 +38,7 @@ router.post("/googleapi/generate-auth-token", onlyAuthenticated, async (req, res
                 googleRefreshToken: tokens.refresh_token,
             },
         })
+        */
     } catch(error) {
         next(error)
     }
