@@ -47,6 +47,16 @@ describe("GET /users/:userId", () => {
     })
 })
 
+describe.only("GET /users/:username", () => {
+    it("should get a user", async () => {
+        const userId = 1
+
+        const response = await agent.get(`/users/${userId}`).expect(200)
+
+        console.log(response.body)
+    })
+})
+
 async function createUser() {
     const response = await agent
         .post("/user")

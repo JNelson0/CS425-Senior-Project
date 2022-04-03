@@ -5,6 +5,8 @@ import {hashPassword, toUserJson} from "../util"
 import {onlyAuthenticated} from "../middleware"
 import router from "./router"
 import {userInclude} from "../util/includes"
+import {nextTick} from "node:process"
+import {stringify} from "node:querystring"
 
 /* 
   // Creates user
@@ -56,7 +58,8 @@ router.post("/user", async (req, res) => {
         if (e.meta.target[0] === "username") {
             console.log("wrong username")
             throw Error("Username already in use")
-        } if (e.meta.target[0] === "email") {
+        }
+        if (e.meta.target[0] === "email") {
             console.log("wong email")
             throw Error("Email already in use")
         }
@@ -110,7 +113,7 @@ router.get("/users/me", onlyAuthenticated, async (req, res) => {
 })
 
 // Gets public user information
-router.get("/users/:userId", async (req, res) => {
+router.get("/users/:userId", async (req, res, next) => {
     const user = await db.user.findUnique({
         where: {
             id: Number(req.params.userId),
@@ -119,14 +122,14 @@ router.get("/users/:userId", async (req, res) => {
     })
 
     if (user == null) {
-        throw new HttpError.NotFound("User not found.") // NOTE: Errors need to be in normal human syntax
+        return next()
+        // throw new HttpError.NotFound("User not found.") // NOTE: Errors need to be in normal human syntax
     }
 
     return res.json(toUserJson(user))
 })
 
-// Gets public user information using username
-router.get("/users/:username", async (req, res) => {
+router.get("/users/:username", async (req, res, next) => {
     const user = await db.user.findUnique({
         where: {
             username: req.params.username,
@@ -134,8 +137,9 @@ router.get("/users/:username", async (req, res) => {
         include: userInclude,
     })
 
-    if(user == null) {
-        throw new HttpError.NotFound("User not found.")
+    if (user == null) {
+        return next()
+        // throw new HttpError.NotFound("User not found.") // NOTE: Errors need to be in normal human syntax
     }
 
     return res.json(toUserJson(user))

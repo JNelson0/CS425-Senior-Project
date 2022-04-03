@@ -544,6 +544,7 @@ function useGlobal() {
 
         // User Queries
         userQuery,
+        userByUsernameQuery,
         currentUserQuery,
         createUserQuery,
         loginUserQuery,
