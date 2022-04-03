@@ -78,23 +78,31 @@ const LoginPage = () => {
                 />
             </div>
 
-            <div id="loginbutton">
-                <button type="submit" disabled={loading}>
-                    {loading ? "Loading..." : "Login"}
-                </button>
-            </div>
-
             <div id="error">
                 {error && <div>{error.message}</div>}
             </div>
 
+            <div className="bottomDivider">
+
+              <div id= "registerbutton">
+                <button id="addButton" onClick={() => setRegisterOpen(!registerOpen)}>
+                  REGISTER
+                </button>
+              </div>
+
+              <div id="loginbutton">
+                  <button type="submit" disabled={loading}>
+                      {loading ? "LOADING..." : "LOGIN"}
+                  </button>
+              </div>
+
+            </div>
+           
+
+            
           </form>
 
-          <div id= "registerbutton">
-            <button id="addButton" onClick={() => setRegisterOpen(!registerOpen)}>
-              Register
-            </button>
-          </div>
+          
 
         </div>
       </div>
