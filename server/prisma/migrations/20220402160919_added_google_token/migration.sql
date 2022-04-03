@@ -5,6 +5,7 @@
   - You are about to drop the `EventMembership` table. If the table is not empty, all the data it contains will be lost.
   - You are about to drop the `GroupMembership` table. If the table is not empty, all the data it contains will be lost.
   - A unique constraint covering the columns `[tag]` on the table `Group` will be added. If there are existing duplicate values, this will fail.
+  - A unique constraint covering the columns `[googleRefreshToken]` on the table `User` will be added. If there are existing duplicate values, this will fail.
   - Added the required column `tag` to the `Group` table without a default value. This is not possible if the table is not empty.
 
 */
@@ -29,6 +30,9 @@ DROP INDEX "Group_name_key";
 -- AlterTable
 ALTER TABLE "Group" DROP COLUMN "name",
 ADD COLUMN     "tag" TEXT NOT NULL;
+
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "googleRefreshToken" TEXT;
 
 -- DropTable
 DROP TABLE "EventMembership";
@@ -88,17 +92,20 @@ CREATE TABLE "UserMembershipInGroup" (
 -- CreateIndex
 CREATE UNIQUE INDEX "Group_tag_key" ON "Group"("tag");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "User_googleRefreshToken_key" ON "User"("googleRefreshToken");
+
 -- AddForeignKey
 ALTER TABLE "Exercise" ADD CONSTRAINT "Exercise_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ExerciseResponse" ADD CONSTRAINT "ExerciseResponse_exerciseId_fkey" FOREIGN KEY ("exerciseId") REFERENCES "Exercise"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ExerciseResponse" ADD CONSTRAINT "ExerciseResponse_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ExerciseResponse" ADD CONSTRAINT "ExerciseResponse_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ExerciseResponse" ADD CONSTRAINT "ExerciseResponse_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ExerciseResponse" ADD CONSTRAINT "ExerciseResponse_exerciseId_fkey" FOREIGN KEY ("exerciseId") REFERENCES "Exercise"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserMembershipInEvent" ADD CONSTRAINT "UserMembershipInEvent_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -107,10 +114,10 @@ ALTER TABLE "UserMembershipInEvent" ADD CONSTRAINT "UserMembershipInEvent_userId
 ALTER TABLE "UserMembershipInEvent" ADD CONSTRAINT "UserMembershipInEvent_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "GroupMembershipInEvent" ADD CONSTRAINT "GroupMembershipInEvent_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "GroupMembershipInEvent" ADD CONSTRAINT "GroupMembershipInEvent_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "GroupMembershipInEvent" ADD CONSTRAINT "GroupMembershipInEvent_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "GroupMembershipInEvent" ADD CONSTRAINT "GroupMembershipInEvent_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserMembershipInGroup" ADD CONSTRAINT "UserMembershipInGroup_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
