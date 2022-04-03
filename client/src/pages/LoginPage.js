@@ -85,7 +85,7 @@ const LoginPage = () => {
             <div className="bottomDivider">
 
               <div id= "registerbutton">
-                <button id="addButton" onClick={() => setRegisterOpen(!registerOpen)}>
+                <button type="button" onClick={() => setRegisterOpen(!registerOpen)}>
                   REGISTER
                 </button>
               </div>
