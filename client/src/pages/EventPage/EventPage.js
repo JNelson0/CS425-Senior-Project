@@ -24,11 +24,12 @@ const EventPage = ({id, darkmode, topbar, bottombar}) => {
     const [error, setError] = useState()
 
     const handleAddToGoogle = () => {
+        console.log("adding to google")
         createGoogleEventQuery({
             summary: getEventById(id).title,
             description: getEventById(id).description,
-            startTime: getEventById(id).start.slice(0, -5),
-            endTime: getEventById(id).finish.slice(0, -5),
+            startTime: getEventById(id).start,
+            endTime: getEventById(id).finish,
         })
     }
 
