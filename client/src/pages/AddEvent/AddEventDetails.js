@@ -35,7 +35,7 @@ export default function AddEventDetails({
             <div className="eventDetails">
                 <div className="form">
                     <div className="list">
-                        <div>
+                        <div className={"title " + (darkmode ? "light" : "dark")}>
                             <label>Title</label>
                             <input
                                 type="text"
@@ -46,7 +46,7 @@ export default function AddEventDetails({
                                 required
                             />
                         </div>
-                        <div className="description">
+                        <div className={"description " + (darkmode ? "light" : "dark")}>
                             <label>Description</label>
                             <textarea
                                 type="text"
@@ -57,13 +57,14 @@ export default function AddEventDetails({
                                 required
                             />
                         </div>
-                        <div className="type">
+                        <div className={"type " + (darkmode ? "light" : "dark")}>
                             <label>Type</label>
                             <select
                                 value={workoutDetailsList.type}
                                 onChange={handleChange}
                                 placeholder="Choose an Option"
                                 name="type"
+                                required
                             >
                                 <option value="STANDARD">EVENT</option>
                                 <option value="WORKOUT">WORKOUT</option>

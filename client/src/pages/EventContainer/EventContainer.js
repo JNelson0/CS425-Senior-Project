@@ -42,7 +42,7 @@ export default function EventContainer({id, setId, name, date, darkmode}) {
                                     : date.getMinutes())}
                         </span>
                     </div>
-                    <div className="line" />
+                    <div className={"line " + (darkmode ? "light" : "dark")} />
                 </Link>
                 {/* <DeleteForeverIcon
                     className="trash"

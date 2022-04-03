@@ -12,7 +12,8 @@
         flex-direction: column;
 
         .list {
-            font-weight: 600;
+            font-family: 'Roboto', sans-serif;
+            //font-weight: 600;
             color: inherit;
             height: 60%;
             width: 100%;
@@ -22,7 +23,83 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-
+            .title.light,
+            .description.light,
+            .type.light{
+                input{
+                    font-family: 'Roboto', sans-serif;
+                    background-color: #e6e6e6;
+                    border-radius: 4px;
+                    border: rgb(41, 41, 41) 1px solid;
+                    &:active,
+                    &:focus{
+                        transition: all ease .3s;
+                        background-color: white;
+                    }
+                }
+                textarea{
+                    font-family: 'Roboto', sans-serif;
+                    background-color: #e6e6e6;
+                    border-radius: 4px;
+                    border: rgb(41, 41, 41) 1px solid;
+                    &:active,
+                    &:focus{
+                        transition: all ease .3s;
+                        background-color: white;
+                    }
+                }
+                select{
+                    font-family: 'Roboto', sans-serif;
+                    background-color: #e6e6e6;
+                    border-radius: 4px;
+                    border: rgb(41, 41, 41) 1px solid;
+                    &:active,
+                    &:focus{
+                        transition: all ease .3s;
+                        background-color: white;
+                    }
+                }
+            }
+            .title.dark,
+            .description.dark,
+            .type.dark{
+                input{
+                    font-family: 'Roboto', sans-serif;
+                    background-color: rgb(27, 27, 27);
+                    color: $dark-text;
+                    border-radius: 4px;
+                    border: rgb(41, 41, 41) 1px solid;
+                    &:active,
+                    &:focus{
+                        transition: all ease .3s;
+                        background-color: $dark-background;
+                    }
+                }
+                textarea{
+                    font-family: 'Roboto', sans-serif;
+                    background-color: rgb(27, 27, 27);
+                    color: $dark-text;
+                    border-radius: 4px;
+                    border: rgb(41, 41, 41) 1px solid;
+                    &:active,
+                    &:focus{
+                        transition: all ease .3s;
+                        background-color: $dark-background;
+                    }
+                }
+                select{
+                    font-family: 'Roboto', sans-serif;
+                    background-color: rgb(27, 27, 27);
+                    color: $dark-text;
+                    border-radius: 4px;
+                    border: rgb(41, 41, 41) 1px solid;
+                    &:active,
+                    &:focus{
+                        transition: all ease .3s;
+                        background-color: $dark-background;
+                    }
+                }
+            }
             div {
                 margin-bottom: 10px;
                 display: flex;
