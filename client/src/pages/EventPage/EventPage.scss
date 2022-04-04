@@ -1,12 +1,31 @@
 @import "../../theme.scss";
 
 .eventPage {
-    height: 100vh;
+    display: flex;
+    height: 75vh;
     width: 100%;
+    overflow-y: scroll;
+
+    border: 1px solid black;
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+        border-radius: 10px;
+        box-shadow: inset 0 0 5px grey;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: gray;
+        border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: rgb(63, 63, 63);
+    }
     .loading {
         display: flex;
         align-items: center;
-        height: 75%;
+        height: 100%;
+        width: 100%;
         font-size: 80px;
         font-weight: 600;
         justify-content: center;
@@ -15,16 +34,20 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 75%;
         flex-direction: column;
+        width: 100%;
+        height: 100%;
         .event {
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            height: 45%;
-            overflow: visible;
             width: 100%;
+            height: 100%;
+            &.no {
+                height: 45%;
+            }
+
             h1 {
                 margin: 5px;
                 padding: 5px;
@@ -33,30 +56,21 @@
             }
             h2 {
                 margin: 5px;
-                padding: 5px;
 
                 font-size: 30px;
                 font-weight: 500;
-                // border-bottom: 1px solid black;
             }
             span {
                 font-size: 25px;
                 margin: 5px;
-                padding: 5px;
-
-                // border-bottom: 1px solid black;
             }
         }
         .exerciseList {
             display: flex;
-            height: 45%;
             flex-direction: column;
-            width: 60%;
+            height: 60%;
+            width: 90%;
             align-items: center;
-            overflow-y: scroll;
-            &::-webkit-scrollbar {
-                display: none;
-            }
         }
     }
 }

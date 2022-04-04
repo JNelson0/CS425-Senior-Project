@@ -1,62 +1,67 @@
 import e from "express"
 
 export const eventInclude = {
-  userMemberships: {
-    select: {
-      userId: true,
-      role: true,
+    userMemberships: {
+        select: {
+            userId: true,
+            role: true,
+        },
     },
-  },
-  groupMemberships: {
-    select: {
-      groupId: true,
+    groupMemberships: {
+        select: {
+            groupId: true,
+        },
     },
-  },
-  exercises: {
-    select: {
-      id: true,
+    exercises: {
+        select: {
+            id: true,
+        },
     },
-  },
-  exerciseResponses: {
-    select: {
-      id: true,
+    exerciseResponses: {
+        select: {
+            id: true,
+        },
     },
-  },
 }
 
 export const userMembershipInEventInclude = {
-  event: {
-    include: eventInclude,
-  },
+    event: {
+        include: eventInclude,
+    },
 }
 
 export const groupInclude = {
-  userMemberships: {
-    select: {
-      userId: true,
-      role: true,
+    userMemberships: {
+        select: {
+            userId: true,
+            role: true,
+        },
     },
-  },
+    eventMemberships: {
+        select: {
+            eventId: true,
+        },
+    },
 }
 
 export const userMembershipInGroupInclude = {
-  group: {
-    include: groupInclude,
-  },
+    group: {
+        include: groupInclude,
+    },
 }
 
 export const exerciseInclude = undefined
 
 export const userInclude = {
-  eventMemberships: {
-    select: {eventId: true},
-  },
-  groupMemberships: {
-    select: {groupId: true},
-  },
-  exerciseResponses: {
-    select: {id: true},
-  },
+    eventMemberships: {
+        select: {eventId: true},
+    },
+    groupMemberships: {
+        select: {groupId: true},
+    },
+    exerciseResponses: {
+        select: {id: true},
+    },
 }
 
 // const exersizeResponse = {

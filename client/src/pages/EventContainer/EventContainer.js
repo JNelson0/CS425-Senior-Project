@@ -4,7 +4,15 @@ import "./EventContainer.scss"
 import {useGlobalContext} from "../../store"
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
 
-export default function EventContainer({id, setId, name, date, darkmode}) {
+export default function EventContainer({
+    id,
+    setId,
+    name,
+    date,
+    darkmode,
+    setEventId,
+    eventId,
+}) {
     const {user, deleteEventQuery} = useGlobalContext()
 
     const handleEventDelete = () => {
@@ -13,42 +21,48 @@ export default function EventContainer({id, setId, name, date, darkmode}) {
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
-            <li className="eventbuttonWrapper">
-                <Link
+            <div className="eventbuttonWrapper">
+                {/* <Link
                     to={"/event" + id}
                     className="eventbutton"
                     onClick={() => setId(id)}
-                >
+                > */}
+                <div className="eventButton" onClick={() => setEventId(id)}>
                     {/* <span>{id}</span> */}
                     <div className="wrapper">
                         <span>{name}</span>
-                        <span>
-                            {(date.getMonth() < 10
-                                ? "0" + (date.getMonth() + 1)
-                                : date.getMonth() + 1) +
-                                "-" +
-                                (date.getDate() < 10
-                                    ? "0" + date.getDate()
-                                    : date.getDate()) +
-                                "-" +
-                                date.getFullYear() +
-                                " " +
-                                (date.getHours() < 10
-                                    ? "0" + date.getHours()
-                                    : date.getHours()) +
-                                ":" +
-                                (date.getMinutes() < 10
-                                    ? "0" + date.getMinutes()
-                                    : date.getMinutes())}
-                        </span>
+                        {eventId ? (
+                            <></>
+                        ) : (
+                            <span>
+                                {(date.getMonth() < 10
+                                    ? "0" + (date.getMonth() + 1)
+                                    : date.getMonth() + 1) +
+                                    "-" +
+                                    (date.getDate() < 10
+                                        ? "0" + date.getDate()
+                                        : date.getDate()) +
+                                    "-" +
+                                    date.getFullYear() +
+                                    " " +
+                                    (date.getHours() < 10
+                                        ? "0" + date.getHours()
+                                        : date.getHours()) +
+                                    ":" +
+                                    (date.getMinutes() < 10
+                                        ? "0" + date.getMinutes()
+                                        : date.getMinutes())}
+                            </span>
+                        )}
                     </div>
                     <div className={"line " + (darkmode ? "light" : "dark")} />
-                </Link>
+                </div>
+                {/* </Link> */}
                 {/* <DeleteForeverIcon
                     className="trash"
                     onClick={handleEventDelete}
                 /> */}
-            </li>
+            </div>
         </div>
     )
 }

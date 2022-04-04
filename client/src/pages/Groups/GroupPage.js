@@ -12,6 +12,7 @@ const GroupPage = ({id, darkmode}) => {
         userState,
         isLoggedIn,
         userQuery,
+        userByUsernameQuery,
         currentUserQuery,
         addMemberToGroupQuery,
         deleteMemberFromGroupQuery,
@@ -29,10 +30,13 @@ const GroupPage = ({id, darkmode}) => {
     const [owner, setOwner] = useState()
     const [userIsOwner, setUserIsOwner] = useState(false)
 
-    const [userToDelete, setUserToDelete] = useState()
+    const [userToDelete, setUserToDelete] = useState("")
+    const [userIdToDelete, setUserIdToDelete] = useState()
     const [deleteUser, setDeleteUser] = useState(false)
     const [usersToAdd, setUsersToAdd] = useState("")
     const [addUsers, setAddUsers] = useState(false)
+    const [addUsernames, setAddUsernames] = useState(false)
+    const [idsToAdd, setIdsToAdd] = useState([])
     let groupUsers = []
 
     let navigate = useNavigate()
@@ -70,7 +74,10 @@ const GroupPage = ({id, darkmode}) => {
     useEffect(() => {
         if(deleteUser) {
             ;(async () => {
-                await deleteMemberFromGroupQuery(id, Number(userToDelete))
+                for (const userId of getGroupById(id).users) {
+                    if(userToDelete === getUserById(userId).username)
+                    await deleteMemberFromGroupQuery(id, Number(userId))
+                }
             })()
                 .catch(setError)
                 .finally(() => {
@@ -83,19 +90,35 @@ const GroupPage = ({id, darkmode}) => {
     useEffect(() => {
         if(addUsers) {
             ;(async () => {
-                console.log(usersToAdd)
-                const inviteeIds = usersToAdd.split(',').map(Number)
-                await addMemberToGroupQuery(id, {
-                    userIds: inviteeIds
-                })
+                const inviteeUsernames = usersToAdd.split(',').map(String)
+                for(const key of inviteeUsernames) {
+                    const id = await userByUsernameQuery(key)
+                    setIdsToAdd(oldArray => [...oldArray, id])
+                }
             })()
                 .catch(setError)
                 .finally(() => {
                     setAddUsers(false)
-                    refreshPage()
+                    setAddUsernames(true)
                 })
         }
     }, [addUsers])
+
+    useEffect(() => {
+        if(addUsernames) {
+            ;(async () => {
+                console.log(idsToAdd)
+                await addMemberToGroupQuery(id, {
+                    userIds: idsToAdd
+                })
+            })()
+                .catch(setError)
+                .finally(() => {
+                    setAddUsernames(false)
+                    refreshPage()
+                })
+        }
+    }, [addUsernames])
 
     useEffect(() => {
         ;(async () => {
@@ -187,7 +210,7 @@ const GroupPage = ({id, darkmode}) => {
                                             type="text"
                                             value={userToDelete}
                                             onChange={handleChangeDeleteUser}
-                                            placeholder="Enter single user id"
+                                            placeholder="Enter single username"
                                         />
                                         <input 
                                             type="submit"

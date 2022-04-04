@@ -1,35 +1,35 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "main": "src/index.mjs",
-  "type": "module",
-  "scripts": {
-    "start": "node --experimental-specifier-resolution=node -r dotenv/config src/index.mjs",
-    "dev": "nodemon --experimental-specifier-resolution=node -r dotenv/config src/index.mjs",
-    "test": "jest --watch",
-    "test-once": "jest --ci",
-    "db-migrate": "prisma migrate dev",
-    "db-reset": "prisma migrate reset",
-    "db-seed": "prisma db seed"
-  },
-  "prisma": {
-    "seed": "node --experimental-specifier-resolution=node -r dotenv/config prisma/seed.mjs"
-  },
-  "dependencies": {
-    "@prisma/client": "^3.4.2",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "express-async-errors": "^3.1.1",
-    "express-session": "^1.17.2",
-    "googleapis": "95.0.0",
-    "morgan": "^1.10.0",
-    "prisma": "^3.4.2"
-  },
-  "devDependencies": {
-    "@babel/preset-env": "^7.16.4",
-    "babel-jest": "^27.3.1",
-    "jest": "^27.3.1",
-    "nodemon": "^2.0.15",
-    "supertest": "^6.1.6"
-  }
+    "name": "server",
+    "version": "1.0.0",
+    "main": "src/index.mjs",
+    "type": "module",
+    "scripts": {
+        "start": "node --experimental-specifier-resolution=node -r dotenv/config src/index.mjs",
+        "dev": "nodemon --experimental-specifier-resolution=node -r dotenv/config src/index.mjs",
+        "test": "jest --watch",
+        "test-once": "jest --ci",
+        "db-migrate": "prisma migrate dev",
+        "db-reset": "prisma migrate reset",
+        "db-seed": "prisma db seed"
+    },
+    "prisma": {
+        "seed": "node --experimental-specifier-resolution=node -r dotenv/config prisma/seed.mjs"
+    },
+    "dependencies": {
+        "@prisma/client": "^3.4.2",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "express-async-errors": "^3.1.1",
+        "express-session": "^1.17.2",
+        "googleapis": "^99.0.0",
+        "morgan": "^1.10.0",
+        "prisma": "^3.4.2"
+    },
+    "devDependencies": {
+        "@babel/preset-env": "^7.16.4",
+        "babel-jest": "^27.3.1",
+        "jest": "^27.3.1",
+        "nodemon": "^2.0.15",
+        "supertest": "^6.1.6"
+    }
 }
