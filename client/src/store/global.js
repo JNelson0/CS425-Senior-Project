@@ -133,7 +133,7 @@ function useGlobal() {
 
     // GET /users/:username
     async function userByUsernameQuery(username) {
-        const data = await request(`/users/${username}`, {
+        const data = await request(`/users/user/${username}`, {
             credentials: "same-origin",
         })
         setUserData(data.id, data)
@@ -522,7 +522,7 @@ function useGlobal() {
     async function generateGoogleTokensQuery(options) {
         await request(
             `/googleapi/generate-auth-token`,
-            standardJsonInit("POST", options)
+            standardJsonInit("POST", options),
         )
     }
 
