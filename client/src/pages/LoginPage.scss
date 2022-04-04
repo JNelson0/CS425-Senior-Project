@@ -19,6 +19,7 @@ $backgIMG: "../img/university-background.jpg";
     .inputbox{
         display: flex;
         position: absolute;
+        flex-direction: column;
         z-index: 1;
         //scales to actual center
         top: 49%;
