@@ -16,6 +16,7 @@ const GroupPage = ({setId,id, darkmode}) => {
         eventFromIdQuery,
         eventState,
         groupState,
+        userByUsernameQuery,
         currentUserQuery,
         addMemberToGroupQuery,
         deleteMemberFromGroupQuery,
@@ -42,6 +43,8 @@ const GroupPage = ({setId,id, darkmode}) => {
     const [deleteUser, setDeleteUser] = useState(false)
     const [usersToAdd, setUsersToAdd] = useState("")
     const [addUsers, setAddUsers] = useState(false)
+    const [addUsernames, setAddUsernames] = useState(false)
+    const [idsToAdd, setIdsToAdd] = useState([])
     let groupUsers = []
     let groupEvents = []
 
@@ -96,19 +99,35 @@ const GroupPage = ({setId,id, darkmode}) => {
     useEffect(() => {
         if(addUsers) {
             ;(async () => {
-                console.log(usersToAdd)
-                const inviteeIds = usersToAdd.split(',').map(Number)
-                await addMemberToGroupQuery(id, {
-                    userIds: inviteeIds
-                })
+                const inviteeUsernames = usersToAdd.split(',').map(String)
+                for(const key of inviteeUsernames) {
+                    const id = await userByUsernameQuery(key)
+                    setIdsToAdd(oldArray => [...oldArray, id])
+                }
             })()
                 .catch(setError)
                 .finally(() => {
                     setAddUsers(false)
-                    refreshPage()
+                    setAddUsernames(true)
                 })
         }
     }, [addUsers])
+
+    useEffect(() => {
+        if(addUsernames) {
+            ;(async () => {
+                console.log(idsToAdd)
+                await addMemberToGroupQuery(id, {
+                    userIds: idsToAdd
+                })
+            })()
+                .catch(setError)
+                .finally(() => {
+                    setAddUsernames(false)
+                    refreshPage()
+                })
+        }
+    }, [addUsernames])
 
     useEffect(() => {
         ;(async () => {

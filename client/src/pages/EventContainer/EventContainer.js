@@ -55,7 +55,7 @@ export default function EventContainer({
                             </span>
                         )}
                     </div>
-                    <div className="line" />
+                    <div className={"line " + (darkmode ? "light" : "dark")} />
                 </div>
                 {/* </Link> */}
                 {/* <DeleteForeverIcon

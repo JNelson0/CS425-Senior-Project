@@ -23,7 +23,6 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
 
     const handleSubmit = e => {
         e.preventDefault()
-        // Only need to setLoading because we are not logged in.... Will have to trial and error
         setLoading(true)
         createUserQuery({
             email,
@@ -80,7 +79,7 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
         <div>
             <div className={"register-user " + (registerOpen && "active")}>
                 <div className="topbar">
-                    <label id="title">Register </label>
+                    <label id="title">Register New User </label>
                     <div id="close" onClick={() => handleClose()}>
                         <CloseIcon sx={{fontSize: 33}} />
                     </div>
@@ -152,7 +151,7 @@ export default function RegisterUser({registerOpen, setRegisterOpen}) {
 
                         <div id="registeruser">
                             <button type="submit" disabled={loading}>
-                                {loading ? "Loading..." : "Register"}
+                                {loading ? "LOADING..." : "REGISTER"}
                             </button>
                         </div>
 

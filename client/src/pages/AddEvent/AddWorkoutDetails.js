@@ -72,32 +72,35 @@ export default function AddWorkoutDetails({
                 <div className="inputs">
                     <form onSubmit={handleSubmit}>
                         <input
+                            className={"wn " + (darkmode ? "light" : "dark")}
                             type="text"
                             name="name"
                             value={workout.name}
                             onChange={handleChange}
-                            placeholder="Enter name of workout"
+                            placeholder="Name of workout"
                             required
                         />
                         <input
+                            className={"ns " + (darkmode ? "light" : "dark")}
                             type="number"
                             min="1"
                             name="sets"
                             value={workout.sets}
                             onChange={handleChange}
-                            placeholder="Enter number of sets"
+                            placeholder="Number of sets"
                             required
                         />
                         <input
+                            className={"nr " + (darkmode ? "light" : "dark")}
                             type="number"
                             min="1"
                             name="reps"
                             value={workout.reps}
                             onChange={handleChange}
-                            placeholder="Enter number of reps"
+                            placeholder="Number of reps"
                             required
                         />
-                        <button type="submit">Add</button>
+                        <button className={"addButton " + (darkmode ? "light" : "dark")} type="submit">Add</button>
                     </form>
                 </div>
             </div>
