@@ -15,7 +15,10 @@ const oauth2Client = new google.auth.OAuth2(
 );
 
 const scopes = [
-    'https://www.googleapis.com/auth/calendar'
+    'https://www.googleapis.com/auth/calendar',
+    'https://www.googleapis.com/auth/calendar.events',
+    'https://www.googleapis.com/auth/calendar.readonly',
+    'https://www.googleapis.com/auth/userinfo.profile',
 ]
 
 const authorizationUri = oauth2Client.generateAuthUrl({
@@ -28,8 +31,10 @@ router.post("/googleapi/generate-auth-token", onlyAuthenticated, async (req, res
         const {code} = req.body
         const {tokens} = await oauth2Client.getToken(code)
         console.log(tokens)
+        console.log("\n REFRESH TOKEN: \n")
+        console.log(tokens.refresh_token)
 
-        /*
+        
         const storeToken = await db.user.update({
             where: {
                 id: req.user.id,
@@ -38,7 +43,6 @@ router.post("/googleapi/generate-auth-token", onlyAuthenticated, async (req, res
                 googleRefreshToken: tokens.refresh_token,
             },
         })
-        */
     } catch(error) {
         next(error)
     }
@@ -51,6 +55,7 @@ router.post("/googleapi/create-event", onlyAuthenticated, async(req, res, next) 
                 id: req.user.id,
             },
         })
+        console.log(currentUser.googleRefreshToken)
         oauth2Client.setCredentials({refresh_token: currentUser.googleRefreshToken})
         const calendar = google.calendar('v3')
         const response = await calendar.events.insert({

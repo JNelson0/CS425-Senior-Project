@@ -118,6 +118,23 @@ async function main() {
 
     await db.event.create({
         data: {
+            title: "Test Event",
+            description: "Test event frm Outwork",
+            type: "STANDARD",
+            start: new Date('March 7, 2022 08:30:00'),
+            finish: new Date('March 7, 2022 09:30:00'),
+            userMemberships: {
+                create:
+                [{
+                    role: "OWNER",
+                    userId: user2.id,
+                },]
+            }
+        }
+    })
+
+    await db.event.create({
+        data: {
             title: "Team Practice",
             description: "Practice at football field",
             type: "STANDARD",

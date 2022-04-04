@@ -126,6 +126,7 @@ export default function SettingsToggles({toggle, setS}) {
                 cookiePolicy={'single_host_origin'}
                 accessType="offline"
                 responseType="code"
+                scope="https://www.googleapis.com/auth/calendar"
               />
             </FormGroup>
         </FormControl>
