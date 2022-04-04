@@ -1,6 +1,7 @@
 @import '../../theme.scss';
 
 .settings{
+    font-family: 'Roboto', sans-serif;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -17,12 +18,33 @@
         // &:hover{
         //     cursor: pointer;
         // }
+        label{
+            font-family: 'Roboto', sans-serif;
+            padding-top: 10px;
+            padding-bottom: 8px;
+            font-size: 20px;
+        }
+        .googleLogin{
+            padding-top: 15px;
+        }
         .logoutButton{
+            display: flex;
             cursor: pointer;
-            position: relative;
-            top: 85%;
+            position: fixed;
+            justify-content: center;
+            align-items: center;
+            top: 80%;
+            width: 130px;
+            border-radius: 6px;
+            height: 40px;
+            font-size: large;
+            color: $nevada-white;
+            background-color: $button-blue;
+            border: $button-blue-lighter 1px solid;
+            transition: all 0.25s ease;
             &:hover{
-                box-shadow: 0 2px 1px rgb(212, 212, 212);
+                background-color: #2976ce;
+                box-shadow: 0 2px 1px rgb(196, 196, 196);
             }
         }
         
