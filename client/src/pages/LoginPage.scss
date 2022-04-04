@@ -42,7 +42,8 @@ $backgIMG: "../img/university-background.jpg";
                 font-weight: 500;
             }
             #passenter{
-                //width: 150px;
+                display: flex;
+                flex-direction: column;
                 padding-top: 7px;
                 padding-right: 2px;
             }

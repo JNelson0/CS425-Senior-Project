@@ -27,8 +27,14 @@ $wolfIMG: "../img/wolf.png";
                 .listWrapper {
                     .middleSpacer {
                         .clock {
+                            transition: all 0.5s ease;
                             height: 25%;
+                            width: 120%;
                             font-size: 70px;
+                            background: url(../img/clock-background.png) no-repeat top center fixed;
+                        }
+                        .eventList{
+                            width: 90%;
                         }
                     }
                 }
@@ -65,10 +71,13 @@ $wolfIMG: "../img/wolf.png";
                         align-items: center;
                         height: 35%;
                         width: 100%;
-                        background-color: rgb(0, 138, 138);
+                        background: url(../img/clock-background.png) no-repeat top center fixed;
                         border-radius: 45px;
-                        font-size: 80px;
-                        color: white;
+                        font-size: 82px;
+                        font-weight: 500;
+                        color: $nevada-blue;
+                        -webkit-text-stroke-width: 1.5px;
+                        -webkit-text-stroke-color: rgb(255, 255, 255);
                     }
                     .loading {
                         display: flex;
@@ -78,7 +87,6 @@ $wolfIMG: "../img/wolf.png";
                         height: 60%;
                         width: 100%;
                         font-size: 80px;
-                        font-weight: 600;
                         span {
                             position: relative;
                             top: 20%;
