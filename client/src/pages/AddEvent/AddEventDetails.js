@@ -35,8 +35,8 @@ export default function AddEventDetails({
             <div className="eventDetails">
                 <div className="form">
                     <div className="list">
-                        <div>
-                            <label>Title:</label>
+                        <div className={"title " + (darkmode ? "light" : "dark")}>
+                            <label>Title</label>
                             <input
                                 type="text"
                                 name="title"
@@ -46,8 +46,8 @@ export default function AddEventDetails({
                                 required
                             />
                         </div>
-                        <div className="description">
-                            <label>Description:</label>
+                        <div className={"description " + (darkmode ? "light" : "dark")}>
+                            <label>Description</label>
                             <textarea
                                 type="text"
                                 name="description"
@@ -57,16 +57,17 @@ export default function AddEventDetails({
                                 required
                             />
                         </div>
-                        <div className="type">
-                            <label>Type:</label>
+                        <div className={"type " + (darkmode ? "light" : "dark")}>
+                            <label>Type</label>
                             <select
                                 value={workoutDetailsList.type}
                                 onChange={handleChange}
                                 placeholder="Choose an Option"
                                 name="type"
+                                required
                             >
-                                <option value="STANDARD">Event</option>
-                                <option value="WORKOUT">Workout</option>
+                                <option value="STANDARD">EVENT</option>
+                                <option value="WORKOUT">WORKOUT</option>
                             </select>
                         </div>
                         <div className={"date " + (darkmode ? "light" : "dark")}>
