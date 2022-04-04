@@ -33,15 +33,18 @@ $backgIMG: "../img/university-background.jpg";
         border-radius: 6px;
         box-shadow: 0 3px 8px rgb(51, 51, 51);
         .textinput{
-            // #emailenter{
-            //     width: 150px;
-            // }
+            #emailenter{
+                display: flex;
+                flex-direction: column;
+                padding-right: 2px;
+            }
             #emailenter label{
                 font-weight: 500;
             }
             #passenter{
                 //width: 150px;
                 padding-top: 7px;
+                padding-right: 2px;
             }
             #passenter label{
                 font-weight: 500;
