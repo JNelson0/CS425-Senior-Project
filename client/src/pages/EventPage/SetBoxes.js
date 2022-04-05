@@ -34,7 +34,7 @@ export default function SetBoxes({
         return (
             <div className="setBoxes">
                 <div className="responses">
-                    <div className="index">Set {index + 1}</div>
+                    <div className="index">{index + 1}:</div>
                     {weightResponses && !responseSubmit ? (
                         <div className="responseNumbers">
                             {weightResponses.weights ? (
