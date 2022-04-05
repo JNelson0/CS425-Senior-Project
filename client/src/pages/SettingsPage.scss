@@ -7,18 +7,24 @@
     position: fixed;
     left: 0;
     top: calc(12.5vh - 10px);
-    height: calc(75vh + 20px);
-    width: 24%;
+    height: 0;
+    width: 0;
     overflow: hidden;
     z-index: 2;
     background-color: inherit;
-    border: 3px solid lightslategrey;
     border-radius: 30px;
     font-size: 30px;
     font-weight: 400;
     margin-left: 15px;
+    transition: all 0.1s ease;
     .middle {
         display: flex;
         height: 75%;
+    }
+
+    &.active {
+        border: 3px solid lightslategrey;
+        width: 24%;
+        height: calc(75vh + 20px);
     }
 }

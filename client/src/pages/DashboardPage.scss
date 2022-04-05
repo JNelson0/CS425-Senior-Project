@@ -4,7 +4,7 @@ $wolfIMG: "../img/wolf.png";
 .dashboard {
     height: 100vh;
     width: 100vw;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     display: flex;
     flex-direction: column;
     .dashboardContent {
@@ -31,9 +31,10 @@ $wolfIMG: "../img/wolf.png";
                             height: 25%;
                             width: 120%;
                             font-size: 70px;
-                            background: url(../img/clock-background.png) no-repeat top center fixed;
+                            background: url(../img/clock-background.png)
+                                no-repeat top center fixed;
                         }
-                        .eventList{
+                        .eventList {
                             width: 90%;
                         }
                     }
@@ -71,7 +72,8 @@ $wolfIMG: "../img/wolf.png";
                         align-items: center;
                         height: 35%;
                         width: 100%;
-                        background: url(../img/clock-background.png) no-repeat top center fixed;
+                        background: url(../img/clock-background.png) no-repeat
+                            top center fixed;
                         border-radius: 45px;
                         font-size: 82px;
                         font-weight: 500;

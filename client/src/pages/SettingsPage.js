@@ -8,19 +8,17 @@ import SettingsToggles from "./Settings/Settings.js"
 
 var darkmode = getMode()
 
-export default function SettingsPage({darkmode, setS}) {
+export default function SettingsPage({darkmode, setS, settingsOpen}) {
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
-            <div class="settingspage">
-                {/* <TopButtons
-            className="tb"
-            showButtonNotification={false}
-            showButtonAdd={false}
-        /> */}
+            <div class={"settingspage " + (settingsOpen && "active")}>
                 <div className="middle">
-                    <SettingsToggles toggle={darkmode} setS={setS} />
+                    <SettingsToggles
+                        toggle={darkmode}
+                        setS={setS}
+                        settingsOpen={settingsOpen}
+                    />
                 </div>
-                {/* <BottomBar/> */}
             </div>
         </div>
     )
