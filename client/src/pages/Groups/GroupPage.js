@@ -266,32 +266,36 @@ const GroupPage = ({setId,id, darkmode}) => {
                         <div className="form">
                                 <div className="list">
                                     <div>
-                                        <label>Remove User:</label>
+                                        <label>Remove User</label>
                                         <input
                                             type="text"
                                             value={userToDelete}
                                             onChange={handleChangeDeleteUser}
                                             placeholder="Enter single username"
                                         />
-                                        <input 
+                                        <button 
                                             type="submit"
                                             value="Remove user"
                                             onClick={handleDeleteUser}
-                                        /> 
+                                        >
+                                            REMOVE
+                                        </button>
                                     </div>
                                     <div>
-                                        <label>Add Users:</label>
+                                        <label>Add Users</label>
                                         <input 
                                             type="text"
                                             value={usersToAdd}
                                             onChange={handleChangeAddUsers}
                                             placeholder="Enter userIds separated by commas with no space"
                                         />
-                                        <input
+                                        <button
                                             type="submit"
                                             value="Add users"
                                             onClick={handleAddUsers} 
-                                        />
+                                        >
+                                            ADD
+                                        </button>
                                     </div>
                                 </div>
                         </div>

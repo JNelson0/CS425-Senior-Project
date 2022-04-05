@@ -1,6 +1,7 @@
 @import "../../theme.scss";
 
 .group {
+    font-family: 'Roboto', sans-serif;
     //height: 100vh;
     width: 100%;
     display: flex;
@@ -13,7 +14,7 @@
         justify-content: center;
         height: 75%;
         font-size: 80px;
-        font-weight: 600;
+        //font-weight: 600;
     }
     body{
         margin: 0;
@@ -40,7 +41,7 @@
           }
 
         .middleWrapper{
-            display: flex; /* Now the direct empty div has flex property */
+            display: flex;
             justify-content: space-evenly;
             .groupName,
             .groupEvents {
@@ -52,7 +53,6 @@
               flex-direction: column;
               align-items: center;
               padding: 20px;
-
             }
           }
     }
@@ -73,7 +73,6 @@
       flex-direction: column;
 
       .list {
-          font-weight: 600;
           color: inherit;
           height: 60%;
           width: 100%;
@@ -97,26 +96,8 @@
                   left: 5px;
                   font-size: 20px;
               }
-              select {
-                  font-size: 20px;
-                  width: 25%;
-                  text-align: center;
-              }
-              textarea {
-                  resize: none;
-                  width: 300%;
-                  height: 50%;
-                  position: relative;
-                  left: 5px;
-                  font-size: 20px;
-              }
-          }
-          .date {
-              height: 200px;
-              display: flex;
-              flex-direction: row;
-              #datetime-local {
-                  width: 80%;
+              button{
+                  //
               }
           }
       }
