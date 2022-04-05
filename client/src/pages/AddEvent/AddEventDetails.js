@@ -3,7 +3,6 @@ import {React, useState, useEffect} from "react"
 import "./AddEventDetails.scss"
 import TextField from "@mui/material/TextField"
 import {useGlobalContext} from "../../store"
-import { alpha, styled } from '@mui/material/styles';
 import "../../_theme.scss";
 
 export default function AddEventDetails({

@@ -33,7 +33,8 @@
       border-radius: 50px;
       
       transition: all 0.1s ease;
-      &:hover {
+      &:hover,
+      &:focus{
         cursor: pointer;
         background-color: rgb(25, 68, 128);
       }

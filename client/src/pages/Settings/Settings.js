@@ -10,6 +10,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Switch from '@mui/material/Switch';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/Radio';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import {useGlobalContext} from "../../store"
 import {Navigate} from "react-router"
@@ -118,6 +119,18 @@ export default function SettingsToggles({toggle, setS}) {
                 }
                 label="setting2"
                 /> */}
+
+//               <label>Connections</label>
+//               <div className="googleLogin">
+//                 <GoogleLogin 
+//                   clientId={String(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
+//                   buttonText="Google Login"
+//                   onSuccess={responseGoogle}
+//                   onFailure={responseGoogle}
+//                   cookiePolicy={'single_host_origin'}
+//                 />
+//               </div>
+
               <GoogleLogin 
                 clientId={String(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
                 buttonText="Login"
@@ -131,7 +144,7 @@ export default function SettingsToggles({toggle, setS}) {
             </FormGroup>
         </FormControl>
 
-        <button className = "logoutButton" onClick={handleLogout}>Logout</button>
+        <button className = "logoutButton" onClick={handleLogout}><LogoutIcon sx={{fontSize: 'large'}}/>&nbsp; LOGOUT</button>
         {/* <FormControl>
             <label>Units</label>
             <RadioGroup 

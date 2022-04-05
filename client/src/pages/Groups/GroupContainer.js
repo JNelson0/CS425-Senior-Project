@@ -9,22 +9,24 @@ export default function GroupContainer({id, setId, name, darkmode}) {
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
-            <li className="groupbuttonWrapper">
-                <Link
-                    to={"/groups" + id}
-                    className="groupbutton"
-                    onClick={() => setId(id)}
-                >
-                    <span>{id}</span>
-                    <span>{name}</span>
-                </Link>
-                
-                
-                {/* <DeleteForeverIcon
-                    className="trash"
-                    onClick={handleEventDelete}
-                /> */}
-            </li>
+            <div className={"container " + (darkmode ? "light" : "dark")}>
+                <li className="groupbuttonWrapper">
+                    <Link
+                        to={"/groups" + id}
+                        className="groupbutton"
+                        onClick={() => setId(id)}
+                    >
+                        {/* <span>{id}:</span> */}
+                        <span>{name}</span>
+                    </Link>
+                    
+                    
+                    {/* <DeleteForeverIcon
+                        className="trash"
+                        onClick={handleEventDelete}
+                    /> */}
+                </li>
+            </div>
         </div>
     )
 }

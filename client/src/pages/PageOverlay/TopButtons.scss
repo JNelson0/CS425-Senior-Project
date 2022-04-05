@@ -23,7 +23,8 @@
             color: white;
             transition: all 0.02s ease;
             position: relative;
-            &:hover {
+            &:hover,
+            &:focus{
                 cursor: pointer;
                 background-color: rgb(25, 68, 128);
                 animation: spin 2.5s infinite;
@@ -47,7 +48,8 @@
             color: white;
             transition: all 0.02s ease;
 
-            &:hover {
+            &:hover,
+            &:focus{
                 cursor: pointer;
                 background-color: rgb(25, 68, 128);
             }
@@ -72,7 +74,8 @@
             color: white;
             transition: all 0.02s ease;
 
-            &:hover {
+            &:hover,
+            &:focus{
                 cursor: pointer;
                 background-color: rgb(25, 68, 128);
             }
@@ -111,7 +114,8 @@
             color: white;
             transition: all 0.02s ease;
 
-            &:hover {
+            &:hover,
+            &:focus{
                 cursor: pointer;
                 background-color: crimson;
                 animation: ring 0.6s linear;
