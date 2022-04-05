@@ -69,11 +69,11 @@ export default function GroupDashboardPage({setId, darkmode, setS}) {
                     settingsOpen={settingsOpen}
                     setSettingsOpen={setSettingsOpen}
                 />
-                {settingsOpen ? (
-                    <SettingsPage darkmode={darkmode} setS={setS} />
-                ) : (
-                    <></>
-                )}
+                <SettingsPage
+                    darkmode={darkmode}
+                    setS={setS}
+                    settingsOpen={settingsOpen}
+                />
                 <AddGroup
                     addOpen={addOpen}
                     setAddOpen={setAddOpen}

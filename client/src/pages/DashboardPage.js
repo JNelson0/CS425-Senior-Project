@@ -142,11 +142,12 @@ export default function DashboardPage({setId, darkmode, setS}) {
                     setSettingsOpen={setSettingsOpen}
                     settingsOpen={settingsOpen}
                 />
-                {settingsOpen ? (
-                    <SettingsPage darkmode={darkmode} setS={setS} />
-                ) : (
-                    <></>
-                )}
+                <SettingsPage
+                    darkmode={darkmode}
+                    setS={setS}
+                    settingsOpen={settingsOpen}
+                />
+
                 <div className="dashboardContent">
                     <div
                         className={

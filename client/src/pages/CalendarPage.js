@@ -127,11 +127,11 @@ const CalendarPage = ({darkmode, setS}) => {
                     settingsOpen={settingsOpen}
                     setSettingsOpen={setSettingsOpen}
                 />
-                {settingsOpen ? (
-                    <SettingsPage darkmode={darkmode} setS={setS} />
-                ) : (
-                    <></>
-                )}
+                <SettingsPage
+                    darkmode={darkmode}
+                    setS={setS}
+                    settingsOpen={settingsOpen}
+                />
                 <div className="middle">
                     {loading ? (
                         <div className="loading">

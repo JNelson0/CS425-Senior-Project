@@ -222,11 +222,11 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
                     settingsOpen={settingsOpen}
                     setSettingsOpen={setSettingsOpen}
                 />
-                {settingsOpen ? (
-                    <SettingsPage darkmode={darkmode} setS={setS} />
-                ) : (
-                    <></>
-                )}
+                <SettingsPage
+                    darkmode={darkmode}
+                    setS={setS}
+                    settingsOpen={settingsOpen}
+                />
                 {loading ? (
                     <div className="loading">
                         <span>LOADING</span>
