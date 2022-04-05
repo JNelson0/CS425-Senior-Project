@@ -11,6 +11,7 @@ import {Navigate} from "react-router"
 
 const EventPage = ({index, id, darkmode, topbar, bottombar, setIDToDelete}) => {
     const {
+        user,
         getEventById,
         getExerciseById,
         getExercisesFromEventIdQuery,
@@ -155,12 +156,19 @@ const EventPage = ({index, id, darkmode, topbar, bottombar, setIDToDelete}) => {
                                         : "event"
                                 }
                             >
-                                <button
-                                    className="deleteEvent"
-                                    onClick={() => setDeleteEvent(id)}
-                                >
-                                    <DeleteForeverIcon sx={{fontSize: 35}} />
-                                </button>
+                                {eventOwner.id === user.id ? (
+                                    <button
+                                        className="deleteEvent"
+                                        onClick={() => setDeleteEvent(id)}
+                                    >
+                                        <DeleteForeverIcon
+                                            sx={{fontSize: 35}}
+                                        />{" "}
+                                    </button>
+                                ) : (
+                                    <></>
+                                )}
+
                                 <h1>{event.title}</h1>
                                 <h2>{event.description}</h2>
                                 {startDate === finishDate ? (
@@ -206,10 +214,12 @@ const EventPage = ({index, id, darkmode, topbar, bottombar, setIDToDelete}) => {
                                 <></>
                             )}
                             {googleConnected ? (
-                            <button onClick={handleAddToGoogle}>
-                                Add To Google
-                            </button>
-                            ) : (<></>)}
+                                <button onClick={handleAddToGoogle}>
+                                    Add To Google
+                                </button>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     )}
 
