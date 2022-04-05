@@ -54,7 +54,7 @@ const EventPage = ({index, id, darkmode, topbar, bottombar, setIDToDelete}) => {
             .catch(setError)
 
             .finally(() => {
-                console.log(googleConnected)
+                // console.log(googleConnected)
                 setLoading(false)
             })
     }, [id])
@@ -63,7 +63,6 @@ const EventPage = ({index, id, darkmode, topbar, bottombar, setIDToDelete}) => {
     useEffect(() => {
         if (deleteEvent) {
             ;(async () => {
-                console.log(index)
                 setIDToDelete({index, deleteEvent})
             })().catch(setError)
         }
