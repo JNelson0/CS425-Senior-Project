@@ -6,15 +6,8 @@ import CloseIcon from "@mui/icons-material/Close"
 import {useGlobalContext} from "../../store"
 
 export default function AddEvent({addOpen, setAddOpen, darkmode}) {
-    const {
-        user,
-        createEventQuery,
-        createExerciseWithEventIdQuery,
-        currentUserEventQuery,
-        eventState,
-        eventFromIdQuery,
-        getEventById,
-    } = useGlobalContext()
+    const {createEventQuery, createExerciseWithEventIdQuery} =
+        useGlobalContext()
 
     const [workoutDetailsPage, setWorkoutDetailsPage] = useState(false)
 
@@ -97,6 +90,29 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
     const [error, setError] = useState()
     const [addExercise, setAddExercise] = useState(false)
 
+    const checkInputs = () => {
+        if (workoutDetailsList.title === "") {
+            return false
+        }
+        if (workoutDetailsList.description === "") {
+            return false
+        }
+        console.log(workoutExerciseList.length > 0)
+        if (
+            workoutDetailsList.type === "WORKOUT" &&
+            !workoutExerciseList.length > 0
+        ) {
+            return false
+        }
+        return true
+    }
+    const [popup, setPopup] = useState(false)
+
+    const handleWorkoutSubmit = e => {
+        e.preventDefault()
+        checkInputs() ? setAddExercise(true) : setPopup(true)
+    }
+
     useEffect(() => {
         if (addExercise) {
             ;(async () => {
@@ -130,86 +146,98 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
-            <div className={"add-event " + (addOpen && "active")}>
-                <div className="top">
-                    <div className="topSplit1"></div>
-                    <div
-                        className={
-                            workoutDetailsList.type !== "STANDARD"
-                                ? "topSplit2"
-                                : "topSplit2 No"
-                        }
+            {popup ? (
+                <div className="popup">
+                    Please enter all information before submitting
+                    <button
+                        className={"button " + (darkmode ? "light" : "dark")}
+                        onClick={() => setPopup(false)}
                     >
-                        <button
+                        Edit
+                    </button>
+                </div>
+            ) : (
+                <div className={"add-event " + (addOpen && "active")}>
+                    <div className="top">
+                        <div className="topSplit1"></div>
+                        <div
                             className={
-                                "button " +
-                                (darkmode ? "light" : "dark") +
-                                (detailButtonActive ? " active" : "")
+                                workoutDetailsList.type !== "STANDARD"
+                                    ? "topSplit2"
+                                    : "topSplit2 No"
                             }
-                            onClick={handleButton1}
                         >
-                            DETAILS
-                        </button>
+                            <button
+                                className={
+                                    "button " +
+                                    (darkmode ? "light" : "dark") +
+                                    (detailButtonActive ? " active" : "")
+                                }
+                                onClick={handleButton1}
+                            >
+                                DETAILS
+                            </button>
 
-                        <button
-                            className={
-                                "button " +
-                                (darkmode ? "light" : "dark") +
-                                (workoutButtonActive ? " active" : "")
-                            }
-                            onClick={handleButton2}
-                        >
-                            WORKOUT
-                        </button>
+                            <button
+                                className={
+                                    "button " +
+                                    (darkmode ? "light" : "dark") +
+                                    (workoutButtonActive ? " active" : "")
+                                }
+                                onClick={handleButton2}
+                            >
+                                WORKOUT
+                            </button>
+                        </div>
+                        <div className="topSplit3">
+                            <div className="closeMenu" onClick={handleClose}>
+                                <CloseIcon sx={{fontSize: 33}} />
+                            </div>
+                        </div>
                     </div>
-                    <div className="topSplit3">
-                        <div className="closeMenu" onClick={handleClose}>
-                            <CloseIcon sx={{fontSize: 33}} />
+                    <div className="middle">
+                        {workoutDetailsPage ? (
+                            <AddWorkoutDetails
+                                setWorkoutDetailsPage={setWorkoutDetailsPage}
+                                workoutExerciseList={workoutExerciseList}
+                                setWorkoutExerciseList={setWorkoutExerciseList}
+                                setAddOpen={setAddOpen}
+                                addOpen={addOpen}
+                                darkmode={darkmode}
+                            />
+                        ) : (
+                            <AddEventDetails
+                                setWorkoutDetailsPage={setWorkoutDetailsPage}
+                                setAddOpen={setAddOpen}
+                                addOpen={addOpen}
+                                workoutDetailsList={workoutDetailsList}
+                                setWorkoutDetailsList={setWorkoutDetailsList}
+                                startDate={startDate}
+                                finishDate={finishDate}
+                                darkmode={darkmode}
+                            />
+                        )}
+                    </div>
+                    <div className="bottom">
+                        <div
+                            className={
+                                "buttonWrapper " + (darkmode ? "light" : "dark")
+                            }
+                        >
+                            <button
+                                type="reset"
+                                onClick={resetInput}
+                                fontWeight="bold"
+                            >
+                                CLEAR
+                            </button>
+                            <button type="submit" onClick={handleWorkoutSubmit}>
+                                SUBMIT
+                            </button>
                         </div>
                     </div>
                 </div>
-                <div className="middle">
-                    {workoutDetailsPage ? (
-                        <AddWorkoutDetails
-                            setWorkoutDetailsPage={setWorkoutDetailsPage}
-                            workoutExerciseList={workoutExerciseList}
-                            setWorkoutExerciseList={setWorkoutExerciseList}
-                            setAddOpen={setAddOpen}
-                            addOpen={addOpen}
-                            darkmode={darkmode}
-                        />
-                    ) : (
-                        <AddEventDetails
-                            setWorkoutDetailsPage={setWorkoutDetailsPage}
-                            setAddOpen={setAddOpen}
-                            addOpen={addOpen}
-                            workoutDetailsList={workoutDetailsList}
-                            setWorkoutDetailsList={setWorkoutDetailsList}
-                            startDate={startDate}
-                            finishDate={finishDate}
-                            darkmode={darkmode}
-                        />
-                    )}
-                </div>
-                <div className="bottom">
-                    <div
-                        className={
-                            "buttonWrapper " + (darkmode ? "light" : "dark")
-                        }
-                    >
-                        <button
-                            type="reset"
-                            onClick={resetInput}
-                            fontWeight="bold"
-                        >
-                            CLEAR
-                        </button>
-                        <button type="submit" onClick={handleSubmit}>
-                            SUBMIT
-                        </button>
-                    </div>
-                </div>
-            </div>
+            )}
         </div>
     )
 }
