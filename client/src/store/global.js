@@ -526,6 +526,12 @@ function useGlobal() {
         )
     }
 
+    // Check for google auth token
+    async function checkUserGoogleTokenQuery() {
+        const tokenExists = await request(`/googleapi/check-usertokens`, {credentials: "same-origin"})
+        return tokenExists
+    }
+
     const currentUser = userState.currentUserId
         ? getUserById(userState.currentUserId)
         : undefined
@@ -592,6 +598,7 @@ function useGlobal() {
         //Google Queries
         createGoogleEventQuery,
         generateGoogleTokensQuery,
+        checkUserGoogleTokenQuery,
     }
 }
 const [GlobalProvider, useGlobalContext] = constate(useGlobal)
