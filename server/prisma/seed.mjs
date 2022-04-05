@@ -139,8 +139,8 @@ async function main() {
             title: "Team Practice",
             description: "Practice at football field",
             type: "STANDARD",
-            start: new Date("April 7, 2022 08:30:00"),
-            finish: new Date("April 7, 2022 09:30:00"),
+            start: new Date("April 4, 2022 08:30:00"),
+            finish: new Date("April 4, 2022 09:30:00"),
             userMemberships: {
                 create: [
                     {
@@ -192,8 +192,8 @@ async function main() {
             title: "Team Practice",
             description: "Practice at football field",
             type: "STANDARD",
-            start: new Date("April 9, 2022 08:30:00"),
-            finish: new Date("April 9, 2022 09:30:00"),
+            start: new Date("April 5, 2022 08:30:00"),
+            finish: new Date("April 5, 2022 09:30:00"),
             userMemberships: {
                 create: [
                     {
@@ -246,8 +246,8 @@ async function main() {
             title: "Team Practice",
             description: "Practice at football field",
             type: "STANDARD",
-            start: new Date("April 11, 2022 08:30:00"),
-            finish: new Date("April 11, 2022 09:30:00"),
+            start: new Date("April 6, 2022 08:30:00"),
+            finish: new Date("April 6, 2022 09:30:00"),
             userMemberships: {
                 create: [
                     {
@@ -341,26 +341,24 @@ async function main() {
                         role: "INVITEE",
                         userId: user10.id,
                     },
-                ]
-           },
-           eventMemberships: {
-            create: 
-            [
-            {
-                role: "OWNER",
-                eventId: event3.id,
+                ],
             },
-            {
-                role: "OWNER",
-                eventId: event4.id,
+            eventMemberships: {
+                create: [
+                    {
+                        role: "OWNER",
+                        eventId: event3.id,
+                    },
+                    {
+                        role: "OWNER",
+                        eventId: event4.id,
+                    },
+                    {
+                        role: "OWNER",
+                        eventId: event5.id,
+                    },
+                ],
             },
-            {
-                role: "OWNER",
-                eventId: event5.id,
-            }
-        ]
-        },
- 
         },
     })
 
@@ -369,8 +367,8 @@ async function main() {
             title: "Weight Lifting",
             description: "Leg Day",
             type: "WORKOUT",
-            start: new Date("April 8, 2022 17:00:00"),
-            finish: new Date("April 8, 2022 18:00:00"),
+            start: new Date("April 7, 2022 17:00:00"),
+            finish: new Date("April 7, 2022 18:00:00"),
             userMemberships: {
                 create: [
                     {
@@ -442,8 +440,8 @@ async function main() {
             title: "Weight Lifting",
             description: "Arm Day",
             type: "WORKOUT",
-            start: new Date("April 10, 2022 17:00:00"),
-            finish: new Date("April 10, 2022 18:00:00"),
+            start: new Date("April 8, 2022 17:00:00"),
+            finish: new Date("April 8, 2022 18:00:00"),
             userMemberships: {
                 create: [
                     {
@@ -509,7 +507,6 @@ async function main() {
             },
         },
     })
-  
 
     const group2 = await db.group.create({
         data: {
@@ -560,23 +557,19 @@ async function main() {
                 ],
             },
             eventMemberships: {
-                create: 
-                [
-                {
-                    role: "OWNER",
-                    eventId: event1.id,
-                },
-                {
-                    role: "OWNER",
-                    eventId: event2.id,
-                },
-
-            ]
+                create: [
+                    {
+                        role: "OWNER",
+                        eventId: event1.id,
+                    },
+                    {
+                        role: "OWNER",
+                        eventId: event2.id,
+                    },
+                ],
             },
         },
     })
-    
-
 }
 
 main()

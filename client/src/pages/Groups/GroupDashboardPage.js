@@ -64,8 +64,10 @@ export default function GroupDashboardPage({setId, darkmode, setS}) {
             <div className="dashboard">
                 <TopButtons
                     className="tb"
+                    addOpen={addOpen}
+                    setAddOpen={setAddOpen}
                     showButtonNotification={false}
-                    showButtonAdd={false}
+                    showButtonAdd={true}
                     settingsOpen={settingsOpen}
                     setSettingsOpen={setSettingsOpen}
                 />
