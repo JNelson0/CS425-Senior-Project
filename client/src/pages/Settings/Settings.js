@@ -122,15 +122,15 @@ export default function SettingsToggles({toggle, setS}) {
 
                <label>Connections</label>
                <div className="googleLogin">
-                 {/* <GoogleLogin 
+                  {/* <GoogleLogin 
                    clientId={String(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
                    buttonText="Google Login"
                    onSuccess={responseGoogle}
                    onFailure={responseGoogle}
                    cookiePolicy={'single_host_origin'}
-                 /> */}
+                  /> */}
               
-                  <GoogleLogin 
+                  {/* <GoogleLogin 
                     clientId={String(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
                     buttonText="Google Login"
                     onSuccess={responseGoogle}
@@ -139,7 +139,7 @@ export default function SettingsToggles({toggle, setS}) {
                     accessType="offline"
                     responseType="code"
                     scope="https://www.googleapis.com/auth/calendar"
-                  />
+                  /> */}
               </div>
             </FormGroup>
         </FormControl>
