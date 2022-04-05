@@ -324,62 +324,27 @@ async function main() {
                     },
                 ]
            },
+           eventMemberships: {
+            create: 
+            [
+            {
+                role: "OWNER",
+                eventId: event3.id,
+            },
+            {
+                role: "OWNER",
+                eventId: event4.id,
+            },
+            {
+                role: "OWNER",
+                eventId: event5.id,
+            }
+        ]
+        },
  
         },
     })
 
-    const group2 = await db.group.create({
-        data: {
-            tag: "Weights Group",
-            userMemberships: {
-                create: 
-                [
-                    {
-                        role: "OWNER",
-                        userId: user5.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user2.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user3.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user4.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user.id,
-                    },
-
-                    {
-                        role: "INVITEE",
-                        userId: user6.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user7.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user8.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user9.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user10.id,
-                    },
-                ]
-            },
-        },
-    })
-    
     const event1 = await db.event.create({
         data: {
             title: "Weight Lifting",
@@ -430,13 +395,6 @@ async function main() {
                     userId: user10.id,
                 },
             ]
-            },
-            groupMemberships: {
-                create: 
-                [{
-                    role: "OWNER",
-                    groupId: group2.id,
-                }]
             },
             exercises: {
                 create: [
@@ -512,13 +470,6 @@ async function main() {
                 },
             ]
             },
-            groupMemberships: {
-                create: 
-                [{
-                    role: "OWNER",
-                    groupId: group2.id,
-                }]
-            },
             exercises: {
                 create: [
                 {
@@ -541,6 +492,74 @@ async function main() {
             }
         },
     })
+
+
+    const group2 = await db.group.create({
+        data: {
+            tag: "Weights Group",
+            userMemberships: {
+                create: 
+                [
+                    {
+                        role: "OWNER",
+                        userId: user5.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user2.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user3.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user4.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user.id,
+                    },
+
+                    {
+                        role: "INVITEE",
+                        userId: user6.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user7.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user8.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user9.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user10.id,
+                    },
+                ]
+            },
+            eventMemberships: {
+                create: 
+                [
+                {
+                    role: "OWNER",
+                    eventId: event1.id,
+                },
+                {
+                    role: "OWNER",
+                    eventId: event2.id,
+                },
+
+            ]
+            },
+        },
+    })
+    
 
 }
 
