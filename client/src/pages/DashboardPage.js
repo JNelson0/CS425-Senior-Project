@@ -8,8 +8,9 @@ import BackgroundImg from "../img/wolf.png"
 import Clock from "react-live-clock"
 import AddEvent from "./AddEvent/AddEvent.js"
 import EventPage from "./EventPage/EventPage"
+import SettingsPage from "./SettingsPage"
 
-export default function DashboardPage({setId, darkmode}) {
+export default function DashboardPage({setId, darkmode, setS}) {
     const {
         user,
         isLoggedIn,
@@ -19,11 +20,13 @@ export default function DashboardPage({setId, darkmode}) {
         deleteEventQuery,
     } = useGlobalContext()
 
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState()
+
+    const [settingsOpen, setSettingsOpen] = useState()
     const [eventId, setEventId] = useState()
     const [addOpen, setAddOpen] = useState(false)
-    const [loading, setLoading] = useState(true)
     const [sorting, setSorting] = useState(false)
-    const [error, setError] = useState()
 
     const [display, setDisplay] = useState([])
 
@@ -136,7 +139,14 @@ export default function DashboardPage({setId, darkmode}) {
                     showButtonDeleteEvent={false}
                     setEventId={setEventId}
                     closeDashboard={eventId ? true : false}
+                    setSettingsOpen={setSettingsOpen}
+                    settingsOpen={settingsOpen}
                 />
+                {settingsOpen ? (
+                    <SettingsPage darkmode={darkmode} setS={setS} />
+                ) : (
+                    <></>
+                )}
                 <div className="dashboardContent">
                     <div
                         className={

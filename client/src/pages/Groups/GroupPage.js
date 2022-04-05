@@ -5,9 +5,9 @@ import TopButtons from "../PageOverlay/TopButtons.js"
 import {useGlobalContext} from "../../store"
 import {useNavigate} from "react-router-dom"
 import EventContainer from "../EventContainer/EventContainer.js"
-import DownloadIcon from '@mui/icons-material/Download';
-
-const GroupPage = ({setId,id, darkmode}) => {
+import DownloadIcon from "@mui/icons-material/Download"
+import SettingsPage from "../SettingsPage"
+const GroupPage = ({setId, id, darkmode, setS}) => {
     const {
         user,
         userState,
@@ -27,6 +27,7 @@ const GroupPage = ({setId,id, darkmode}) => {
         createEventInviteeQuery,
         deleteGroupQuery,
     } = useGlobalContext()
+    const [settingsOpen, setSettingsOpen] = useState()
 
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState()
@@ -81,11 +82,11 @@ const GroupPage = ({setId,id, darkmode}) => {
     }
 
     useEffect(() => {
-        if(deleteUser) {
+        if (deleteUser) {
             ;(async () => {
                 for (const userId of getGroupById(id).users) {
-                    if(userToDelete === getUserById(userId).username)
-                    await deleteMemberFromGroupQuery(id, Number(userId))
+                    if (userToDelete === getUserById(userId).username)
+                        await deleteMemberFromGroupQuery(id, Number(userId))
                 }
             })()
                 .catch(setError)
@@ -97,10 +98,10 @@ const GroupPage = ({setId,id, darkmode}) => {
     }, [deleteUser])
 
     useEffect(() => {
-        if(addUsers) {
+        if (addUsers) {
             ;(async () => {
-                const inviteeUsernames = usersToAdd.split(',').map(String)
-                for(const key of inviteeUsernames) {
+                const inviteeUsernames = usersToAdd.split(",").map(String)
+                for (const key of inviteeUsernames) {
                     const id = await userByUsernameQuery(key)
                     setIdsToAdd(oldArray => [...oldArray, id])
                 }
@@ -114,11 +115,11 @@ const GroupPage = ({setId,id, darkmode}) => {
     }, [addUsers])
 
     useEffect(() => {
-        if(addUsernames) {
+        if (addUsernames) {
             ;(async () => {
                 console.log(idsToAdd)
                 await addMemberToGroupQuery(id, {
-                    userIds: idsToAdd
+                    userIds: idsToAdd,
                 })
             })()
                 .catch(setError)
@@ -146,7 +147,7 @@ const GroupPage = ({setId,id, darkmode}) => {
                     await userQuery(userId)
                 }
                 await userQuery(getGroupById(id).owners[0])
-                if(getGroupById(id).owners[0] === user.id) {
+                if (getGroupById(id).owners[0] === user.id) {
                     setUserIsOwner(true)
                 }
             })()
@@ -163,14 +164,13 @@ const GroupPage = ({setId,id, darkmode}) => {
                 for (const eventId of getGroupById(id).events) {
                     await eventFromIdQuery(eventId)
                     //if(getEventById(eventId).type === "WORKOUT") {
-                        //setEventIsWorkout(true)
-                    }
-            //}
+                    //setEventIsWorkout(true)
+                }
+                //}
                 /*await eventFromIdQuery(getEventById(id).type)
                 if(getEventById(id).owners[0] === "WORKOUT") {
                     setEventIsWorkout(true)
                 }*/
-
             })()
                 .catch(setError)
                 .finally(() => {
@@ -199,7 +199,7 @@ const GroupPage = ({setId,id, darkmode}) => {
         if (eventQueried) {
             ;(async () => {
                 for (const eventId of getGroupById(id).events) {
-                    console.log(groupEvents)               
+                    console.log(groupEvents)
                     groupEvents.push(getEventById(eventId).title)
                     console.log(groupEvents)
                 }
@@ -212,8 +212,6 @@ const GroupPage = ({setId,id, darkmode}) => {
         }
     }, [eventQueried])
 
-
-
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <div className="group">
@@ -221,12 +219,20 @@ const GroupPage = ({setId,id, darkmode}) => {
                     className="tb"
                     showButtonNotification={false}
                     showButtonAdd={false}
+                    settingsOpen={settingsOpen}
+                    setSettingsOpen={setSettingsOpen}
                 />
+                {settingsOpen ? (
+                    <SettingsPage darkmode={darkmode} setS={setS} />
+                ) : (
+                    <></>
+                )}
                 {loading ? (
                     <div className="loading">
                         <span>LOADING</span>
                     </div>
                 ) : (
+
             <div className="middle">
                     <div className="middleHeader">
                     <h1>{getGroupById(id).tag}</h1>
@@ -296,19 +302,20 @@ const GroupPage = ({setId,id, darkmode}) => {
                                         >
                                             ADD
                                         </button>
+
                                     </div>
                                 </div>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     </div>
-                    ) : (<></>)}
+                )}
+                <div className="bottomBar">
+                    <BottomBar />
                 </div>
             </div>
-                )}
-            <div className="bottomBar">
-                <BottomBar />
-        </div> 
-    </div>
-</div>       
+        </div>
     )
 }
 

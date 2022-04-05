@@ -6,8 +6,8 @@ import {useGlobalContext} from "../../store"
 import GroupContainer from "./GroupContainer.js"
 import BackgroundImg from "../../img/wolf.png"
 import AddGroup from "./AddGroup.js"
-
-export default function GroupDashboardPage({setId, darkmode}) {
+import SettingsPage from "../SettingsPage"
+export default function GroupDashboardPage({setId, darkmode, setS}) {
     const {
         user,
         isLoggedIn,
@@ -16,6 +16,8 @@ export default function GroupDashboardPage({setId, darkmode}) {
         getGroupById,
         getUserById,
     } = useGlobalContext()
+
+    const [settingsOpen, setSettingsOpen] = useState()
 
     const [addOpen, setAddOpen] = useState(false)
     const [queried, setQueried] = useState(false)
@@ -62,20 +64,37 @@ export default function GroupDashboardPage({setId, darkmode}) {
             <div className="dashboard">
                 <TopButtons
                     className="tb"
+                    showButtonNotification={false}
+                    showButtonAdd={false}
+                    settingsOpen={settingsOpen}
+                    setSettingsOpen={setSettingsOpen}
+                />
+                {settingsOpen ? (
+                    <SettingsPage darkmode={darkmode} setS={setS} />
+                ) : (
+                    <></>
+                )}
+                <AddGroup
                     addOpen={addOpen}
                     setAddOpen={setAddOpen}
-                    showButtonNotification={false}
-                    showButtonAdd={true}
+                    darkmode={darkmode}
                 />
-                <AddGroup addOpen={addOpen} setAddOpen={setAddOpen} darkmode={darkmode}/>
                 <div className="listWrapper">
                     <div className="spacer">
                         <img src={BackgroundImg} alt="Wolf" />
                     </div>
-                    <div className={"backgroundCell " + (darkmode ? "light" : "dark")}>
+                    <div
+                        className={
+                            "backgroundCell " + (darkmode ? "light" : "dark")
+                        }
+                    >
                         <div className="cellTwo"></div>
                     </div>
-                    <div className={"middleSpacer " + (darkmode ? "light" : "dark")}>
+                    <div
+                        className={
+                            "middleSpacer " + (darkmode ? "light" : "dark")
+                        }
+                    >
                         <label>Current Groups</label>
                         {loading ? (
                             <div className="loading">
