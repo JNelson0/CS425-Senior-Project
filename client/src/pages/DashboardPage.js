@@ -135,6 +135,7 @@ export default function DashboardPage({setId, darkmode}) {
                     showButtonAdd={true}
                     showButtonDeleteEvent={false}
                     setEventId={setEventId}
+                    closeDashboard={eventId ? true : false}
                 />
                 <div className="dashboardContent">
                     <div
