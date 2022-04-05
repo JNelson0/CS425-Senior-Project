@@ -6,7 +6,15 @@ import CloseIcon from "@mui/icons-material/Close"
 import "./SetBoxes.scss"
 import {useGlobalContext} from "../../store"
 
-export default function ExerciseContainer({type, name, sets, reps, id}) {
+export default function ExerciseContainer({
+    type,
+    name,
+    sets,
+    reps,
+    id,
+    activeId,
+    setActiveId,
+}) {
     const [active, setActive] = useState(false)
     const [numbers, setNumbers] = useState(new Array(parseInt(sets)))
     const [responseSubmit, setResponseSubmit] = useState(false)
@@ -14,6 +22,14 @@ export default function ExerciseContainer({type, name, sets, reps, id}) {
 
     const [popup, setPopup] = useState(false)
     const {createExerciseResponseQuery, getExerciseById} = useGlobalContext()
+
+    useEffect(() => {
+        if (activeId === id) {
+            setActive(true)
+        } else {
+            setActive(false)
+        }
+    }, [activeId])
 
     const handleChange = e => {
         setNumbers({
@@ -59,6 +75,7 @@ export default function ExerciseContainer({type, name, sets, reps, id}) {
     const handleSubmit = e => {
         e.preventDefault()
         checkInputs() ? setResponseSubmit(true) : setPopup(true)
+        setActiveId()
     }
 
     if (error) {
@@ -86,6 +103,7 @@ export default function ExerciseContainer({type, name, sets, reps, id}) {
                             className="arrow"
                             onClick={() => {
                                 setActive(!active)
+                                setActiveId(id)
                             }}
                         >
                             <img
@@ -146,6 +164,7 @@ export default function ExerciseContainer({type, name, sets, reps, id}) {
                             className="arrow"
                             onClick={() => {
                                 setActive(!active)
+                                setActiveId(id)
                             }}
                         >
                             <img
