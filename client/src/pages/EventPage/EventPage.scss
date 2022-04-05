@@ -1,6 +1,7 @@
 @import "../../theme.scss";
 
 .eventPage {
+    font-family: 'Roboto', sans-serif;
     display: flex;
     height: 75vh;
     width: 100%;
@@ -41,20 +42,20 @@
             position: absolute;
             top: 14vh;
             right: 4vh;
-            width: 100px;
+            width: 80px;
             height: 80px;
-            background-color: crimson;
-            border-radius: 15px;
-            border: solid 1px black;
-            color: $light-background;
-            transition: all 0.4s ease;
+            background-color: rgb(170, 15, 46);
+            border-radius: 40px;
+            border: solid 0px black;
+            color: white;
+            transition: all 0.2s ease;
             cursor: pointer;
             &:hover {
-                color: crimson;
-                background-color: $light-background;
+                background-color: crimson;
             }
         }
         .event {
+            font-family: 'Roboto', sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -66,12 +67,14 @@
             }
 
             h1 {
+                font-weight: 400;
                 margin: 5px;
                 padding: 5px;
                 font-size: 40px;
                 border-bottom: 2px solid black;
             }
             h2 {
+                font-weight: 300;
                 margin: 5px;
 
                 font-size: 30px;
