@@ -3,7 +3,6 @@ import "./CalendarPage.scss"
 import TopButtons from "./PageOverlay/TopButtons.js"
 import {useGlobalContext} from "../store"
 
-
 import {
     ScheduleComponent,
     Day,
@@ -15,7 +14,7 @@ import {
     ViewsDirective,
     ViewDirective,
 } from "@syncfusion/ej2-react-schedule"
-import { id } from "date-fns/locale"
+import {id} from "date-fns/locale"
 
 const CalendarPage = ({darkmode}) => {
     const {
@@ -68,7 +67,6 @@ const CalendarPage = ({darkmode}) => {
         }
     }, [IDToDelete])
 
-    
     const [eventToAdd, setEventToAdd] = useState(undefined)
     useEffect(() => {
         if (eventToAdd !== undefined) {
@@ -77,7 +75,7 @@ const CalendarPage = ({darkmode}) => {
                 await createEventQuery(eventToAdd)
             })()
                 .catch(setError)
-                .finally(() => {              
+                .finally(() => {
                     setEventToAdd(undefined)
                 })
         }
@@ -121,7 +119,7 @@ const CalendarPage = ({darkmode}) => {
                 <TopButtons
                     className="tb"
                     showButtonNotification={false}
-                    showButtonAdd={true}
+                    showButtonAdd={false}
                 />
                 <div className="middle">
                     {loading ? (

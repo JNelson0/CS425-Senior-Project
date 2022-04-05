@@ -32,7 +32,10 @@ export default function SettingsToggles({toggle, setS}) {
   const [redirectTo, setRedirectTo] = useState()
 
   const [error, setError] = useState()
-  const {logoutUser} = useGlobalContext()
+  const {
+    logoutUser,
+    generateGoogleTokensQuery,
+  } = useGlobalContext()
   const [logout, setLogout] = useState(false)
   const [toggle_state, setState] = useState({
     //default states
@@ -65,7 +68,7 @@ export default function SettingsToggles({toggle, setS}) {
   };
 
   const responseGoogle = response => {
-    console.log(response)
+    generateGoogleTokensQuery(response)
   }
     
   const handleLogout = (event) => {
@@ -116,16 +119,28 @@ export default function SettingsToggles({toggle, setS}) {
                 }
                 label="setting2"
                 /> */}
-              <label>Connections</label>
-              <div className="googleLogin">
-                <GoogleLogin 
-                  clientId={String(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
-                  buttonText="Google Login"
-                  onSuccess={responseGoogle}
-                  onFailure={responseGoogle}
-                  cookiePolicy={'single_host_origin'}
-                />
-              </div>
+
+//               <label>Connections</label>
+//               <div className="googleLogin">
+//                 <GoogleLogin 
+//                   clientId={String(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
+//                   buttonText="Google Login"
+//                   onSuccess={responseGoogle}
+//                   onFailure={responseGoogle}
+//                   cookiePolicy={'single_host_origin'}
+//                 />
+//               </div>
+
+              <GoogleLogin 
+                clientId={String(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
+                buttonText="Login"
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                cookiePolicy={'single_host_origin'}
+                accessType="offline"
+                responseType="code"
+                scope="https://www.googleapis.com/auth/calendar"
+              />
             </FormGroup>
         </FormControl>
 

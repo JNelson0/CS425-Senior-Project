@@ -18,9 +18,9 @@ export default function TopButtons({
     showButtonDeleteEvent,
     setDeleteEvent,
     setEventId,
+    closeDashboard,
 }) {
     const [bellOpen, setBellOpen] = useState(false)
-
     return (
         <div className="topWrapper">
             <div className="settingsHomeWrapper">
@@ -29,15 +29,16 @@ export default function TopButtons({
                         <SettingsIcon sx={{fontSize: 33}} />
                     </Link>
                 </Tooltip>
-
                 <Tooltip title="Home" enterDelay={500} placement="bottom">
-                    <Link
-                        to="/dashboard"
-                        id="home"
-                        // onClick={() => setEventId()}
-                    >
-                        <HomeIcon sx={{fontSize: 35}} />
-                    </Link>
+                    {closeDashboard ? (
+                        <div id="home" onClick={() => setEventId()}>
+                            <HomeIcon sx={{fontSize: 35}} />
+                        </div>
+                    ) : (
+                        <Link to="/dashboard" id="home">
+                            <HomeIcon sx={{fontSize: 35}} />
+                        </Link>
+                    )}
                 </Tooltip>
             </div>
 

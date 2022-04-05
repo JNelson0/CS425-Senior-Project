@@ -129,7 +129,6 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
     }
 
     return (
-        
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <div className={"add-event " + (addOpen && "active")}>
                 <div className="top">
@@ -143,21 +142,20 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
                     >
                         <button
                             className={
-                                "button "
-                                + (darkmode ? "light" : "dark")
-                                + (detailButtonActive ? " active" : "") 
+                                "button " +
+                                (darkmode ? "light" : "dark") +
+                                (detailButtonActive ? " active" : "")
                             }
                             onClick={handleButton1}
                         >
                             DETAILS
                         </button>
-                        {console.log("detail" + detailButtonActive)}
-                        {console.log("workout" + workoutButtonActive)}
+
                         <button
                             className={
-                                "button "
-                                + (darkmode ? "light" : "dark")
-                                + (workoutButtonActive ? " active" : "") 
+                                "button " +
+                                (darkmode ? "light" : "dark") +
+                                (workoutButtonActive ? " active" : "")
                             }
                             onClick={handleButton2}
                         >
@@ -194,8 +192,16 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
                     )}
                 </div>
                 <div className="bottom">
-                    <div className={"buttonWrapper " + (darkmode ? "light" : "dark")}>
-                        <button type="reset" onClick={resetInput} fontWeight="bold">
+                    <div
+                        className={
+                            "buttonWrapper " + (darkmode ? "light" : "dark")
+                        }
+                    >
+                        <button
+                            type="reset"
+                            onClick={resetInput}
+                            fontWeight="bold"
+                        >
                             CLEAR
                         </button>
                         <button type="submit" onClick={handleSubmit}>

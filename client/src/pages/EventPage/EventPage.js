@@ -4,12 +4,14 @@ import BottomBar from "../PageOverlay/BottomBar.js"
 import TopButtons from "../PageOverlay/TopButtons.js"
 import ExerciseContainer from "./ExerciseContainer"
 import BackgroundImg from "../../img/wolf.png"
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
 
 import {useGlobalContext} from "../../store"
 import {Navigate} from "react-router"
 
-const EventPage = ({id, darkmode, topbar, bottombar}) => {
+const EventPage = ({index, id, darkmode, topbar, bottombar, setIDToDelete}) => {
     const {
+        user,
         getEventById,
         getExerciseById,
         getExercisesFromEventIdQuery,
@@ -18,22 +20,33 @@ const EventPage = ({id, darkmode, topbar, bottombar}) => {
         getUserById,
         userQuery,
         deleteEventQuery,
+        checkUserGoogleTokenQuery,
     } = useGlobalContext()
 
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState()
 
+    const [activeId, setActiveId] = useState()
+
+    const [googleConnected, setGoogleConnected] = useState()
+
     const handleAddToGoogle = () => {
+        console.log("adding to google")
         createGoogleEventQuery({
             summary: getEventById(id).title,
             description: getEventById(id).description,
-            startTime: getEventById(id).start.slice(0, -5),
-            endTime: getEventById(id).finish.slice(0, -5),
+            startTime: getEventById(id).start,
+            endTime: getEventById(id).finish,
         })
     }
 
     useEffect(() => {
         ;(async () => {
+            const checkConnected = async () => {
+                const data = await checkUserGoogleTokenQuery()
+                setGoogleConnected(data)
+            }
+            checkConnected()
             await eventFromIdQuery(id)
             await getExercisesFromEventIdQuery(id)
             await userQuery(getEventById(id).owners[0])
@@ -41,15 +54,17 @@ const EventPage = ({id, darkmode, topbar, bottombar}) => {
             .catch(setError)
 
             .finally(() => {
+                console.log(googleConnected)
                 setLoading(false)
             })
     }, [id])
 
-    const [deleteEvent, setDeleteEvent] = useState(false)
+    const [deleteEvent, setDeleteEvent] = useState()
     useEffect(() => {
         if (deleteEvent) {
             ;(async () => {
-                await deleteEventQuery(id)
+                console.log(index)
+                setIDToDelete({index, deleteEvent})
             })().catch(setError)
         }
     }, [deleteEvent])
@@ -141,6 +156,19 @@ const EventPage = ({id, darkmode, topbar, bottombar}) => {
                                         : "event"
                                 }
                             >
+                                {eventOwner.id === user.id ? (
+                                    <button
+                                        className="deleteEvent"
+                                        onClick={() => setDeleteEvent(id)}
+                                    >
+                                        <DeleteForeverIcon
+                                            sx={{fontSize: 35}}
+                                        />{" "}
+                                    </button>
+                                ) : (
+                                    <></>
+                                )}
+
                                 <h1>{event.title}</h1>
                                 <h2>{event.description}</h2>
                                 {startDate === finishDate ? (
@@ -174,6 +202,8 @@ const EventPage = ({id, darkmode, topbar, bottombar}) => {
                                                 name={exercise.name}
                                                 sets={exercise.sets}
                                                 reps={exercise.reps}
+                                                activeId={activeId}
+                                                setActiveId={setActiveId}
                                             />
                                         ))
                                     ) : (
@@ -183,9 +213,13 @@ const EventPage = ({id, darkmode, topbar, bottombar}) => {
                             ) : (
                                 <></>
                             )}
-                            <button onClick={handleAddToGoogle}>
-                                Add To Google
-                            </button>
+                            {googleConnected ? (
+                                <button onClick={handleAddToGoogle}>
+                                    Add To Google
+                                </button>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     )}
 

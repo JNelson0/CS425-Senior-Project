@@ -37,6 +37,23 @@
         flex-direction: column;
         width: 100%;
         height: 100%;
+        .deleteEvent {
+            position: absolute;
+            top: 14vh;
+            right: 4vh;
+            width: 100px;
+            height: 80px;
+            background-color: crimson;
+            border-radius: 15px;
+            border: solid 1px black;
+            color: $light-background;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            &:hover {
+                color: crimson;
+                background-color: $light-background;
+            }
+        }
         .event {
             display: flex;
             align-items: center;

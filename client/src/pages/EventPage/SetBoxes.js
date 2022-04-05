@@ -13,7 +13,7 @@ export default function SetBoxes({
 }) {
     const {getExerciseResponseById, getExerciseResponseFromExerciseIdQuery} =
         useGlobalContext()
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [error, setError] = useState()
     useEffect(() => {
         ;(async () => {
@@ -26,10 +26,9 @@ export default function SetBoxes({
     if (error) {
         return <>{error}</>
     }
-
     const responseData = getExerciseResponseById(responses)
 
-    if (responseData) {
+    if (responseData !== undefined) {
         const weightResponses = responseData[0]
         weightResponses ? setButtonVisible(false) : setButtonVisible(true)
         return (
@@ -38,9 +37,11 @@ export default function SetBoxes({
                     <div className="index">Set {index + 1}</div>
                     {weightResponses && !responseSubmit ? (
                         <div className="responseNumbers">
-                            {weightResponses.weights
-                                ? weightResponses.weights[index]
-                                : numbers[index]}
+                            {weightResponses.weights ? (
+                                weightResponses.weights[index]
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     ) : (
                         <input
@@ -50,6 +51,7 @@ export default function SetBoxes({
                                     : numbers[index]
                             }
                             type="number"
+                            min="1"
                             name="set"
                             id={index}
                             placeholder="Enter Weight"

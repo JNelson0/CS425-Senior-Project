@@ -16,6 +16,7 @@ export default function DashboardPage({setId, darkmode}) {
         currentUserEventQuery,
         currentUserQuery,
         getEventById,
+        deleteEventQuery,
     } = useGlobalContext()
 
     const [eventId, setEventId] = useState()
@@ -103,6 +104,22 @@ export default function DashboardPage({setId, darkmode}) {
         }
     }, [sorting])
 
+    const [IDToDelete, setIDToDelete] = useState(undefined)
+
+    useEffect(() => {
+        if (IDToDelete !== undefined) {
+            ;(async () => {
+                setEventId()
+                let removed = display.splice(IDToDelete.index, 1)
+                await deleteEventQuery(IDToDelete.deleteEvent)
+            })()
+                .catch(setError)
+                .finally(() => {
+                    setIDToDelete(undefined)
+                })
+        }
+    }, [IDToDelete])
+
     if (error) {
         return <>Error : {String(error)}</>
     }
@@ -118,6 +135,7 @@ export default function DashboardPage({setId, darkmode}) {
                     showButtonAdd={true}
                     showButtonDeleteEvent={false}
                     setEventId={setEventId}
+                    closeDashboard={eventId ? true : false}
                 />
                 <div className="dashboardContent">
                     <div
@@ -125,7 +143,11 @@ export default function DashboardPage({setId, darkmode}) {
                             eventId ? "dashboardLeft active" : "dashboardLeft"
                         }
                     >
-                  <AddEvent addOpen={addOpen} setAddOpen={setAddOpen} darkmode={darkmode}/>
+                        <AddEvent
+                            addOpen={addOpen}
+                            setAddOpen={setAddOpen}
+                            darkmode={darkmode}
+                        />
                         <div className="listWrapper">
                             <div className="spacer">
                                 <img src={BackgroundImg} alt="Wolf" />
@@ -143,9 +165,10 @@ export default function DashboardPage({setId, darkmode}) {
                                     </div>
                                 ) : (
                                     <div className="eventList">
-                                        {display.map(el => (
+                                        {display.map((el, index) => (
                                             <EventContainer
-                                                key={getEventById(el.id).id}
+                                                index={index}
+                                                key={index}
                                                 setId={setId}
                                                 id={getEventById(el.id).id}
                                                 name={getEventById(el.id).title}
@@ -176,10 +199,12 @@ export default function DashboardPage({setId, darkmode}) {
                     >
                         {eventId ? (
                             <EventPage
-                                id={eventId}
+                                id={eventId.id}
+                                index={eventId.index}
                                 darkmode={darkmode}
                                 topbar={false}
                                 bottombar={false}
+                                setIDToDelete={setIDToDelete}
                             />
                         ) : (
                             <></>

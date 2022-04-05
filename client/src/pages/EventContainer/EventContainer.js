@@ -5,6 +5,8 @@ import {useGlobalContext} from "../../store"
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
 
 export default function EventContainer({
+    index,
+    key,
     id,
     setId,
     name,
@@ -18,7 +20,6 @@ export default function EventContainer({
     const handleEventDelete = () => {
         deleteEventQuery(id)
     }
-
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <div className="eventbuttonWrapper">
@@ -27,7 +28,10 @@ export default function EventContainer({
                     className="eventbutton"
                     onClick={() => setId(id)}
                 > */}
-                <div className="eventButton" onClick={() => setEventId(id)}>
+                <div
+                    className="eventButton"
+                    onClick={() => setEventId({index, id})}
+                >
                     {/* <span>{id}</span> */}
                     <div className="wrapper">
                         <span>{name}</span>
