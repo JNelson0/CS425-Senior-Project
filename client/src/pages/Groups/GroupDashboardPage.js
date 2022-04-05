@@ -72,13 +72,17 @@ export default function GroupDashboardPage({setId, darkmode}) {
                     <div className="spacer">
                         <img src={BackgroundImg} alt="Wolf" />
                     </div>
-                    <div className="middleSpacer">
+                    <div className="backgroundCell">
+                        <div className="cellTwo"></div>
+                    </div>
+                    <div className={"middleSpacer " + (darkmode ? "light" : "dark")}>
+                        <label>Current Groups</label>
                         {loading ? (
                             <div className="loading">
                                 <span>LOADING</span>
                             </div>
                         ) : (
-                            <ul>
+                            <div className="groupList">
                                 {display.map(el => (
                                     <GroupContainer
                                         setId={setId}
@@ -87,7 +91,7 @@ export default function GroupDashboardPage({setId, darkmode}) {
                                         darkmode={darkmode}
                                     />
                                 ))}
-                            </ul>
+                            </div>
                         )}
                     </div>
                     <div className="spacer">

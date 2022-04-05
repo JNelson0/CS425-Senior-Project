@@ -91,10 +91,11 @@ export default function AddGroup({addOpen, setAddOpen, darkmode}) {
                         addOpen={addOpen}
                         groupDetails={groupDetails}
                         setGroupDetails={setGroupDetails}
+                        darkmode={darkmode}
                     />
                 </div>
                 <div className="bottom">
-                    <div className="buttonWrapper">
+                    <div className={"buttonWrapper " + (darkmode ? "light" : "dark")}>
                         <button type="reset" onClick={resetInput}>
                             Clear
                         </button>

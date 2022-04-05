@@ -75,7 +75,7 @@ $wolfIMG: "../img/wolf.png";
                         border-radius: 45px;
                         font-size: 82px;
                         font-weight: 500;
-                        color: #0F1D41;
+                        color: $wolf-color;
                         -webkit-text-stroke-width: 1.5px;
                         -webkit-text-stroke-color: #ffffff;
                     }
