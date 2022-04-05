@@ -15,47 +15,39 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: all 0.9s ease;
+    font-size: 30px;
+    font-weight: 400;
+
     .button.light {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        button {
-            width: 120px;
-            height: 40px;
-            font-weight: 500;
-            font-size: large;
-            border-radius: 6px;
-            color: $nevada-white;
-            background-color: $button-blue;
-            border: $button-blue-lighter 1px solid;
-            transition: all 0.25s ease;
-            margin: 0px 5px 0px 5px;
-            &:hover {
-                background-color: #2976ce;
-                box-shadow: 0 2px 1px rgb(196, 196, 196);
-            }
+        width: 120px;
+        height: 40px;
+        font-weight: 500;
+        font-size: large;
+        border-radius: 6px;
+        color: $nevada-white;
+        background-color: $button-blue;
+        border: $button-blue-lighter 1px solid;
+        transition: all 0.25s ease;
+        margin: 15px 5px 0px 5px;
+        &:hover {
+            background-color: #2976ce;
+            box-shadow: 0 2px 1px rgb(196, 196, 196);
         }
     }
     .button.dark {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        button {
-            width: 120px;
-            height: 40px;
-            font-weight: 500;
-            font-size: large;
-            border-radius: 6px;
-            color: $nevada-white;
-            background-color: $button-blue;
-            border: $button-blue-lighter 1px solid;
-            transition: all 0.25s ease;
-            margin: 0px 5px 0px 5px;
-            &:hover {
-                background-color: #246ec2;
-                box-shadow: 0 2px 1px rgb(56, 56, 56);
-            }
+        width: 120px;
+        height: 40px;
+        font-weight: 500;
+        font-size: large;
+        border-radius: 6px;
+        color: $nevada-white;
+        background-color: $button-blue;
+        border: $button-blue-lighter 1px solid;
+        transition: all 0.25s ease;
+        margin: 0px 5px 0px 5px;
+        &:hover {
+            background-color: #246ec2;
+            box-shadow: 0 2px 1px rgb(56, 56, 56);
         }
     }
 }

@@ -150,7 +150,7 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
                 <div className="popup">
                     Please enter all information before submitting
                     <button
-                        className={"button" + (darkmode ? "light" : "dark")}
+                        className={"button " + (darkmode ? "light" : "dark")}
                         onClick={() => setPopup(false)}
                     >
                         Edit
