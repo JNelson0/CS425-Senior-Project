@@ -5,6 +5,8 @@ import SetBoxes from "./SetBoxes"
 import CloseIcon from "@mui/icons-material/Close"
 import "./SetBoxes.scss"
 import {useGlobalContext} from "../../store"
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBox from "@mui/icons-material/CheckBox"
 
 export default function ExerciseContainer({
     type,
@@ -145,15 +147,16 @@ export default function ExerciseContainer({
                                             ),
                                         )}
 
-                                        <button
-                                            className={
-                                                buttonVisible ? "" : "active"
-                                            }
-                                            type="submit"
-                                            onClick={handleSubmit}
-                                        >
-                                            Submit
-                                        </button>
+                                        
+                                            <CheckBox 
+                                                className={
+                                                    buttonVisible ? "" : "active"
+                                                }
+                                                type="submit"
+                                                onClick={handleSubmit}
+                                                sx={{fontSize: 45, color:"green"}} 
+                                            />
+                                        
                                     </form>
                                 </div>
                             ) : (
