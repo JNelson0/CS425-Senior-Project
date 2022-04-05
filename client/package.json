@@ -23,7 +23,6 @@
     "dayjs": "^1.10.7",
     "dotenv": "16.0.0",
     "luxon": "^2.1.1",
-    "material-ui-icons": "^1.0.0-beta.36",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.34",
     "prisma": "^3.5.0",

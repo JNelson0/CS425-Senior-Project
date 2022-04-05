@@ -5,7 +5,7 @@ import TopButtons from "../PageOverlay/TopButtons.js"
 import {useGlobalContext} from "../../store"
 import {useNavigate} from "react-router-dom"
 import EventContainer from "../EventContainer/EventContainer.js"
-import DownloadIcon from '@mui/icons-material/Download';
+
 
 const GroupPage = ({setId,id, darkmode}) => {
     const {
@@ -31,13 +31,12 @@ const GroupPage = ({setId,id, darkmode}) => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState()
     const [display, setDisplay] = useState([])
-    const [displayEvents, setDisplayEvents] = useState([])
     const [queried, setQueried] = useState(false)
     const [userQueried, setUserQueried] = useState(false)
     const [eventQueried, setEventQueried] = useState(false)
     const [owner, setOwner] = useState()
     const [userIsOwner, setUserIsOwner] = useState(false)
-    const [eventIsWorkout, setEventIsWorkout] = useState(false)
+
     const [userToDelete, setUserToDelete] = useState("")
     const [userIdToDelete, setUserIdToDelete] = useState()
     const [deleteUser, setDeleteUser] = useState(false)
@@ -158,28 +157,6 @@ const GroupPage = ({setId,id, darkmode}) => {
     }, [queried])
 
     useEffect(() => {
-        if (queried) {
-            ;(async () => {
-                for (const eventId of getGroupById(id).events) {
-                    await eventFromIdQuery(eventId)
-                    //if(getEventById(eventId).type === "WORKOUT") {
-                        //setEventIsWorkout(true)
-                    }
-            //}
-                /*await eventFromIdQuery(getEventById(id).type)
-                if(getEventById(id).owners[0] === "WORKOUT") {
-                    setEventIsWorkout(true)
-                }*/
-
-            })()
-                .catch(setError)
-                .finally(() => {
-                    setEventQueried(true)
-                })
-        }
-    }, [queried])
-
-    useEffect(() => {
         if (userQueried) {
             ;(async () => {
                 for (const userId of getGroupById(id).users) {
@@ -195,22 +172,24 @@ const GroupPage = ({setId,id, darkmode}) => {
         }
     }, [userQueried])
 
-    useEffect(() => {
-        if (eventQueried) {
-            ;(async () => {
-                for (const eventId of getGroupById(id).events) {
-                    console.log(groupEvents)               
-                    groupEvents.push(getEventById(eventId).title)
-                    console.log(groupEvents)
-                }
-            })()
-                .catch(setError)
-                .finally(() => {
-                    setDisplayEvents([...groupEvents])
-                    setLoading(false)
-                })
+    useEffect(()=>{
+        if(eventQueried){
+        ;(async ()=> {
+        console.log(groupState)
+        for (const eventId of getGroupById(id).events) {
+            groupEvents.push(getUserById(eventId).events)
+
+            }
+
+        })()
+        .catch(setError)
+        .finally(() => {
+            setDisplay([...groupEvents])
+            setLoading(false)
+            })
         }
-    }, [eventQueried])
+    },[eventQueried])
+
 
 
 
@@ -249,15 +228,13 @@ const GroupPage = ({setId,id, darkmode}) => {
                         </div>
                         <div className="groupEvents">
                             <h1>Group Events: </h1>
+                            {
+                            console.log(getEventById(5))
+                            }
                             <ul>
-                            {displayEvents.map(el => (
-                                    <li>{el}{userIsOwner ? (<button>
-                                        <DownloadIcon>
-                                            
-                                        </DownloadIcon>
-                                    </button>
-                                    ):(<></>)}</li>
-                                ))}                         
+                                    <li>
+                                     {getEventById(5).title} {getEventById(5).start}
+                                    </li>                         
                             </ul>
                      
                         </div>
