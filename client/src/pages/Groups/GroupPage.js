@@ -233,15 +233,16 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
                     </div>
                 ) : (
 
-            <div className="middle">
+                <div className="middle">
                     <div className="middleHeader">
-                    <h1>{getGroupById(id).tag}</h1>
-                    {userIsOwner ? (
-                    <button onClick={handleDeleteEvent}>
-                        DELETE GROUP
-                    </button>
-                ) :<></>}
+                        <h1>{getGroupById(id).tag}</h1>
+                        {userIsOwner ? (
+                        <button onClick={handleDeleteEvent}>
+                            DELETE GROUP
+                        </button>
+                    ) :<></>}
                     </div>
+
                     <div className="middleWrapper">
                         <div className="groupName">
                             <h2>Owner:</h2>
@@ -267,9 +268,9 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
                             </ul>
                      
                         </div>
-                    {userIsOwner ? (
+                        {userIsOwner ? (
                         <div className="groupDetails">
-                        <div className="form">
+                            <div className="form">
                                 <div className="list">
                                     <div>
                                         <label>Remove User</label>
@@ -305,17 +306,21 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
 
                                     </div>
                                 </div>
+                            </div>
+                        </div>
                             ) : (
                                 <></>
                             )}
-                        </div>
                     </div>
+                </div>//middle
                 )}
+
                 <div className="bottomBar">
                     <BottomBar />
                 </div>
-            </div>
-        </div>
+       </div>
+       </div>       
+            
     )
 }
 
