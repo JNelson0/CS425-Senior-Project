@@ -13,6 +13,7 @@ export default function AddGroup({addOpen, setAddOpen, darkmode}) {
         user,  
         createGroupQuery,
         addMemberToGroupQuery,
+        userByUsernameQuery,
     } = useGlobalContext()
 
     const [groupDetails, setGroupDetails] = useState({
@@ -38,6 +39,7 @@ export default function AddGroup({addOpen, setAddOpen, darkmode}) {
     const [error, setError] = useState()
     const [addGroup, setAddGroup] = useState(false)
     const [addUserToGroup, setAddUserToGroup] = useState(false)
+    const [idsToAdd, setIdsToAdd] = useState([])
 
     useEffect(() => {
         if (addGroup) {
@@ -47,7 +49,10 @@ export default function AddGroup({addOpen, setAddOpen, darkmode}) {
                 })
                 id = parseInt(groupId, 10)
                 invitees = groupDetails.usernameCSV.split(',')
-                inviteeIds = invitees.map(Number)
+                for(const key of invitees) {
+                    const id = await userByUsernameQuery(key)
+                    setIdsToAdd(oldArray => [...oldArray, id])
+                }
             })()
                 .catch(setError)
                 .finally(() => {
@@ -62,7 +67,7 @@ export default function AddGroup({addOpen, setAddOpen, darkmode}) {
             ;(async () => {
                 console.log(id)
                 await addMemberToGroupQuery(id, {
-                    userIds: inviteeIds
+                    userIds: idsToAdd
                })
             })()
                 .catch(setError)
