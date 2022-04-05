@@ -31,7 +31,10 @@ export default function SettingsToggles({toggle, setS}) {
   const [redirectTo, setRedirectTo] = useState()
 
   const [error, setError] = useState()
-  const {logoutUser} = useGlobalContext()
+  const {
+    logoutUser,
+    generateGoogleTokensQuery,
+  } = useGlobalContext()
   const [logout, setLogout] = useState(false)
   const [toggle_state, setState] = useState({
     //default states
@@ -64,7 +67,7 @@ export default function SettingsToggles({toggle, setS}) {
   };
 
   const responseGoogle = response => {
-    console.log(response)
+    generateGoogleTokensQuery(response)
   }
     
   const handleLogout = (event) => {
@@ -121,6 +124,9 @@ export default function SettingsToggles({toggle, setS}) {
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
                 cookiePolicy={'single_host_origin'}
+                accessType="offline"
+                responseType="code"
+                scope="https://www.googleapis.com/auth/calendar"
               />
             </FormGroup>
         </FormControl>

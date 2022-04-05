@@ -133,7 +133,7 @@ function useGlobal() {
 
     // GET /users/:username
     async function userByUsernameQuery(username) {
-        const data = await request(`/users/${username}`, {
+        const data = await request(`/users/user/${username}`, {
             credentials: "same-origin",
         })
         setUserData(data.id, data)
@@ -518,6 +518,20 @@ function useGlobal() {
         )
     }
 
+    // POST /googleapi/generate-auth-token
+    async function generateGoogleTokensQuery(options) {
+        await request(
+            `/googleapi/generate-auth-token`,
+            standardJsonInit("POST", options),
+        )
+    }
+
+    // Check for google auth token
+    async function checkUserGoogleTokenQuery() {
+        const tokenExists = await request(`/googleapi/check-usertokens`, {credentials: "same-origin"})
+        return tokenExists
+    }
+
     const currentUser = userState.currentUserId
         ? getUserById(userState.currentUserId)
         : undefined
@@ -583,6 +597,8 @@ function useGlobal() {
 
         //Google Queries
         createGoogleEventQuery,
+        generateGoogleTokensQuery,
+        checkUserGoogleTokenQuery,
     }
 }
 const [GlobalProvider, useGlobalContext] = constate(useGlobal)
