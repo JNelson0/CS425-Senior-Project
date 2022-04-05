@@ -9,7 +9,7 @@ export default function GroupContainer({id, setId, name, darkmode}) {
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
-            <div className="container">
+            <div className={"container " + (darkmode ? "light" : "dark")}>
                 <li className="groupbuttonWrapper">
                     <Link
                         to={"/groups" + id}

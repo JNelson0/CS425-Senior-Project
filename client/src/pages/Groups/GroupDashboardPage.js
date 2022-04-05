@@ -72,7 +72,7 @@ export default function GroupDashboardPage({setId, darkmode}) {
                     <div className="spacer">
                         <img src={BackgroundImg} alt="Wolf" />
                     </div>
-                    <div className="backgroundCell">
+                    <div className={"backgroundCell " + (darkmode ? "light" : "dark")}>
                         <div className="cellTwo"></div>
                     </div>
                     <div className={"middleSpacer " + (darkmode ? "light" : "dark")}>

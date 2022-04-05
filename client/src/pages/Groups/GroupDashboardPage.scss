@@ -29,9 +29,15 @@ $wolfIMG: "../img/wolf.png";
             position: fixed;
             height: 54%;
             width: 30%;
-            background-color: rgb(223, 223, 223);
             border-radius: 10px;
-            border: $dark-background 2px solid;
+            &.light{
+                background: rgb(223, 223, 223);
+                border: $dark-background 2px solid;
+            }
+            &.dark{
+                background: rgb(46, 46, 46);
+                border: rgb(121, 121, 121) 2px solid;
+            }
             .cellTwo{
                 position: fixed;
                 height: 9%;
