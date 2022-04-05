@@ -4,14 +4,18 @@ import BottomBar from "../PageOverlay/BottomBar.js"
 import TopButtons from "../PageOverlay/TopButtons.js"
 import {useGlobalContext} from "../../store"
 import {useNavigate} from "react-router-dom"
+import EventContainer from "../EventContainer/EventContainer.js"
+import DownloadIcon from '@mui/icons-material/Download';
 
-
-const GroupPage = ({id, darkmode}) => {
+const GroupPage = ({setId,id, darkmode}) => {
     const {
         user,
         userState,
         isLoggedIn,
         userQuery,
+        eventFromIdQuery,
+        eventState,
+        groupState,
         userByUsernameQuery,
         currentUserQuery,
         addMemberToGroupQuery,
@@ -19,17 +23,21 @@ const GroupPage = ({id, darkmode}) => {
         getUserById,
         getGroupById,
         getGroupIdQuery,
+        getEventById,
+        createEventInviteeQuery,
         deleteGroupQuery,
     } = useGlobalContext()
 
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState()
     const [display, setDisplay] = useState([])
+    const [displayEvents, setDisplayEvents] = useState([])
     const [queried, setQueried] = useState(false)
     const [userQueried, setUserQueried] = useState(false)
+    const [eventQueried, setEventQueried] = useState(false)
     const [owner, setOwner] = useState()
     const [userIsOwner, setUserIsOwner] = useState(false)
-
+    const [eventIsWorkout, setEventIsWorkout] = useState(false)
     const [userToDelete, setUserToDelete] = useState("")
     const [userIdToDelete, setUserIdToDelete] = useState()
     const [deleteUser, setDeleteUser] = useState(false)
@@ -38,6 +46,7 @@ const GroupPage = ({id, darkmode}) => {
     const [addUsernames, setAddUsernames] = useState(false)
     const [idsToAdd, setIdsToAdd] = useState([])
     let groupUsers = []
+    let groupEvents = []
 
     let navigate = useNavigate()
 
@@ -149,6 +158,28 @@ const GroupPage = ({id, darkmode}) => {
     }, [queried])
 
     useEffect(() => {
+        if (queried) {
+            ;(async () => {
+                for (const eventId of getGroupById(id).events) {
+                    await eventFromIdQuery(eventId)
+                    //if(getEventById(eventId).type === "WORKOUT") {
+                        //setEventIsWorkout(true)
+                    }
+            //}
+                /*await eventFromIdQuery(getEventById(id).type)
+                if(getEventById(id).owners[0] === "WORKOUT") {
+                    setEventIsWorkout(true)
+                }*/
+
+            })()
+                .catch(setError)
+                .finally(() => {
+                    setEventQueried(true)
+                })
+        }
+    }, [queried])
+
+    useEffect(() => {
         if (userQueried) {
             ;(async () => {
                 for (const userId of getGroupById(id).users) {
@@ -163,6 +194,25 @@ const GroupPage = ({id, darkmode}) => {
                 })
         }
     }, [userQueried])
+
+    useEffect(() => {
+        if (eventQueried) {
+            ;(async () => {
+                for (const eventId of getGroupById(id).events) {
+                    console.log(groupEvents)               
+                    groupEvents.push(getEventById(eventId).title)
+                    console.log(groupEvents)
+                }
+            })()
+                .catch(setError)
+                .finally(() => {
+                    setDisplayEvents([...groupEvents])
+                    setLoading(false)
+                })
+        }
+    }, [eventQueried])
+
+
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
@@ -199,6 +249,17 @@ const GroupPage = ({id, darkmode}) => {
                         </div>
                         <div className="groupEvents">
                             <h1>Group Events: </h1>
+                            <ul>
+                            {displayEvents.map(el => (
+                                    <li>{el}{userIsOwner ? (<button>
+                                        <DownloadIcon>
+                                            
+                                        </DownloadIcon>
+                                    </button>
+                                    ):(<></>)}</li>
+                                ))}                         
+                            </ul>
+                     
                         </div>
                     {userIsOwner ? (
                         <div className="groupDetails">

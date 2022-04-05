@@ -129,7 +129,7 @@ router.get("/users/:userId", async (req, res, next) => {
     return res.json(toUserJson(user))
 })
 
-router.get("/users/:username", async (req, res, next) => {
+router.get("/users/user/:username", async (req, res) => {
     const user = await db.user.findUnique({
         where: {
             username: req.params.username,
@@ -138,8 +138,7 @@ router.get("/users/:username", async (req, res, next) => {
     })
 
     if (user == null) {
-        return next()
-        // throw new HttpError.NotFound("User not found.") // NOTE: Errors need to be in normal human syntax
+        throw new HttpError.NotFound("User not found.") // NOTE: Errors need to be in normal human syntax
     }
 
     return res.json(toUserJson(user))

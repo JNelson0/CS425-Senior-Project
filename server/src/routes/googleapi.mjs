@@ -43,6 +43,24 @@ router.post("/googleapi/generate-auth-token", onlyAuthenticated, async (req, res
                 googleRefreshToken: tokens.refresh_token,
             },
         })
+        res.send(true)
+    } catch(error) {
+        next(error)
+    }
+})
+
+router.get("/googleapi/check-usertokens", onlyAuthenticated, async(req, res, next) => {
+    try {
+        const currentUser = await db.user.findUnique({
+            where: {
+                id: req.user.id,
+            },
+        })
+
+        if(!currentUser.googleRefreshToken)
+            return res.send(false)
+        else
+            return res.send(true)
     } catch(error) {
         next(error)
     }
@@ -73,6 +91,7 @@ router.post("/googleapi/create-event", onlyAuthenticated, async(req, res, next) 
                 }
             }
         })
+        res.send(true)
 
     } catch(error) {
         next(error)

@@ -19,11 +19,15 @@ const EventPage = ({index, id, darkmode, topbar, bottombar, setIDToDelete}) => {
         getUserById,
         userQuery,
         deleteEventQuery,
+        checkUserGoogleTokenQuery,
     } = useGlobalContext()
 
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState()
+
     const [activeId, setActiveId] = useState()
+
+    const [googleConnected, setGoogleConnected] = useState()
 
     const handleAddToGoogle = () => {
         console.log("adding to google")
@@ -37,6 +41,11 @@ const EventPage = ({index, id, darkmode, topbar, bottombar, setIDToDelete}) => {
 
     useEffect(() => {
         ;(async () => {
+            const checkConnected = async () => {
+                const data = await checkUserGoogleTokenQuery()
+                setGoogleConnected(data)
+            }
+            checkConnected()
             await eventFromIdQuery(id)
             await getExercisesFromEventIdQuery(id)
             await userQuery(getEventById(id).owners[0])
@@ -44,6 +53,7 @@ const EventPage = ({index, id, darkmode, topbar, bottombar, setIDToDelete}) => {
             .catch(setError)
 
             .finally(() => {
+                console.log(googleConnected)
                 setLoading(false)
             })
     }, [id])
@@ -195,9 +205,11 @@ const EventPage = ({index, id, darkmode, topbar, bottombar, setIDToDelete}) => {
                             ) : (
                                 <></>
                             )}
+                            {googleConnected ? (
                             <button onClick={handleAddToGoogle}>
                                 Add To Google
                             </button>
+                            ) : (<></>)}
                         </div>
                     )}
 
