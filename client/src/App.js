@@ -22,12 +22,18 @@ export default function App() {
                     <Route
                         path="dashboard"
                         element={
-                            <DashboardPage darkmode={toggle} setId={setId} />
+                            <DashboardPage
+                                darkmode={toggle}
+                                setId={setId}
+                                setS={setState}
+                            />
                         }
                     />
                     <Route
                         path="calendar"
-                        element={<CalendarPage darkmode={toggle} />}
+                        element={
+                            <CalendarPage darkmode={toggle} setS={setState} />
+                        }
                     />
                     <Route
                         path="event"
@@ -41,7 +47,13 @@ export default function App() {
                     />
                     <Route
                         path={"event" + id}
-                        element={<EventPage id={id} darkmode={toggle} />}
+                        element={
+                            <EventPage
+                                id={id}
+                                darkmode={toggle}
+                                setS={setState}
+                            />
+                        }
                     />
                     <Route
                         path="*"
@@ -52,15 +64,26 @@ export default function App() {
                             />
                         }
                     />
-                    <Route 
+                    <Route
                         path="group"
-                        element={<GroupDashboardPage setId={setId} darkmode={toggle} />}
+                        element={
+                            <GroupDashboardPage
+                                setId={setId}
+                                darkmode={toggle}
+                                setS={setState}
+                            />
+                        }
                     />
                     <Route
                         path={"groups" + id}
-                        element={<GroupPage id={id} darkmode={toggle} />} 
+                        element={
+                            <GroupPage
+                                id={id}
+                                darkmode={toggle}
+                                setS={setState}
+                            />
+                        }
                     />
-        
                 </Routes>
             </GlobalProvider>
         </BrowserRouter>
