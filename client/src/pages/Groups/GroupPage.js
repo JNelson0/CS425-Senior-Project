@@ -240,7 +240,7 @@ const GroupPage = ({setId,id, darkmode}) => {
                         <div className="groupName">
                             <h2>Owner:</h2>
                             <span>{owner}</span>               
-                            <h2>Users: </h2>
+                            <h2>Users:</h2>
                             <ul>
                                 {display.map(el => (
                                     <li>{el}</li>
@@ -281,7 +281,7 @@ const GroupPage = ({setId,id, darkmode}) => {
                                             REMOVE
                                         </button>
                                     </div>
-                                    <div>
+                                    <div className="addContainer">
                                         <label>Add Users</label>
                                         <input 
                                             type="text"

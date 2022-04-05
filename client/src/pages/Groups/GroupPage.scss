@@ -14,7 +14,6 @@
         justify-content: center;
         height: 75%;
         font-size: 80px;
-        //font-weight: 600;
     }
     body{
         margin: 0;
@@ -39,12 +38,14 @@
               margin-left: 20px;
             }
           }
-
         .middleWrapper{
             display: flex;
             justify-content: space-evenly;
+            //border: red 2px solid;
+
             .groupName,
             .groupEvents {
+                font-family: 'Roboto', sans-serif;
               background-color: #7a7a7a;
               color: white;
               border-radius: 20px;
@@ -53,6 +54,32 @@
               flex-direction: column;
               align-items: center;
               padding: 20px;
+              h2{
+                font-size: 30px;
+                  font-weight: 200;
+              }
+            }
+            .groupName{
+                width: 10%;
+            }
+          }
+          h1{
+              font-weight: 100;
+          }
+          button{
+            width: 200px;
+            height: 40px;
+            font-weight: 500;
+            font-size: large;
+            border-radius: 6px;
+            color: $nevada-white;
+            background-color: $button-blue;
+            border: $button-blue-lighter 1px solid;
+            transition: all 0.25s ease;
+            margin: 0px 5px 0px 5px;
+            &:hover {
+                background-color: #2976ce;
+                box-shadow: 0 2px 1px rgb(196, 196, 196);
             }
           }
     }
@@ -60,46 +87,63 @@
         margin-top: auto;
     }
 }
-
 .groupDetails {
-  display: flex;
-  height: 100%;
-  .form {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      flex-direction: column;
-
-      .list {
-          color: inherit;
-          height: 60%;
-          width: 100%;
-          font-size: 30px;
-          list-style: none;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-
-          div {
-              margin-bottom: 10px;
-              display: flex;
-              align-items: center;
-              flex-direction: column;
-              width: 100%;
-
-              input {
-                  height: 25px;
-                  position: relative;
-                  left: 5px;
-                  font-size: 20px;
-              }
-              button{
-                  //
-              }
-          }
-      }
+    display: flex;
+    height: 100%;
+    .form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+  
+        .list {
+            color: inherit;
+            height: 60%;
+            width: 100%;
+            font-size: 30px;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .addContainer{
+                margin-top: 30px;
+            }
+            div {
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                width: 100%;
+                  label{
+                      margin-bottom: 10px;
+                  }
+                input {
+                    height: 25px;
+                    position: relative;
+                    left: 5px;
+                    font-size: 20px;
+                    margin-bottom: 10px;
+                }
+                button{
+                  width: 120px;
+                  height: 40px;
+                  font-weight: 500;
+                  font-size: large;
+                  border-radius: 6px;
+                  color: $nevada-white;
+                  background-color: $button-blue;
+                  border: $button-blue-lighter 1px solid;
+                  transition: all 0.25s ease;
+                  margin: 0px 5px 0px 5px;
+                  &:hover {
+                      background-color: #2976ce;
+                      box-shadow: 0 2px 1px rgb(196, 196, 196);
+                  }
+                }
+            }
+        }
+    }
   }
-}
