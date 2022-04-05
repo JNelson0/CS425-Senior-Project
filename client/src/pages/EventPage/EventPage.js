@@ -4,11 +4,12 @@ import BottomBar from "../PageOverlay/BottomBar.js"
 import TopButtons from "../PageOverlay/TopButtons.js"
 import ExerciseContainer from "./ExerciseContainer"
 import BackgroundImg from "../../img/wolf.png"
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
 
 import {useGlobalContext} from "../../store"
 import {Navigate} from "react-router"
 
-const EventPage = ({id, darkmode, topbar, bottombar}) => {
+const EventPage = ({index, id, darkmode, topbar, bottombar, setIDToDelete}) => {
     const {
         getEventById,
         getExerciseById,
@@ -22,6 +23,7 @@ const EventPage = ({id, darkmode, topbar, bottombar}) => {
 
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState()
+    const [activeId, setActiveId] = useState()
 
     const handleAddToGoogle = () => {
         console.log("adding to google")
@@ -46,11 +48,12 @@ const EventPage = ({id, darkmode, topbar, bottombar}) => {
             })
     }, [id])
 
-    const [deleteEvent, setDeleteEvent] = useState(false)
+    const [deleteEvent, setDeleteEvent] = useState()
     useEffect(() => {
         if (deleteEvent) {
             ;(async () => {
-                await deleteEventQuery(id)
+                console.log(index)
+                setIDToDelete({index, deleteEvent})
             })().catch(setError)
         }
     }, [deleteEvent])
@@ -142,6 +145,12 @@ const EventPage = ({id, darkmode, topbar, bottombar}) => {
                                         : "event"
                                 }
                             >
+                                <button
+                                    className="deleteEvent"
+                                    onClick={() => setDeleteEvent(id)}
+                                >
+                                    <DeleteForeverIcon sx={{fontSize: 35}} />
+                                </button>
                                 <h1>{event.title}</h1>
                                 <h2>{event.description}</h2>
                                 {startDate === finishDate ? (
@@ -175,6 +184,8 @@ const EventPage = ({id, darkmode, topbar, bottombar}) => {
                                                 name={exercise.name}
                                                 sets={exercise.sets}
                                                 reps={exercise.reps}
+                                                activeId={activeId}
+                                                setActiveId={setActiveId}
                                             />
                                         ))
                                     ) : (
