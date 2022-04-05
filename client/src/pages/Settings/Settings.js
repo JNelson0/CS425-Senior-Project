@@ -120,16 +120,16 @@ export default function SettingsToggles({toggle, setS}) {
                 label="setting2"
                 /> */}
 
-//               <label>Connections</label>
-//               <div className="googleLogin">
-//                 <GoogleLogin 
-//                   clientId={String(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
-//                   buttonText="Google Login"
-//                   onSuccess={responseGoogle}
-//                   onFailure={responseGoogle}
-//                   cookiePolicy={'single_host_origin'}
-//                 />
-//               </div>
+               <label>Connections</label>
+               {/* <div className="googleLogin">
+                 <GoogleLogin 
+                   clientId={String(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
+                   buttonText="Google Login"
+                   onSuccess={responseGoogle}
+                   onFailure={responseGoogle}
+                   cookiePolicy={'single_host_origin'}
+                 />
+               </div> */}
 
               <GoogleLogin 
                 clientId={String(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
