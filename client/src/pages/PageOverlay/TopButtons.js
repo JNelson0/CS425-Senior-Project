@@ -10,6 +10,7 @@ import Tooltip from "@mui/material/Tooltip"
 
 import ReminderWindow from "./ReminderWindow"
 import {useGlobalContext} from "../../store"
+import SettingsPage from "../SettingsPage"
 export default function TopButtons({
     addOpen,
     setAddOpen,
@@ -19,15 +20,25 @@ export default function TopButtons({
     setDeleteEvent,
     setEventId,
     closeDashboard,
+    setSettingsOpen,
+    settingsOpen,
 }) {
     const [bellOpen, setBellOpen] = useState(false)
     return (
         <div className="topWrapper">
             <div className="settingsHomeWrapper">
                 <Tooltip title="Settings" enterDelay={500} placement="bottom">
-                    <Link to="/settings" id="button">
+                    {/* <Link to="/settings" id="button">
                         <SettingsIcon sx={{fontSize: 33}} />
-                    </Link>
+                    </Link> */}
+                    <div
+                        id="button"
+                        onClick={() => {
+                            setSettingsOpen(!settingsOpen)
+                        }}
+                    >
+                        <SettingsIcon sx={{fontSize: 33}} />
+                    </div>
                 </Tooltip>
                 <Tooltip title="Home" enterDelay={500} placement="bottom">
                     {closeDashboard ? (
@@ -70,7 +81,10 @@ export default function TopButtons({
                     >
                         <button
                             className="addButton"
-                            onClick={() => setAddOpen(!addOpen)}
+                            onClick={() => {
+                                setAddOpen(!addOpen)
+                                setSettingsOpen(false)
+                            }}
                         >
                             <AddIcon sx={{fontSize: 35}} />
                         </button>

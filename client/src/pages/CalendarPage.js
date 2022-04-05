@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react"
 import "./CalendarPage.scss"
 import TopButtons from "./PageOverlay/TopButtons.js"
 import {useGlobalContext} from "../store"
+import SettingsPage from "./SettingsPage"
 
 import {
     ScheduleComponent,
@@ -16,7 +17,7 @@ import {
 } from "@syncfusion/ej2-react-schedule"
 import {id} from "date-fns/locale"
 
-const CalendarPage = ({darkmode}) => {
+const CalendarPage = ({darkmode, setS}) => {
     const {
         user,
         getEventById,
@@ -26,6 +27,9 @@ const CalendarPage = ({darkmode}) => {
         deleteEventQuery,
         createEventQuery,
     } = useGlobalContext()
+
+    const [settingsOpen, setSettingsOpen] = useState()
+
     const [list, setList] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState()
@@ -120,7 +124,14 @@ const CalendarPage = ({darkmode}) => {
                     className="tb"
                     showButtonNotification={false}
                     showButtonAdd={false}
+                    settingsOpen={settingsOpen}
+                    setSettingsOpen={setSettingsOpen}
                 />
+                {settingsOpen ? (
+                    <SettingsPage darkmode={darkmode} setS={setS} />
+                ) : (
+                    <></>
+                )}
                 <div className="middle">
                     {loading ? (
                         <div className="loading">
