@@ -74,6 +74,7 @@ export default function AddGroup({addOpen, setAddOpen, darkmode}) {
                 .finally(() => {
                     resetInput()
                     setAddUserToGroup(false)
+                    window.location.reload()
                 })
         }
     }, [addUserToGroup])
