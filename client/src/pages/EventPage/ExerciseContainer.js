@@ -16,6 +16,7 @@ export default function ExerciseContainer({
     id,
     activeId,
     setActiveId,
+    darkmode,
 }) {
     const [active, setActive] = useState(false)
     const [numbers, setNumbers] = useState(new Array(parseInt(sets)))
@@ -87,11 +88,11 @@ export default function ExerciseContainer({
 
     if (exerciseData !== undefined) {
         return (
-            <div className={active ? "exercise active" : "exercise"}>
+            <div className={(active ? "exercise active " : "exercise ") + (darkmode ? "light" : "dark")}>
                 {popup ? (
-                    <div className="popup">
+                    <div className={"popup1 " + (darkmode ? "light" : "dark")}>
                         Please enter all exercise information before submitting
-                        <button onClick={() => setPopup(false)}>Edit</button>
+                        <button onClick={() => setPopup(false)}>Return</button>
                     </div>
                 ) : (
                     <div
@@ -146,17 +147,16 @@ export default function ExerciseContainer({
                                                 />
                                             ),
                                         )}
-
-                                        
+                                        <div className="checkMarkBox">
                                             <CheckBox 
                                                 className={
-                                                    buttonVisible ? "" : "active"
+                                                    buttonVisible ? "check" : "check active"
                                                 }
                                                 type="submit"
                                                 onClick={handleSubmit}
-                                                sx={{fontSize: 45, color:"green"}} 
+                                                sx={{fontSize: 35}} 
                                             />
-                                        
+                                        </div>
                                     </form>
                                 </div>
                             ) : (
