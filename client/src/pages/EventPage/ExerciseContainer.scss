@@ -14,7 +14,7 @@
     &.active {
         height: 70%;
     }
-    .popup {
+    .popup1 {
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -23,13 +23,43 @@
         justify-content: center;
         font-size: 25px;
         button {
-            width: 30%;
-            height: 25%;
+            width: 120px;
+            height: 40px;
+            font-weight: 500;
+            font-size: large;
+            border-radius: 6px;
+            color: $nevada-white;
+            background-color: $button-blue;
+            border: $button-blue-lighter 1px solid;
+            transition: all 0.25s ease;
+            margin: 0px 5px 0px 5px;
             cursor: pointer;
+        }
+        &.light{
+            button{
+                &:hover {
+                    background-color: #2976ce;
+                    box-shadow: 0 2px 1px rgb(196, 196, 196);
+                }
+            }
+        }
+        &.dark{
+            button{
+                &:hover {
+                    background-color: #246ec2;
+                    box-shadow: 0 2px 1px rgb(56, 56, 56);
+                }
+            }
         }
     }
     &:hover {
-        background-color: #ddd7cf;
+        cursor: pointer;
+        &.light{
+            background-color: #d3d3d3;
+        }
+        &.dark{
+            background-color: #535353;
+        } 
     }
     .exerciseComponent {
         display: flex;
@@ -47,22 +77,31 @@
             img {
                 transition: all 0.3s ease;
                 width: 50%;
-
+                opacity: 0;
                 &.active {
                     transform: scaleY(-1);
                 }
-                animation: arrowBlink 4s infinite;
+                //animation: arrowBlink 4s infinite;
+            }
+        }
+        &:hover{
+            .arrow{
+                img{
+                    &.active{
+                        opacity: 1;
+                    }
+                }
             }
         }
 
-        @keyframes arrowBlink {
-            50% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
+        // @keyframes arrowBlink {
+        //     50% {
+        //         opacity: 0;
+        //     }
+        //     100% {
+        //         opacity: 1;
+        //     }
+        // }
         .wrapper {
             display: flex;
             width: 80%;
@@ -80,6 +119,7 @@
                 margin-top: 15px;
             }
             .setsReps {
+                
                 height: 66%;
                 width: 100%;
                 // border: 1px solid black;
@@ -92,11 +132,27 @@
                 }
                 .setBoxes {
                     display: flex;
+                    justify-content: center;
+                    align-items: center;
                     width: 100%;
                     height: 50px;
 
-                    .active {
-                        display: none;
+                    .checkMarkBox{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 5px;
+                        .check{
+                            &.active {
+                                display: none;
+                            }
+                            color: rgb(0, 160, 0);
+                            cursor: pointer;
+                            &:hover{
+                                border-radius: 5px;
+                                color: green;
+                            }
+                        }
                     }
                 }
             }

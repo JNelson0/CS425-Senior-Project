@@ -203,6 +203,7 @@ const EventPage = ({index, id, darkmode, topbar, bottombar, setIDToDelete}) => {
                                                 reps={exercise.reps}
                                                 activeId={activeId}
                                                 setActiveId={setActiveId}
+                                                darkmode={darkmode}
                                             />
                                         ))
                                     ) : (
