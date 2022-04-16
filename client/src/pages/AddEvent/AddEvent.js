@@ -6,8 +6,11 @@ import CloseIcon from "@mui/icons-material/Close"
 import {useGlobalContext} from "../../store"
 
 export default function AddEvent({addOpen, setAddOpen, darkmode}) {
-    const {createEventQuery, createExerciseWithEventIdQuery} =
-        useGlobalContext()
+    const {
+        createEventQuery,
+        createExerciseWithEventIdQuery,
+        createEventInviteeQuery,
+    } = useGlobalContext()
 
     const [workoutDetailsPage, setWorkoutDetailsPage] = useState(false)
 
@@ -46,6 +49,7 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
         type: "STANDARD",
         start: startDate,
         finish: finishDate,
+        groups: "",
     })
 
     const [workoutExerciseList, setWorkoutExerciseList] = useState([])
@@ -60,6 +64,7 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
             type: "STANDARD",
             start: startDate,
             finish: finishDate,
+            invitees: "",
         })
         setWorkoutExerciseList([])
         setWorkoutDetailsPage(false)
@@ -104,6 +109,9 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
         ) {
             return false
         }
+        if (workoutDetailsList.groups === "") {
+            return false
+        }
         return true
     }
     const [popup, setPopup] = useState(false)
@@ -117,7 +125,13 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
         if (addExercise) {
             ;(async () => {
                 if (workoutDetailsList.type === "STANDARD") {
-                    const id = await createEventQuery(workoutDetailsList)
+                    const eventId = await createEventQuery(workoutDetailsList)
+                    const newEvent = {
+                        invitees: workoutDetailsList.groups
+                            .split(/\,|\,\s/)
+                            .map(String),
+                    }
+                    await createEventInviteeQuery(eventId, newEvent)
                 } else if (workoutDetailsList.type === "WORKOUT") {
                     const id = await createEventQuery(workoutDetailsList)
                     for (const el of workoutExerciseList) {

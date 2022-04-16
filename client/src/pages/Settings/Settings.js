@@ -117,7 +117,7 @@ export default function SettingsToggles({toggle, setS, settingsOpen}) {
 
                         <label>Connections</label>
                         <div className="googleLogin">
-                            <GoogleLogin
+                            {/* <GoogleLogin
                                 clientId={String(
                                     process.env.REACT_APP_GOOGLE_CLIENT_ID,
                                 )}
@@ -128,7 +128,7 @@ export default function SettingsToggles({toggle, setS, settingsOpen}) {
                                 accessType="offline"
                                 responseType="code"
                                 scope="https://www.googleapis.com/auth/calendar"
-                            />
+                            /> */}
                         </div>
                     </FormGroup>
                 </FormControl>
