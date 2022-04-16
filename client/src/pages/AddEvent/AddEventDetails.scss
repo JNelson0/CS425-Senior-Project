@@ -12,7 +12,7 @@
         flex-direction: column;
 
         .list {
-            font-family: 'Roboto', sans-serif;
+            font-family: "Roboto", sans-serif;
             color: inherit;
             height: 60%;
             width: 100%;
@@ -22,80 +22,83 @@
             flex-direction: column;
             align-items: start;
             padding-top: 15%;
-            
+
             .title.light,
             .description.light,
-            .type.light{
-                input{
-                    font-family: 'Roboto', sans-serif;
+            .groups.light,
+            .type.light {
+                input {
+                    font-family: "Roboto", sans-serif;
                     background-color: #e6e6e6;
                     border-radius: 4px;
                     border: rgb(41, 41, 41) 1px solid;
                     &:active,
-                    &:focus{
-                        transition: all ease .3s;
+                    &:focus {
+                        transition: all ease 0.3s;
                         background-color: white;
                     }
                 }
-                textarea{
-                    font-family: 'Roboto', sans-serif;
+                textarea {
+                    font-family: "Roboto", sans-serif;
                     background-color: #e6e6e6;
                     border-radius: 4px;
                     border: rgb(41, 41, 41) 1px solid;
                     &:active,
-                    &:focus{
-                        transition: all ease .3s;
+                    &:focus {
+                        transition: all ease 0.3s;
                         background-color: white;
                     }
                 }
-                select{
-                    font-family: 'Roboto', sans-serif;
+                select {
+                    font-family: "Roboto", sans-serif;
                     background-color: #e6e6e6;
                     border-radius: 4px;
                     border: rgb(41, 41, 41) 1px solid;
                     &:active,
-                    &:focus{
-                        transition: all ease .3s;
+                    &:focus {
+                        transition: all ease 0.3s;
                         background-color: white;
                     }
                 }
             }
             .title.dark,
             .description.dark,
-            .type.dark{
-                input{
-                    font-family: 'Roboto', sans-serif;
+            .groups.dark,
+            .type.dark {
+                input {
+                    font-family: "Roboto", sans-serif;
                     background-color: rgb(27, 27, 27);
                     color: $dark-text;
                     border-radius: 4px;
                     border: rgb(41, 41, 41) 1px solid;
                     &:active,
-                    &:focus{
-                        transition: all ease .3s;
+                    &:focus {
+                        transition: all ease 0.3s;
                         background-color: $dark-background;
                     }
                 }
-                textarea{
-                    font-family: 'Roboto', sans-serif;
+
+                textarea {
+                    font-family: "Roboto", sans-serif;
                     background-color: rgb(27, 27, 27);
                     color: $dark-text;
                     border-radius: 4px;
                     border: rgb(41, 41, 41) 1px solid;
                     &:active,
-                    &:focus{
-                        transition: all ease .3s;
+                    &:focus {
+                        transition: all ease 0.3s;
                         background-color: $dark-background;
                     }
                 }
-                select{
-                    font-family: 'Roboto', sans-serif;
+                select {
+                    font-family: "Roboto", sans-serif;
                     background-color: rgb(27, 27, 27);
                     color: $dark-text;
                     border-radius: 4px;
                     border: rgb(41, 41, 41) 1px solid;
                     &:active,
-                    &:focus{
-                        transition: all ease .3s;
+                    &:focus {
+                        transition: all ease 0.3s;
                         background-color: $dark-background;
                     }
                 }
@@ -113,6 +116,9 @@
                     left: 5px;
                     font-size: 20px;
                 }
+                .groups {
+                    width: 60%;
+                }
                 select {
                     font-size: 20px;
                     width: 25%;
@@ -126,19 +132,19 @@
                     font-size: 20px;
                 }
             }
-            .date.light{
+            .date.light {
                 height: 200px;
                 display: flex;
                 flex-direction: row;
-                #datetime-local{
+                #datetime-local {
                     width: 80%;
                 }
             }
-            .date.dark{
+            .date.dark {
                 height: 200px;
                 display: flex;
                 flex-direction: row;
-                #datetime-local{
+                #datetime-local {
                     width: 80%;
                     color: $dark-text;
                 }
