@@ -109,9 +109,7 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
         ) {
             return false
         }
-        if (workoutDetailsList.groups === "") {
-            return false
-        }
+
         return true
     }
     const [popup, setPopup] = useState(false)
