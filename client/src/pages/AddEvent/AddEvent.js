@@ -133,9 +133,15 @@ export default function AddEvent({addOpen, setAddOpen, darkmode}) {
                     }
                     await createEventInviteeQuery(eventId, newEvent)
                 } else if (workoutDetailsList.type === "WORKOUT") {
-                    const id = await createEventQuery(workoutDetailsList)
+                    const eventId = await createEventQuery(workoutDetailsList)
+                    const newEvent = {
+                        invitees: workoutDetailsList.groups
+                            .split(/\,|\,\s/)
+                            .map(String),
+                    }
+                    await createEventInviteeQuery(eventId, newEvent)
                     for (const el of workoutExerciseList) {
-                        await createExerciseWithEventIdQuery(id, el)
+                        await createExerciseWithEventIdQuery(eventId, el)
                     }
                 }
             })()
