@@ -47,6 +47,7 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
     const [exerciseQueried, setExerciseQueried] = useState(false)
     const [owner, setOwner] = useState()
     const [userIsOwner, setUserIsOwner] = useState(false)
+    const [userResponseData, setUserResponseData] = useState(false)
     const [eventIsWorkout, setEventIsWorkout] = useState(false)
     const [columnHeaders, setColumnHeaders] = useState(false)   
     const [userToDelete, setUserToDelete] = useState("")
@@ -261,6 +262,8 @@ useEffect(() => {
                                 let event = await getEventById(eventId)
                                 colHeaders.push(event.exercises.name)
                                 console.log(exercises)
+                                userResponseData.push(event.getExerciseResponseFromExerciseIdQuery(exerciseId))
+                                console.log(userResponseData)
                           }
                      }
                    })()
@@ -286,6 +289,8 @@ useEffect(() => {
                 })
         }
     }, [eventQueried])
+
+
 
 
 
@@ -386,7 +391,7 @@ useEffect(() => {
                                             type="text"
                                             value={usersToAdd}
                                             onChange={handleChangeAddUsers}
-                                            placeholder="Enter userIds separated by commas with no space"
+                                            placeholder="Enter username separated by commas with no space"
                                         />
                                         <button
                                             type="submit"
