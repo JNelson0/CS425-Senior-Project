@@ -7,10 +7,13 @@ import {useNavigate} from "react-router-dom"
 import EventContainer from "../EventContainer/EventContainer.js"
 import DownloadIcon from "@mui/icons-material/Download"
 import SettingsPage from "../SettingsPage"
+import ReactExport from "react-export-excel";
+
 const GroupPage = ({setId, id, darkmode, setS}) => {
     const {
         user,
         userState,
+        exerciseState,
         isLoggedIn,
         userQuery,
         eventFromIdQuery,
@@ -22,7 +25,12 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
         deleteMemberFromGroupQuery,
         getUserById,
         getGroupById,
+        getExerciseById,
+        getExerciseByIdQuery,
+        getExercisesFromEventIdQuery,
+        getExerciseResponseFromExerciseIdQuery,
         getGroupIdQuery,
+        getEventExercisesQuery,
         getEventById,
         createEventInviteeQuery,
         deleteGroupQuery,
@@ -36,18 +44,30 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
     const [queried, setQueried] = useState(false)
     const [userQueried, setUserQueried] = useState(false)
     const [eventQueried, setEventQueried] = useState(false)
+    const [exerciseQueried, setExerciseQueried] = useState(false)
     const [owner, setOwner] = useState()
     const [userIsOwner, setUserIsOwner] = useState(false)
     const [eventIsWorkout, setEventIsWorkout] = useState(false)
+    const [columnHeaders, setColumnHeaders] = useState(false)   
     const [userToDelete, setUserToDelete] = useState("")
     const [userIdToDelete, setUserIdToDelete] = useState()
     const [deleteUser, setDeleteUser] = useState(false)
     const [usersToAdd, setUsersToAdd] = useState("")
+    const [exercisesToAdd, setExercisesToAdd] = useState("")
+    const [addExercises, setAddExercises] = useState(false)
+    const [exerciseIdsToAdd, setExerciseIdsToAdd] = useState([])
     const [addUsers, setAddUsers] = useState(false)
     const [addUsernames, setAddUsernames] = useState(false)
     const [idsToAdd, setIdsToAdd] = useState([])
+    const ExcelFile = ReactExport.ExcelFile;
+    const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+    const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
     let groupUsers = []
     let groupEvents = []
+    let exerciseResponses = []
+    let exercises = []
+    let colHeaders = ["Username"]
 
     let navigate = useNavigate()
 
@@ -131,6 +151,25 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
     }, [addUsernames])
 
     useEffect(() => {
+        if (addExercises) {
+            ;(async () => {
+                const exerciseNames = exercisesToAdd.split(",").map(String)
+                for (const key of exerciseNames) {
+                    const id = await getExerciseByIdQuery(key)
+                    setExerciseIdsToAdd(tmpArray => [...tmpArray, id])
+                    console.log(setExerciseIdsToAdd)
+                }
+            })()
+                .catch(setError)
+                .finally(() => {
+                    setAddExercises(false)
+                    setAddExercises(true)
+                })
+        }
+    }, [addUsers])
+
+
+    useEffect(() => {
         ;(async () => {
             let id = await getGroupIdQuery(id)
         })()
@@ -162,13 +201,13 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
         if (queried) {
             ;(async () => {
                 for (const eventId of getGroupById(id).events) {
-                    await eventFromIdQuery(eventId)
-                    //if(getEventById(eventId).type === "WORKOUT") {
-                    //setEventIsWorkout(true)
-                }
+                    /*await eventFromIdQuery(eventId)
+                    if(getEventById(eventId).type === "WORKOUT") {
+                    setEventIsWorkout(true)*/
                 //}
+                }
                 /*await eventFromIdQuery(getEventById(id).type)
-                if(getEventById(id).owners[0] === "WORKOUT") {
+                if(getEventById(id).type === "WORKOUT") {
                     setEventIsWorkout(true)
                 }*/
             })()
@@ -186,6 +225,8 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
                     groupUsers.push(getUserById(userId).username)
                 }
                 setOwner(getUserById(getGroupById(id).owners[0]).username)
+                console.log(groupUsers)
+
             })()
                 .catch(setError)
                 .finally(() => {
@@ -195,14 +236,48 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
         }
     }, [userQueried])
 
+///////////////////////////////////////
+useEffect(() => {
+        if (eventQueried) {
+            ;(async () => {
+                for (const eventId of getGroupById(id).events) {
+                   getExercisesFromEventIdQuery(eventId)
+                }
+
+            })()
+                .catch(setError)
+                .finally(() => {
+                    setExerciseQueried(true)
+                    setColumnHeaders([...colHeaders])
+                    setLoading(false)
+                })
+        }
+    }, [eventQueried])
+useEffect(() => {
+        if(exerciseQueried){
+                  ;(async () => {
+                         for ( const eventId in getGroupById(id).events){
+                             for(const exerciseId in getEventById(eventId).exercises){
+                                let event = await getEventById(eventId)
+                                colHeaders.push(event.exercises.name)
+                                console.log(exercises)
+                          }
+                     }
+                   })()
+                    .catch(setError)
+                    .finally(() => {
+                    setExerciseQueried(false)            
+            })
+        }
+   }, [exerciseQueried])
+//////////////////////////////////////////
     useEffect(() => {
         if (eventQueried) {
             ;(async () => {
                 for (const eventId of getGroupById(id).events) {
-                    console.log(groupEvents)
                     groupEvents.push(getEventById(eventId).title)
-                    console.log(groupEvents)
                 }
+                
             })()
                 .catch(setError)
                 .finally(() => {
@@ -212,6 +287,21 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
         }
     }, [eventQueried])
 
+
+
+    const dataToExport = [       
+        {
+          columns: colHeaders,
+          data: [
+            ["Johnson", "Finance"],
+            ["Monika", "IT"],
+            ["Konstantina", "IT Billing"],
+            ["John", "HR"],
+            ["Josef", "Testing"],
+          ],
+        },
+      ];
+      
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
             <div className="group">
@@ -258,12 +348,14 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
                             <h1>Group Events: </h1>
                             <ul>
                             {displayEvents.map(el => (
-                                    <li>{el}{userIsOwner ? (<button>
-                                        <DownloadIcon>
-                                            
-                                        </DownloadIcon>
-                                    </button>
-                                    ):(<></>)}</li>
+                                    <li>{el}{userIsOwner ? (
+                                    <ExcelFile element={<button>
+                                        <DownloadIcon></DownloadIcon>
+                                    </button>}>
+                                    <ExcelSheet dataSet={dataToExport} name="Event Details"/>
+                                    </ExcelFile>
+                                    ):(<></>)}
+                                    </li>
                                 ))}                         
                             </ul>
                      

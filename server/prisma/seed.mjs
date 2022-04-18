@@ -413,28 +413,65 @@ async function main() {
                     },
                 ],
             },
-            exercises: {
-                create: [
-                    {
-                        type: "WEIGHTS",
-                        name: "Barbell Squat",
-                        content: JSON.stringify({reps: 10, sets: 3}),
-                    },
-                    {
-                        type: "WEIGHTS",
-                        name: "Squat Jumps",
-                        content: JSON.stringify({reps: 10, sets: 3}),
-                    },
-                    {
-                        type: "WEIGHTS",
-                        name: "Lunges",
-                        content: JSON.stringify({reps: 10, sets: 3}),
-                    },
-                ],
-            },
         },
     })
 
+    const squat = await db.exercise.create({
+        data:{
+            type: "WEIGHTS",
+            name: "Barbell Squat",
+            content: JSON.stringify({reps: 10, sets: 3}),
+            eventId: event1.id
+
+        }
+    })
+
+    const userSquatResponse = await db.exerciseResponse.create({
+        data:{
+            content: JSON.stringify({weights: [135, 150, 170]}),
+            exerciseId: squat.id,
+            eventId: event1.id,
+            userId: user.id
+        }
+    })
+    const squatJump = await db.exercise.create({
+        data:{
+            type: "WEIGHTS",
+            name: "Squat Jumps",
+            content: JSON.stringify({reps: 10, sets: 3}),
+            eventId: event1.id
+
+        }
+    })
+
+    const userSquatJumpResponse = await db.exerciseResponse.create({
+        data:{
+            content: JSON.stringify({weights: [10, 15, 20]}),
+            exerciseId: squatJump.id,
+            eventId: event1.id,
+            userId: user.id
+        }
+    })
+    const lunges = await db.exercise.create({
+        data:{
+            type: "WEIGHTS",
+            name: "Lunges",
+            content: JSON.stringify({reps: 10, sets: 3}),
+            eventId: event1.id
+
+        }
+    })
+
+    const userLungesResponse = await db.exerciseResponse.create({
+        data:{
+            content: JSON.stringify({weights: [30, 40, 50]}),
+            exerciseId: lunges.id,
+            eventId: event1.id,
+            userId: user.id
+        }
+    })
+        
+   
     const event2 = await db.event.create({
         data: {
             title: "Weight Lifting",
@@ -486,26 +523,36 @@ async function main() {
                     },
                 ],
             },
-            exercises: {
-                create: [
-                    {
-                        type: "WEIGHTS",
-                        name: "Dumbbell Curls",
-                        content: JSON.stringify({reps: 12, sets: 3}),
-                    },
-                    {
-                        type: "WEIGHTS",
-                        name: "Hammer Curls",
-                        content: JSON.stringify({reps: 12, sets: 3}),
-                    },
-                    {
-                        type: "WEIGHTS",
-                        name: "Shoulder Press",
-                        content: JSON.stringify({reps: 12, sets: 3}),
-                    },
-                ],
-            },
+
         },
+    })
+
+    const dumbbellCurls = await db.exercise.create({
+        data:{
+            type: "WEIGHTS",
+            name: "Dumbbell Curls",
+            content: JSON.stringify({reps: 12, sets: 3}),
+            eventId: event2.id
+
+        }
+    })
+    const hammerCurls = await db.exercise.create({
+        data:{
+            type: "WEIGHTS",
+            name: "Hammer Curls",
+            content: JSON.stringify({reps: 12, sets: 3}),
+            eventId: event2.id
+
+        }
+    })
+    const shoulderPress = await db.exercise.create({
+        data:{
+            type: "WEIGHTS",
+            name: "Shoulder Press",
+            content: JSON.stringify({reps: 12, sets: 3}),
+            eventId: event2.id
+
+        }
     })
 
     const group2 = await db.group.create({
