@@ -65,6 +65,10 @@ export default function SettingsToggles({toggle, setS, settingsOpen}) {
         generateGoogleTokensQuery(response)
     }
 
+    const responseGoogleFailure = response => {
+        console.log(response)
+    }
+
     const handleLogout = event => {
         event.preventDefault()
         setLogout(true)
@@ -117,18 +121,19 @@ export default function SettingsToggles({toggle, setS, settingsOpen}) {
 
                         <label>Connections</label>
                         <div className="googleLogin">
-                            {/* <GoogleLogin
+                            <GoogleLogin
                                 clientId={String(
                                     process.env.REACT_APP_GOOGLE_CLIENT_ID,
                                 )}
                                 buttonText="Google Login"
                                 onSuccess={responseGoogle}
-                                onFailure={responseGoogle}
+                                onFailure={responseGoogleFailure}
                                 cookiePolicy={"single_host_origin"}
                                 accessType="offline"
                                 responseType="code"
                                 scope="https://www.googleapis.com/auth/calendar"
-                            /> */}
+                                prompt="consent"
+                            /> 
                         </div>
                     </FormGroup>
                 </FormControl>
