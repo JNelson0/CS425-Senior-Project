@@ -101,13 +101,14 @@ export default function ExerciseContainer({
                                 ? "exerciseComponent active"
                                 : "exerciseComponent"
                         }
+                        onClick={() => {
+                            setActive(!active)
+                            setActiveId(id)
+                        }}
                     >
                         <div
                             className="arrow"
-                            onClick={() => {
-                                setActive(!active)
-                                setActiveId(id)
-                            }}
+                            
                         >
                             <img
                                 className={active ? "active" : undefined}

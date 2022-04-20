@@ -67,6 +67,7 @@
         height: 100%;
         align-items: center;
         font-size: 30px;
+        transition: all .6s ease;
         .arrow {
             display: flex;
             height: 100%;
@@ -74,9 +75,10 @@
             cursor: pointer;
             align-items: center;
             justify-content: center;
+            transition: all .3s ease;
             img {
-                transition: all 0.3s ease;
                 width: 50%;
+                transition: all .3s ease;
                 opacity: 0;
                 &.active {
                     transform: scaleY(-1);
