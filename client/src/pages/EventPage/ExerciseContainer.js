@@ -159,7 +159,7 @@ export default function ExerciseContainer({
                                         <div className="checkMarkBox">
                                             <CheckBox 
                                                 className={
-                                                    buttonVisible ? "check" : "check active"
+                                                    (buttonVisible ? "check " : "check active ") + (darkmode ? "light" : "dark")
                                                 }
                                                 type="submit"
                                                 onClick={handleSubmit}
