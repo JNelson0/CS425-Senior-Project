@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react"
 import "./ExerciseContainer.scss"
 import arrow from "../../img/down.png"
+import arrow_white from "../../img/down_white.png"
 import SetBoxes from "./SetBoxes"
 import CloseIcon from "@mui/icons-material/Close"
 import "./SetBoxes.scss"
 import {useGlobalContext} from "../../store"
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBox from "@mui/icons-material/CheckBox"
 
 export default function ExerciseContainer({
@@ -110,11 +110,19 @@ export default function ExerciseContainer({
                             }}
                             
                         >
-                            <img
-                                className={active ? "active" : undefined}
-                                src={arrow}
-                                alt=""
-                            />
+                            {darkmode ? 
+                                <img
+                                    className={active ? "active" : undefined}
+                                    src={arrow}
+                                    alt=""
+                                />
+                                :
+                                <img
+                                    className={active ? "active" : undefined}
+                                    src={arrow_white}
+                                    alt=""
+                                />
+                            }
                         </div>
                         <div className="wrapper">
                             <div className="type">{name}</div>
@@ -171,11 +179,19 @@ export default function ExerciseContainer({
                                 setActiveId(id)
                             }}
                         >
-                            <img
-                                className={active ? "active" : undefined}
-                                src={arrow}
-                                alt=""
-                            />
+                            {darkmode ? 
+                                <img
+                                    className={active ? "active" : undefined}
+                                    src={arrow}
+                                    alt=""
+                                />
+                                :
+                                <img
+                                    className={active ? "active" : undefined}
+                                    src={arrow_white}
+                                    alt=""
+                                />
+                            }
                         </div>
                     </div>
                 )}
