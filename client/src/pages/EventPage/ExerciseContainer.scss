@@ -79,7 +79,7 @@
             img {
                 width: 50%;
                 transition: all .3s ease;
-                opacity: 0;
+                opacity: 1;
                 &.active {
                     transform: scaleY(-1);
                 }
