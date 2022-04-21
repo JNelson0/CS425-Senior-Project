@@ -6,11 +6,16 @@
     width: 100%;
     height: 25%;
     margin: 2px;
-    border: solid 2px black;
+    &.light{
+        border: solid 2px rgb(39, 39, 39);
+    }
+    &.dark{
+        border: solid 2px rgb(119, 119, 119);
+    }
     position: relative;
     margin-top: 15px;
     border-radius: 15px;
-    transition: all 0.5s ease;
+    transition: all 0.4s ease;
     &.active {
         height: 70%;
     }
@@ -31,6 +36,7 @@
             color: $nevada-white;
             background-color: $button-blue;
             border: $button-blue-lighter 1px solid;
+            box-shadow: 0 0px 0px rgb(196, 196, 196);
             transition: all 0.25s ease;
             margin: 0px 5px 0px 5px;
             cursor: pointer;
@@ -38,14 +44,16 @@
         &.light{
             button{
                 &:hover {
-                    background-color: #2976ce;
-                    box-shadow: 0 2px 1px rgb(196, 196, 196);
+                    color: $nevada-white;
+                    background-color: #297bd8;
+                    box-shadow: 0 2px 1px rgb(187, 187, 187);
                 }
             }
         }
         &.dark{
             button{
                 &:hover {
+                    color: $nevada-white;
                     background-color: #246ec2;
                     box-shadow: 0 2px 1px rgb(56, 56, 56);
                 }
@@ -58,7 +66,7 @@
             background-color: #d3d3d3;
         }
         &.dark{
-            background-color: #535353;
+            background-color: #4b4b4b;
         } 
     }
     .exerciseComponent {
@@ -67,7 +75,7 @@
         height: 100%;
         align-items: center;
         font-size: 30px;
-        transition: all .6s ease;
+        transition: all .3s ease;
         .arrow {
             display: flex;
             height: 100%;
@@ -77,9 +85,10 @@
             justify-content: center;
             transition: all .3s ease;
             img {
+                color: white;
                 width: 50%;
                 transition: all .3s ease;
-                opacity: 0;
+                opacity: 1;
                 &.active {
                     transform: scaleY(-1);
                 }
@@ -145,14 +154,28 @@
                         align-items: center;
                         border-radius: 5px;
                         .check{
+                            cursor: pointer;
                             &.active {
                                 display: none;
                             }
-                            color: rgb(0, 160, 0);
-                            cursor: pointer;
+                            &.light{
+                                color: rgb(0, 160, 0);
+                                &:hover{
+                                    color: green;
+                                }
+                            }
+                            
+                            &.dark{
+                                color: rgb(57, 255, 83);
+                                &:hover{
+                                    color: rgb(14, 226, 43);
+                                }
+                            }
+                        }
+                        &.dark{
+                            color: white;
                             &:hover{
-                                border-radius: 5px;
-                                color: green;
+                                color: rgb(0, 160, 0);
                             }
                         }
                     }
