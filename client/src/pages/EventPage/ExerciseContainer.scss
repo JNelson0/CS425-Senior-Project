@@ -6,15 +6,20 @@
     width: 100%;
     height: 25%;
     margin: 2px;
-    border: solid 2px black;
+    &.light{
+        border: solid 2px rgb(39, 39, 39);
+    }
+    &.dark{
+        border: solid 2px rgb(119, 119, 119);
+    }
     position: relative;
     margin-top: 15px;
     border-radius: 15px;
-    transition: all 0.5s ease;
+    transition: all 0.4s ease;
     &.active {
         height: 70%;
     }
-    .popup {
+    .popup1 {
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -23,13 +28,46 @@
         justify-content: center;
         font-size: 25px;
         button {
-            width: 30%;
-            height: 25%;
+            width: 120px;
+            height: 40px;
+            font-weight: 500;
+            font-size: large;
+            border-radius: 6px;
+            color: $nevada-white;
+            background-color: $button-blue;
+            border: $button-blue-lighter 1px solid;
+            box-shadow: 0 0px 0px rgb(196, 196, 196);
+            transition: all 0.25s ease;
+            margin: 0px 5px 0px 5px;
             cursor: pointer;
+        }
+        &.light{
+            button{
+                &:hover {
+                    color: $nevada-white;
+                    background-color: #297bd8;
+                    box-shadow: 0 2px 1px rgb(187, 187, 187);
+                }
+            }
+        }
+        &.dark{
+            button{
+                &:hover {
+                    color: $nevada-white;
+                    background-color: #246ec2;
+                    box-shadow: 0 2px 1px rgb(56, 56, 56);
+                }
+            }
         }
     }
     &:hover {
-        background-color: #ddd7cf;
+        cursor: pointer;
+        &.light{
+            background-color: #d3d3d3;
+        }
+        &.dark{
+            background-color: #4b4b4b;
+        } 
     }
     .exerciseComponent {
         display: flex;
@@ -37,6 +75,7 @@
         height: 100%;
         align-items: center;
         font-size: 30px;
+        transition: all .3s ease;
         .arrow {
             display: flex;
             height: 100%;
@@ -44,25 +83,36 @@
             cursor: pointer;
             align-items: center;
             justify-content: center;
+            transition: all .3s ease;
             img {
-                transition: all 0.3s ease;
+                color: white;
                 width: 50%;
-
+                transition: all .3s ease;
+                opacity: 1;
                 &.active {
                     transform: scaleY(-1);
                 }
-                animation: arrowBlink 4s infinite;
+                //animation: arrowBlink 4s infinite;
+            }
+        }
+        &:hover{
+            .arrow{
+                img{
+                    &.active{
+                        opacity: 1;
+                    }
+                }
             }
         }
 
-        @keyframes arrowBlink {
-            50% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
+        // @keyframes arrowBlink {
+        //     50% {
+        //         opacity: 0;
+        //     }
+        //     100% {
+        //         opacity: 1;
+        //     }
+        // }
         .wrapper {
             display: flex;
             width: 80%;
@@ -80,6 +130,7 @@
                 margin-top: 15px;
             }
             .setsReps {
+                
                 height: 66%;
                 width: 100%;
                 // border: 1px solid black;
@@ -92,11 +143,41 @@
                 }
                 .setBoxes {
                     display: flex;
+                    justify-content: center;
+                    align-items: center;
                     width: 100%;
                     height: 50px;
 
-                    .active {
-                        display: none;
+                    .checkMarkBox{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 5px;
+                        .check{
+                            cursor: pointer;
+                            &.active {
+                                display: none;
+                            }
+                            &.light{
+                                color: rgb(0, 160, 0);
+                                &:hover{
+                                    color: green;
+                                }
+                            }
+                            
+                            &.dark{
+                                color: rgb(57, 255, 83);
+                                &:hover{
+                                    color: rgb(14, 226, 43);
+                                }
+                            }
+                        }
+                        &.dark{
+                            color: white;
+                            &:hover{
+                                color: rgb(0, 160, 0);
+                            }
+                        }
                     }
                 }
             }

@@ -5,6 +5,7 @@ import TopButtons from "../PageOverlay/TopButtons.js"
 import ExerciseContainer from "./ExerciseContainer"
 import BackgroundImg from "../../img/wolf.png"
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
+import CalendarIcon from "../../img/Google_Calendar_icon.png"
 
 import {useGlobalContext} from "../../store"
 import {Navigate} from "react-router"
@@ -203,6 +204,7 @@ const EventPage = ({index, id, darkmode, topbar, bottombar, setIDToDelete}) => {
                                                 reps={exercise.reps}
                                                 activeId={activeId}
                                                 setActiveId={setActiveId}
+                                                darkmode={darkmode}
                                             />
                                         ))
                                     ) : (
@@ -212,9 +214,10 @@ const EventPage = ({index, id, darkmode, topbar, bottombar, setIDToDelete}) => {
                             ) : (
                                 <></>
                             )}
+                            
                             {googleConnected ? (
-                                <button onClick={handleAddToGoogle}>
-                                    Add To Google
+                                <button className="googleButton" onClick={handleAddToGoogle}>
+                                    <img src={CalendarIcon} alt="" id="CIcon"/> &nbsp;&nbsp;&nbsp;Add To Google Calendar
                                 </button>
                             ) : (
                                 <></>

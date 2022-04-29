@@ -25,11 +25,13 @@
         }
     }
     input {
+        justify-content: center;
+        height: 35px;
         text-align: center;
         font-size: large;
         width: 60%;
         //margin-left: 5px;
-        border: 2px solid rgb(153, 153, 153);
+        border: 2px solid rgb(139, 139, 139);
         border-radius: 15px;
     }
 }

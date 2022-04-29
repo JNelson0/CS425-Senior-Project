@@ -3,7 +3,7 @@ import {React, useState, useEffect} from "react"
 import "./AddEventDetails.scss"
 import TextField from "@mui/material/TextField"
 import {useGlobalContext} from "../../store"
-import "../../_theme.scss";
+import "../../_theme.scss"
 
 export default function AddEventDetails({
     setAddOpen,
@@ -16,7 +16,7 @@ export default function AddEventDetails({
     setWorkoutDetailsList,
     startDate,
     finishDate,
-    darkmode
+    darkmode,
 }) {
     const {createEventQuery, currentUserEventQuery} = useGlobalContext()
 
@@ -34,7 +34,9 @@ export default function AddEventDetails({
             <div className="eventDetails">
                 <div className="form">
                     <div className="list">
-                        <div className={"title " + (darkmode ? "light" : "dark")}>
+                        <div
+                            className={"title " + (darkmode ? "light" : "dark")}
+                        >
                             <label>Title</label>
                             <input
                                 type="text"
@@ -45,7 +47,11 @@ export default function AddEventDetails({
                                 required
                             />
                         </div>
-                        <div className={"description " + (darkmode ? "light" : "dark")}>
+                        <div
+                            className={
+                                "description " + (darkmode ? "light" : "dark")
+                            }
+                        >
                             <label>Description</label>
                             <textarea
                                 type="text"
@@ -56,7 +62,25 @@ export default function AddEventDetails({
                                 required
                             />
                         </div>
-                        <div className={"type " + (darkmode ? "light" : "dark")}>
+                        <div
+                            className={
+                                "groups " + (darkmode ? "light" : "dark")
+                            }
+                        >
+                            <label>Add Groups</label>
+                            <input
+                                className="groups"
+                                type="text"
+                                name="groups"
+                                value={workoutDetailsList.groups}
+                                onChange={handleChange}
+                                placeholder="Enter Group Name: #name1, #name2"
+                                required
+                            />
+                        </div>
+                        <div
+                            className={"type " + (darkmode ? "light" : "dark")}
+                        >
                             <label>Type</label>
                             <select
                                 value={workoutDetailsList.type}
@@ -69,7 +93,9 @@ export default function AddEventDetails({
                                 <option value="WORKOUT">WORKOUT</option>
                             </select>
                         </div>
-                        <div className={"date " + (darkmode ? "light" : "dark")}>
+                        <div
+                            className={"date " + (darkmode ? "light" : "dark")}
+                        >
                             <TextField
                                 name="start"
                                 id="datetime-local"
@@ -79,7 +105,7 @@ export default function AddEventDetails({
                                 value={workoutDetailsList.start}
                                 sx={{
                                     //color: "white",
-                                    width: 250
+                                    width: 250,
                                 }}
                                 onChange={handleChange}
                                 InputLabelProps={{

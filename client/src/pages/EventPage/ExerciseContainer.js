@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react"
 import "./ExerciseContainer.scss"
 import arrow from "../../img/down.png"
+import arrow_white from "../../img/down_white.png"
 import SetBoxes from "./SetBoxes"
 import CloseIcon from "@mui/icons-material/Close"
 import "./SetBoxes.scss"
 import {useGlobalContext} from "../../store"
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBox from "@mui/icons-material/CheckBox"
 
 export default function ExerciseContainer({
@@ -16,6 +16,7 @@ export default function ExerciseContainer({
     id,
     activeId,
     setActiveId,
+    darkmode,
 }) {
     const [active, setActive] = useState(false)
     const [numbers, setNumbers] = useState(new Array(parseInt(sets)))
@@ -87,11 +88,11 @@ export default function ExerciseContainer({
 
     if (exerciseData !== undefined) {
         return (
-            <div className={active ? "exercise active" : "exercise"}>
+            <div className={(active ? "exercise active " : "exercise ") + (darkmode ? "light" : "dark")}>
                 {popup ? (
-                    <div className="popup">
+                    <div className={"popup1 " + (darkmode ? "light" : "dark")}>
                         Please enter all exercise information before submitting
-                        <button onClick={() => setPopup(false)}>Edit</button>
+                        <button onClick={() => setPopup(false)}>Return</button>
                     </div>
                 ) : (
                     <div
@@ -107,12 +108,21 @@ export default function ExerciseContainer({
                                 setActive(!active)
                                 setActiveId(id)
                             }}
+                            
                         >
-                            <img
-                                className={active ? "active" : undefined}
-                                src={arrow}
-                                alt=""
-                            />
+                            {darkmode ? 
+                                <img
+                                    className={active ? "active" : undefined}
+                                    src={arrow}
+                                    alt=""
+                                />
+                                :
+                                <img
+                                    className={active ? "active" : undefined}
+                                    src={arrow_white}
+                                    alt=""
+                                />
+                            }
                         </div>
                         <div className="wrapper">
                             <div className="type">{name}</div>
@@ -146,17 +156,16 @@ export default function ExerciseContainer({
                                                 />
                                             ),
                                         )}
-
-                                        
+                                        <div className="checkMarkBox">
                                             <CheckBox 
                                                 className={
-                                                    buttonVisible ? "" : "active"
+                                                    (buttonVisible ? "check " : "check active ") + (darkmode ? "light" : "dark")
                                                 }
                                                 type="submit"
                                                 onClick={handleSubmit}
-                                                sx={{fontSize: 45, color:"green"}} 
+                                                sx={{fontSize: 35}} 
                                             />
-                                        
+                                        </div>
                                     </form>
                                 </div>
                             ) : (
@@ -170,11 +179,19 @@ export default function ExerciseContainer({
                                 setActiveId(id)
                             }}
                         >
-                            <img
-                                className={active ? "active" : undefined}
-                                src={arrow}
-                                alt=""
-                            />
+                            {darkmode ? 
+                                <img
+                                    className={active ? "active" : undefined}
+                                    src={arrow}
+                                    alt=""
+                                />
+                                :
+                                <img
+                                    className={active ? "active" : undefined}
+                                    src={arrow_white}
+                                    alt=""
+                                />
+                            }
                         </div>
                     </div>
                 )}
