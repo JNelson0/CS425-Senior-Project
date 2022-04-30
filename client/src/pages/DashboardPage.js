@@ -166,7 +166,7 @@ export default function DashboardPage({setId, darkmode, setS}) {
                             <div className="middleSpacer">
                                 <Clock
                                     className="clock"
-                                    format={"h:mm:ss a"}
+                                    format={"h:mm a"}
                                     ticking={true}
                                     timezone={"US/Pacific"}
                                 />

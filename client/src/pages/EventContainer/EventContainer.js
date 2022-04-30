@@ -46,8 +46,6 @@ export default function EventContainer({
                                     (date.getDate() < 10
                                         ? "0" + date.getDate()
                                         : date.getDate()) +
-                                    "-" +
-                                    date.getFullYear() +
                                     " " +
                                     (date.getHours() < 10
                                         ? "0" + date.getHours()
@@ -59,7 +57,7 @@ export default function EventContainer({
                             </span>
                         )}
                     </div>
-                    <div className={"line " + (darkmode ? "light" : "dark")} />
+                    {/* <div className={"line " + (darkmode ? "light" : "dark")} /> */}
                 </div>
                 {/* </Link> */}
                 {/* <DeleteForeverIcon

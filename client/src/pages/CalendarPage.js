@@ -15,7 +15,6 @@ import {
     ViewsDirective,
     ViewDirective,
 } from "@syncfusion/ej2-react-schedule"
-import {id} from "date-fns/locale"
 
 const CalendarPage = ({darkmode, setS}) => {
     const {
