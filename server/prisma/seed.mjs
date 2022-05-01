@@ -117,26 +117,9 @@ async function main() {
         },
     })
 
-    await db.event.create({
+    const event1 = await db.event.create({
         data: {
-            title: "Test Event",
-            description: "Test event frm Outwork",
-            type: "STANDARD",
-            start: new Date("April 7, 2022 08:30:00"),
-            finish: new Date("April 7, 2022 09:30:00"),
-            userMemberships: {
-                create: [
-                    {
-                        role: "OWNER",
-                        userId: user2.id,
-                    },
-                ],
-            },
-        },
-    })
-    const event3 = await db.event.create({
-        data: {
-            title: "Team Practice",
+            title: "Team Practice 1",
             description: "Practice at football field",
             type: "STANDARD",
             start: new Date("April 4, 2022 08:30:00"),
@@ -187,9 +170,9 @@ async function main() {
             },
         },
     })
-    const event4 = await db.event.create({
+    const event2 = await db.event.create({
         data: {
-            title: "Team Practice",
+            title: "Team Practice 2",
             description: "Practice at football field",
             type: "STANDARD",
             start: new Date("April 5, 2022 08:30:00"),
@@ -241,9 +224,9 @@ async function main() {
         },
     })
 
-    const event5 = await db.event.create({
+    const event3 = await db.event.create({
         data: {
-            title: "Team Practice",
+            title: "Team Practice 3",
             description: "Practice at football field",
             type: "STANDARD",
             start: new Date("April 6, 2022 08:30:00"),
@@ -292,6 +275,193 @@ async function main() {
                     },
                 ],
             },
+        },
+    })
+
+    const event4 = await db.event.create({
+        data: {
+            title: "Weight Lifting 4",
+            description: "Leg Day",
+            type: "WORKOUT",
+            start: new Date("April 7, 2022 17:00:00"),
+            finish: new Date("April 7, 2022 18:00:00"),
+            userMemberships: {
+                create: [
+                    {
+                        role: "OWNER",
+                        userId: user5.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user2.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user3.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user4.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user6.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user7.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user8.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user9.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user10.id,
+                    },
+                ],
+            },
+        },
+    })
+
+    const squat = await db.exercise.create({
+        data: {
+            type: "WEIGHTS",
+            name: "Barbell Squat",
+            content: JSON.stringify({reps: 10, sets: 3}),
+            eventId: event4.id,
+            exerciseResponses: {
+                create: [
+                    {
+                        content: JSON.stringify({weights: [135, 150, 170]}),
+                        eventId: event4.id,
+                        userId: user2.id,
+                    },
+                ],
+            },
+        },
+    })
+
+    const squatJump = await db.exercise.create({
+        data: {
+            type: "WEIGHTS",
+            name: "Squat Jumps",
+            content: JSON.stringify({reps: 10, sets: 3}),
+            eventId: event4.id,
+            exerciseResponses: {
+                create: [
+                    {
+                        content: JSON.stringify({weights: [10, 15, 20]}),
+                        eventId: event4.id,
+                        userId: user2.id,
+                    },
+                ],
+            },
+        },
+    })
+
+    const lunges = await db.exercise.create({
+        data: {
+            type: "WEIGHTS",
+            name: "Lunges",
+            content: JSON.stringify({reps: 10, sets: 3}),
+            eventId: event4.id,
+            exerciseResponses: {
+                create: [
+                    {
+                        content: JSON.stringify({weights: [30, 40, 50]}),
+                        eventId: event4.id,
+                        userId: user2.id,
+                    },
+                ],
+            },
+        },
+    })
+
+    const event5 = await db.event.create({
+        data: {
+            title: "Weight Lifting 5",
+            description: "Arm Day",
+            type: "WORKOUT",
+            start: new Date("April 8, 2022 17:00:00"),
+            finish: new Date("April 8, 2022 18:00:00"),
+            userMemberships: {
+                create: [
+                    {
+                        role: "OWNER",
+                        userId: user5.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user2.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user3.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user4.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user6.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user7.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user8.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user9.id,
+                    },
+                    {
+                        role: "INVITEE",
+                        userId: user10.id,
+                    },
+                ],
+            },
+        },
+    })
+
+    const dumbbellCurls = await db.exercise.create({
+        data: {
+            type: "WEIGHTS",
+            name: "Dumbbell Curls",
+            content: JSON.stringify({reps: 12, sets: 3}),
+            eventId: event5.id,
+        },
+    })
+    const hammerCurls = await db.exercise.create({
+        data: {
+            type: "WEIGHTS",
+            name: "Hammer Curls",
+            content: JSON.stringify({reps: 12, sets: 3}),
+            eventId: event5.id,
+        },
+    })
+    const shoulderPress = await db.exercise.create({
+        data: {
+            type: "WEIGHTS",
+            name: "Shoulder Press",
+            content: JSON.stringify({reps: 12, sets: 3}),
+            eventId: event5.id,
         },
     })
 
@@ -361,200 +531,6 @@ async function main() {
             },
         },
     })
-
-    const event1 = await db.event.create({
-        data: {
-            title: "Weight Lifting",
-            description: "Leg Day",
-            type: "WORKOUT",
-            start: new Date("April 7, 2022 17:00:00"),
-            finish: new Date("April 7, 2022 18:00:00"),
-            userMemberships: {
-                create: [
-                    {
-                        role: "OWNER",
-                        userId: user5.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user2.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user3.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user4.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user6.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user7.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user8.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user9.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user10.id,
-                    },
-                ],
-            },
-        },
-    })
-
-    const squat = await db.exercise.create({
-        data:{
-            type: "WEIGHTS",
-            name: "Barbell Squat",
-            content: JSON.stringify({reps: 10, sets: 3}),
-            eventId: event1.id
-
-        }
-    })
-
-    const userSquatResponse = await db.exerciseResponse.create({
-        data:{
-            content: JSON.stringify({weights: [135, 150, 170]}),
-            exerciseId: squat.id,
-            eventId: event1.id,
-            userId: user.id
-        }
-    })
-    const squatJump = await db.exercise.create({
-        data:{
-            type: "WEIGHTS",
-            name: "Squat Jumps",
-            content: JSON.stringify({reps: 10, sets: 3}),
-            eventId: event1.id
-
-        }
-    })
-
-    const userSquatJumpResponse = await db.exerciseResponse.create({
-        data:{
-            content: JSON.stringify({weights: [10, 15, 20]}),
-            exerciseId: squatJump.id,
-            eventId: event1.id,
-            userId: user.id
-        }
-    })
-    const lunges = await db.exercise.create({
-        data:{
-            type: "WEIGHTS",
-            name: "Lunges",
-            content: JSON.stringify({reps: 10, sets: 3}),
-            eventId: event1.id
-
-        }
-    })
-
-    const userLungesResponse = await db.exerciseResponse.create({
-        data:{
-            content: JSON.stringify({weights: [30, 40, 50]}),
-            exerciseId: lunges.id,
-            eventId: event1.id,
-            userId: user.id
-        }
-    })
-        
-   
-    const event2 = await db.event.create({
-        data: {
-            title: "Weight Lifting",
-            description: "Arm Day",
-            type: "WORKOUT",
-            start: new Date("April 8, 2022 17:00:00"),
-            finish: new Date("April 8, 2022 18:00:00"),
-            userMemberships: {
-                create: [
-                    {
-                        role: "OWNER",
-                        userId: user5.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user2.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user3.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user4.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user6.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user7.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user8.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user9.id,
-                    },
-                    {
-                        role: "INVITEE",
-                        userId: user10.id,
-                    },
-                ],
-            },
-
-        },
-    })
-
-    const dumbbellCurls = await db.exercise.create({
-        data:{
-            type: "WEIGHTS",
-            name: "Dumbbell Curls",
-            content: JSON.stringify({reps: 12, sets: 3}),
-            eventId: event2.id
-
-        }
-    })
-    const hammerCurls = await db.exercise.create({
-        data:{
-            type: "WEIGHTS",
-            name: "Hammer Curls",
-            content: JSON.stringify({reps: 12, sets: 3}),
-            eventId: event2.id
-
-        }
-    })
-    const shoulderPress = await db.exercise.create({
-        data:{
-            type: "WEIGHTS",
-            name: "Shoulder Press",
-            content: JSON.stringify({reps: 12, sets: 3}),
-            eventId: event2.id
-
-        }
-    })
-
     const group2 = await db.group.create({
         data: {
             tag: "Weights Group",

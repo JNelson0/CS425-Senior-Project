@@ -50,7 +50,11 @@ export const userMembershipInGroupInclude = {
     },
 }
 
-export const exerciseInclude = undefined
+export const exerciseInclude = {
+    exerciseResponses: true,
+}
+
+export const exerciseResponseInclude = false
 
 export const userInclude = {
     eventMemberships: {

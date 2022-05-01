@@ -1,6 +1,6 @@
 import db from "../db.mjs"
 import router from "./router"
-import {exerciseInclude} from "../util/includes"
+import {exerciseInclude, exerciseResponseInclude} from "../util/includes"
 import {toExerciseResponseJson, toExerciseJson} from "../util"
 import {onlyAuthenticated} from "../middleware"
 import {HttpError} from "../errors"
@@ -64,7 +64,7 @@ router.get(
 
         const exerciseResponse = await db.exerciseResponse.findMany({
             where: {exerciseId},
-            include: exerciseInclude,
+            include: exerciseResponseInclude,
         })
 
         if (exerciseResponse.length === 0) {
