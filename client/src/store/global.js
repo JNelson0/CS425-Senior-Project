@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect, useRef} from "react"
 import constate from "constate"
 import {ApiError} from "../errors"
 import {useNavigate} from "react-router"
@@ -28,11 +28,53 @@ function standardJsonInit(method, body) {
 }
 
 function useGlobal() {
-    const [userState, setUserState] = useState({})
-    const [eventState, setEventState] = useState({})
-    const [groupState, setGroupState] = useState({})
-    const [exerciseState, setExerciseState] = useState({})
-    const [exerciseResponseState, setExerciseResponseState] = useState({})
+    const [userState, _setUserState] = useState({})
+    const [eventState, _setEventState] = useState({})
+    const [groupState, _setGroupState] = useState({})
+    const [exerciseState, _setExerciseState] = useState({})
+    const [exerciseResponseState, _setExerciseResponseState] = useState({})
+
+    const userStateRef = useRef({})
+    useEffect(() => {
+        userStateRef.current = userState
+    }, [userState])
+    const eventStateRef = useRef({})
+    useEffect(() => {
+        eventStateRef.current = eventState
+    }, [eventState])
+    const groupStateRef = useRef({})
+    useEffect(() => {
+        groupStateRef.current = groupState
+    }, [groupState])
+    const exerciseStateRef = useRef({})
+    useEffect(() => {
+        exerciseStateRef.current = exerciseState
+    }, [exerciseState])
+    const exerciseResponseStateRef = useRef({})
+    useEffect(() => {
+        exerciseResponseStateRef.current = exerciseResponseState
+    }, [exerciseResponseState])
+
+    const createSetRefState = (ref, setter) => setStateAction => {
+        setter(setStateAction)
+
+        ref.current =
+            typeof setStateAction === "function"
+                ? setStateAction(ref.current)
+                : setStateAction
+    }
+
+    const setUserState = createSetRefState(userStateRef, _setUserState)
+    const setEventState = createSetRefState(eventStateRef, _setEventState)
+    const setGroupState = createSetRefState(groupStateRef, _setGroupState)
+    const setExerciseState = createSetRefState(
+        exerciseStateRef,
+        _setExerciseState,
+    )
+    const setExerciseResponseState = createSetRefState(
+        exerciseResponseStateRef,
+        _setExerciseResponseState,
+    )
 
     //   useEffect(() => {
     //     window.localStorage.setItem("userState", JSON.stringify(userState))
@@ -62,6 +104,18 @@ function useGlobal() {
                     typeof value === "function" ? value(prev[id] ?? {}) : value,
             }))
         }
+    }
+
+    const createRefDataSetter = (ref, setter) => (id, value) => {
+        if (typeof value === "function") {
+        } else {
+        }
+
+        // ref.current =
+        //     typeof setStateAction === "function"
+        //         ? setStateAction(ref.current)
+        //         : setStateAction
+        // setter(ref.current)
     }
 
     const setUserData = createDataSetter(setUserState)
@@ -97,17 +151,17 @@ function useGlobal() {
     }
 
     // Getters
-    function createGetter(state) {
+    function createGetter(stateRef) {
         return id => {
-            return state[id]
+            return stateRef.current[id]
         }
     }
 
-    const getUserById = createGetter(userState)
-    const getEventById = createGetter(eventState)
-    const getGroupById = createGetter(groupState)
-    const getExerciseById = createGetter(exerciseState)
-    const getExerciseResponseById = createGetter(exerciseResponseState)
+    const getUserById = createGetter(userStateRef)
+    const getEventById = createGetter(eventStateRef)
+    const getGroupById = createGetter(groupStateRef)
+    const getExerciseById = createGetter(exerciseStateRef)
+    const getExerciseResponseById = createGetter(exerciseResponseStateRef)
 
     const getCurrentUserId = () => {
         getUserById("currentUserId")
@@ -422,7 +476,7 @@ function useGlobal() {
         const data = await request(`/events/${id}/exercises`, {
             credentials: "same-origin",
         })
-        // console.log(data)
+        console.log("getExercisesFromEventIdQuery:", data)
         for (const exercise of data) {
             setExerciseData(exercise.id, exercise)
         }
@@ -474,7 +528,7 @@ function useGlobal() {
 
         setExerciseData(exerciseId, prev => ({
             ...prev,
-            exerciseResponses: data.id,
+            responses: prev.responses.concat(data.id),
         }))
     }
 
@@ -484,12 +538,20 @@ function useGlobal() {
             credentials: "same-origin",
         })
 
-        setExerciseResponseData(data.id, data)
+        console.log("data:", exerciseId, data)
 
-        setExerciseData(exerciseId, prev => ({
-            ...prev,
-            exerciseResponses: data.id,
-        }))
+        for (const exerciseResponse of data) {
+            setExerciseResponseData(exerciseResponse.id, exerciseResponse)
+        }
+
+        setExerciseData(exerciseId, prev => {
+            console.log("PREV", exerciseId, prev)
+
+            return {
+                ...prev,
+                responses: data.map(v => v.id),
+            }
+        })
     }
 
     // PUT /responses/:responseId
@@ -528,20 +590,20 @@ function useGlobal() {
 
     // Check for google auth token
     async function checkUserGoogleTokenQuery() {
-        const tokenExists = await request(`/googleapi/check-usertokens`, {credentials: "same-origin"})
+        const tokenExists = await request(`/googleapi/check-usertokens`, {
+            credentials: "same-origin",
+        })
         return tokenExists
     }
-
     const currentUser = userState.currentUserId
         ? getUserById(userState.currentUserId)
         : undefined
-
     return {
-        userState,
-        eventState,
-        groupState,
-        exerciseState,
-        exerciseResponseState,
+        userState: userStateRef.current,
+        eventState: eventStateRef.current,
+        groupState: groupStateRef.current,
+        exerciseState: exerciseStateRef.current,
+        exerciseResponseState: exerciseResponseStateRef.current,
 
         // Getters
         getUserById,
