@@ -24,11 +24,15 @@
     .groupbutton {
       display: flex;
       align-items: center;
+      justify-content: center;
       flex-direction: row;
-      height: 80px;
-      border-radius: 20px;
+      height: 75px;
+      border-radius: 40px;
+      width: 100%;
+      border: 1px grey solid;
       text-decoration: none;
       transition: inherit;
+      margin-bottom: 5px;
       color: var(--text-color);
       span {
         z-index: 3;

@@ -45,7 +45,7 @@
 
             .groupName,
             .groupEvents {
-                font-family: 'Roboto', sans-serif;
+              font-family: 'Roboto', sans-serif;
               background-color: #7a7a7a;
               color: white;
               border-radius: 20px;
@@ -55,15 +55,39 @@
               align-items: center;
               padding: 20px;
               li{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
                 list-style-type: disc;
               }
               h2{
                 font-size: 30px;
-                  font-weight: 200;
+                font-weight: 200;
+              }
+              .downloadButton{
+                width: 80px;
+                height: 40px;
+                font-weight: 500;
+                font-size: large;
+                border-radius: 6px;
+                color: $nevada-white;
+                background-color: $button-blue;
+                border: $button-blue-lighter 1px solid;
+                transition: all 0.25s ease;
+                margin: 0px 5px 0px 5px;
+                margin-bottom: 5px;
+                &:hover {
+                    background-color: #2976ce;
+                    box-shadow: 0 2px 1px rgb(100, 100, 100);
+                }
               }
             }
             .groupName{
                 width: 10%;
+                li{
+                  list-style-type: disc;
+                }
             }
           }
           h1{
@@ -85,6 +109,7 @@
                 box-shadow: 0 2px 1px rgb(196, 196, 196);
             }
           }
+          
     }
     .bottomBar{
         margin-top: auto;

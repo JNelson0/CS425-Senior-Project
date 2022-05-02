@@ -29,7 +29,7 @@ export default function EventContainer({
                     onClick={() => setId(id)}
                 > */}
                 <div
-                    className="eventButton"
+                    className={"eventButton " + (darkmode ? "light" : "dark")}
                     onClick={() => setEventId({index, id})}
                 >
                     {/* <span>{id}</span> */}

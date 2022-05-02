@@ -383,7 +383,7 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
 
     return (
         <div class={"theme " + (darkmode ? "light" : "dark")}>
-            <pre>
+            {/* <pre>
                 {JSON.stringify(
                     {
                         // test,
@@ -391,7 +391,7 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
                     null,
                     2,
                 )}
-            </pre>
+            </pre> */}
             <div className="group">
                 <TopButtons
                     className="tb"
@@ -429,7 +429,7 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
                                 <h2>Users:</h2>
                                 <ul>
                                     {groupUsernames.map(el => (
-                                        <li>{el}</li>
+                                        <li>{"- " + el}</li>
                                     ))}
                                 </ul>
                             </div>
@@ -440,11 +440,14 @@ const GroupPage = ({setId, id, darkmode, setS}) => {
                                         const data = createData(event.id)
                                         return (
                                             <li>
-                                                {event.title}
+                                                <div>
+                                                    {event.title}
+                                                </div>
+                                                
                                                 {userIsOwner ? (
                                                     <ExcelFile
                                                         element={
-                                                            <button>
+                                                            <button className="downloadButton">
                                                                 <DownloadIcon></DownloadIcon>
                                                             </button>
                                                         }
